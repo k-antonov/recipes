@@ -22,9 +22,9 @@ class RecipeApiService : ApiService<Recipe> {
         val TAG: String = RecipeApiService::class.java.simpleName
     }
 
-    override fun fetch(): Recipe? {
-        return getRecipe(
-            "https://random-recipes.p.rapidapi.com/ai-quotes/1",
+    override fun fetch(): List<Recipe>? {
+        return getRecipes(
+            "https://random-recipes.p.rapidapi.com/ai-quotes/2",
             "X-RapidAPI-Host" to "random-recipes.p.rapidapi.com",
             "X-RapidAPI-Key" to getApiKey()
         )
@@ -54,28 +54,35 @@ class RecipeApiService : ApiService<Recipe> {
         return result
     }
 
-    private fun getRecipe(
+    private fun getRecipes(
         stringUrl: String,
         apiHost: Pair<String, String>,
         apiKey: Pair<String, String>
-    ): Recipe? {
-        var recipe: Recipe? = null
+    ): List<Recipe>? {
+        var recipes: List<Recipe>? = null
         // todo подумать как заменить GlobalScope
         GlobalScope.launch(Dispatchers.IO) {
             val result = getRequest(stringUrl, apiHost, apiKey)
-            Log.d(TAG, result.toString())
 
-            val moshi: Moshi = Moshi.Builder()
-                .addLast(KotlinJsonAdapterFactory())
-                .build()
-            val listType = Types.newParameterizedType(List::class.java, Recipe::class.java)
-            val jsonAdapter: JsonAdapter<List<Recipe>> = moshi.adapter(listType)
+            if (result != null) {
+                try {
+                    val moshi: Moshi = Moshi.Builder()
+                        .addLast(KotlinJsonAdapterFactory())
+                        .build()
+                    val listType = Types.newParameterizedType(List::class.java, Recipe::class.java)
+                    val jsonAdapter: JsonAdapter<List<Recipe>> = moshi.adapter(listType)
 
-            val resultObject = jsonAdapter.fromJson(result)
-            Log.d(TAG, resultObject.toString())
-            // todo update recipe
+                    recipes = jsonAdapter.fromJson(result)
+                    Log.d(TAG, recipes.toString())
+
+                } catch (error: Error) {
+                    Log.d(TAG, "Error when parsing JSON: $error")
+                }
+            } else {
+                Log.d(TAG, "GET request returned no response")
+            }
         }
-        return recipe
+        return recipes
     }
 
     private fun getApiKey(): String {
