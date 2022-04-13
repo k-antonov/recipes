@@ -4,6 +4,7 @@ import android.content.pm.PackageManager
 import android.util.Log
 import com.example.recipes.MyApplication
 import com.example.recipes.data.model.Recipe
+import com.example.recipes.utils.Resource
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
@@ -11,23 +12,43 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import okhttp3.*
 import java.net.URL
 
+// мб сделать синглтоном?
 class RecipeApiService : ApiService<Recipe> {
     private val okHttpClient = OkHttpClient()
 
     private companion object {
         val TAG: String = RecipeApiService::class.java.simpleName
+
+        const val stringUrl = "https://random-recipes.p.rapidapi.com/ai-quotes/2"
+        val apiHostPair = "X-RapidAPI-Host" to "random-recipes.p.rapidapi.com"
+        val apiKeyPair = "X-RapidAPI-Key" to apiKey
+
+        val apiKey: String
+            get() {
+                val appInfo = MyApplication.get().packageManager
+                    .getApplicationInfo(
+                        MyApplication.get().packageName,
+                        PackageManager.GET_META_DATA
+                    )
+                return appInfo.metaData["keyValue"].toString()
+            }
     }
 
-    override fun fetch(): List<Recipe>? {
-        return getRecipes(
-            "https://random-recipes.p.rapidapi.com/ai-quotes/2",
-            "X-RapidAPI-Host" to "random-recipes.p.rapidapi.com",
-            "X-RapidAPI-Key" to getApiKey()
+    override fun fetch(): Resource<List<Recipe>> {
+        val recipeList = parseResponse(stringUrl, apiHostPair, apiKeyPair)
+        Log.d(
+            TAG,
+            "recipeList=$recipeList"
         )
+        recipeList?.let {
+            Log.d(TAG, "Success")
+            return Resource.success(it)
+        }
+        Log.d(TAG, "Error")
+        return Resource.error(recipeList, null)
     }
 
     private fun getRequest(
@@ -46,21 +67,36 @@ class RecipeApiService : ApiService<Recipe> {
                 .addHeader(apiKey.first, apiKey.second)
                 .build()
 
+
+//            okHttpClient.newCall(request).enqueue(object : Callback {
+//                override fun onFailure(call: Call, e: IOException) {
+//                    Log.d(TAG, "onFailure: ${e.stackTraceToString()}")
+//                }
+//
+//                override fun onResponse(call: Call, response: Response) {
+//                    result = response.body?.string()
+//                    Log.d(TAG, "result=$result")
+//                }
+//            })
+
+
             val response = okHttpClient.newCall(request).execute()
             result = response.body?.string()
         } catch (e: Error) {
-            println("Error when executing get request: ${e.localizedMessage}")
+            Log.d(TAG, "Error when executing get request: ${e.localizedMessage}")
         }
         return result
     }
 
-    private fun getRecipes(
+    private fun parseResponse(
         stringUrl: String,
         apiHost: Pair<String, String>,
         apiKey: Pair<String, String>
     ): List<Recipe>? {
         var recipes: List<Recipe>? = null
-        // todo подумать как заменить GlobalScope
+        // todo подумать как заменить GlobalScope и диспетчер
+        // Проблема, видимо, в корутине. Код выполняется в отдельном диспетчере, а в текущий поток
+        // передаётся null, из-за чего recipeList=null
         GlobalScope.launch(Dispatchers.IO) {
             val result = getRequest(stringUrl, apiHost, apiKey)
 
@@ -83,11 +119,5 @@ class RecipeApiService : ApiService<Recipe> {
             }
         }
         return recipes
-    }
-
-    private fun getApiKey(): String {
-        val appInfo = MyApplication.get().packageManager
-            .getApplicationInfo(MyApplication.get().packageName, PackageManager.GET_META_DATA)
-        return appInfo.metaData["keyValue"].toString()
     }
 }

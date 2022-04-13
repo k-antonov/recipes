@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Recipes"
         android:name=".MyApplication">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.view.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
