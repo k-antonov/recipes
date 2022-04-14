@@ -7,12 +7,17 @@ import com.example.recipes.data.model.Recipe
 import com.example.recipes.utils.Resource
 
 class RecipeRepository(private val recipeApiService: RecipeApiService) {
-
-    private val mutableRecipes = MutableLiveData<Resource<List<Recipe>>>()
+    private var mutableRecipes = MutableLiveData<Resource<List<Recipe>>>()
 
     val recipes: LiveData<Resource<List<Recipe>>>
         get() {
-            mutableRecipes.value = recipeApiService.fetch() // todo мб postValue?
+            mutableRecipes.value = recipeApiService.fetch()
             return mutableRecipes
         }
+
+    init {
+        recipeApiService.recipes.observeForever {
+            mutableRecipes.value = it
+        }
+    }
 }
