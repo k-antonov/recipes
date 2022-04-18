@@ -1,7 +1,8 @@
 package com.example.recipes.data.api
 
-import com.example.recipes.utils.Resource
+import androidx.lifecycle.LiveData
+import com.example.recipes.data.model.Recipe
 
 interface ApiService<T> {
-    fun fetch() : Resource<List<T>>
+    fun fetch() : LiveData<Result<List<Recipe>>>
 }
