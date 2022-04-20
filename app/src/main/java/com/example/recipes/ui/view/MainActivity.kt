@@ -1,22 +1,21 @@
 package com.example.recipes.ui.view
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipes.data.api.RecipeApiService
 import com.example.recipes.data.api.RecipeApiServiceImpl
 import com.example.recipes.data.repository.RecipeRepository
 import com.example.recipes.databinding.ActivityMainBinding
+import com.example.recipes.ui.adapter.RecipeAdapter
 import com.example.recipes.ui.viewmodel.MainViewModel
 import com.example.recipes.ui.viewmodel.ViewModelFactory
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-
-    private companion object {
-        val TAG: String = MainActivity::class.java.simpleName
-    }
+    private lateinit var recipeAdapter: RecipeAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,17 +30,11 @@ class MainActivity : AppCompatActivity() {
             ViewModelFactory(recipeRepository)
         ).get(MainViewModel::class.java)
 
-        mainViewModel.recipes.observe(this) { result ->
-            // adapter.notifyDataSetChanged()
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
-            result.onSuccess {
-                // todo убрать хардкод; применить адаптер
-                binding.recipeTitle.text = it[0].title
-            }
-
-            result.onFailure {
-                Log.d(TAG, it.localizedMessage ?: "result.onFailure")
-            }
+        mainViewModel.recipes.observe(this) {
+            recipeAdapter = RecipeAdapter(it)
+            binding.recyclerView.adapter = recipeAdapter
         }
 
     }

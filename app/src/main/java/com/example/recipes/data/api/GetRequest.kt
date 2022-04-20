@@ -22,7 +22,7 @@ class GetRequest : Command<LiveData<Result<List<Recipe>>>> {
     private companion object {
         val TAG: String = GetRequest::class.java.simpleName
         // todo переписать endpoint для гибкости
-        const val stringUrl = "https://random-recipes.p.rapidapi.com/ai-quotes/2"
+        const val stringUrl = "https://random-recipes.p.rapidapi.com/ai-quotes/10"
         val apiHostPair = "X-RapidAPI-Host" to "random-recipes.p.rapidapi.com"
         val apiKeyPair = "X-RapidAPI-Key" to apiKey
 
