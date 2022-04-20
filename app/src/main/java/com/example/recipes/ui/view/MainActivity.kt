@@ -5,11 +5,11 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.recipes.data.api.RecipeApiService
+import com.example.recipes.data.api.RecipeApiServiceImpl
 import com.example.recipes.data.repository.RecipeRepository
 import com.example.recipes.databinding.ActivityMainBinding
 import com.example.recipes.ui.viewmodel.MainViewModel
 import com.example.recipes.ui.viewmodel.ViewModelFactory
-import okhttp3.OkHttpClient
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -23,9 +23,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // todo перенести
-        val client = OkHttpClient()
-        val recipeApiService = RecipeApiService(client)
+        // todo перенести (DI)
+        val recipeApiService: RecipeApiService = RecipeApiServiceImpl()
         val recipeRepository = RecipeRepository(recipeApiService)
         val mainViewModel = ViewModelProvider(
             this,
