@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Recipes</string>
     <string name="dish_image">Dish image</string>
+    <string name="feed">Feed</string>
+    <string name="favorites">Favorites</string>
+    <string name="settings">Settings</string>
 </resources>
