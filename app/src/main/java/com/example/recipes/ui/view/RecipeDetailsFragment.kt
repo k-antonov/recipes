@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.ListView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
@@ -34,28 +33,23 @@ class RecipeDetailsFragment : Fragment() {
         setFragmentResultListener(RECIPE_DETAILS_KEY) { _, bundle ->
             val position = bundle.getInt(RECIPE_POSITION_KEY)
 
-            viewModel.recipes.value?.get(position)?.let {
-                binding.recipeTitle.text = it.title
+            viewModel.recipes.value?.get(position)?.let { recipe ->
+                binding.recipeTitle.text = recipe.title
 
-                ImageDownloader.load(binding.recipeImage, it.imageUrl)
-                val adapter = ArrayAdapter(
+                ImageDownloader.load(binding.recipeImage, recipe.imageUrl)
+                val ingredientsAdapter = ArrayAdapter(
                     requireContext(), android.R.layout.simple_list_item_1,
-                    it.ingredients
+                    recipe.ingredients
                 )
-                binding.ingredientsList.adapter = adapter
-                binding.ingredientsList.setSize()
-                binding.ingredientsList.setFooterDividersEnabled(false)
+                binding.ingredientsList.adapter = ingredientsAdapter
+
+                val instructionsAdapter = ArrayAdapter(
+                    requireContext(), android.R.layout.simple_list_item_1,
+                    recipe.instructions.map { it.text }
+                )
+                binding.instructionsList.adapter = instructionsAdapter
             }
         }
     }
 
-    private fun ListView.setSize() {
-        var totalHeight = 0
-        for (position in 0 until adapter.count) {
-            val listItem = adapter.getView(position, null, this)
-            listItem.measure(0, 0)
-            totalHeight += listItem.measuredHeight
-        }
-        layoutParams.height = totalHeight + dividerHeight + adapter.count
-    }
 }
