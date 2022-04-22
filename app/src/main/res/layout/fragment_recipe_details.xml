@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.view.RecipeDetailsFragment">
+
+    <ImageView
+        android:id="@+id/recipe_image"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/recipe_detailed"
+        android:contentDescription="@string/dish_image"
+        app:layout_constraintBottom_toTopOf="@id/recipe_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@color/tangerine" />
+
+    <TextView
+        android:id="@+id/recipe_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/medium_padding"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toTopOf="@id/ingredients_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recipe_image"
+        tools:text="Some not very long recipe title. Crispy bacon with cheese" />
+
+    <TextView
+        android:id="@+id/ingredients_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/medium_padding"
+        android:text="@string/ingredients"
+        android:textSize="@dimen/secondary_text"
+        app:layout_constraintBottom_toTopOf="@id/ingredients_list"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recipe_title" />
+
+    <ListView
+        android:id="@+id/ingredients_list"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ingredients_label" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

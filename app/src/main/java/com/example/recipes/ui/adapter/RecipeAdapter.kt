@@ -10,17 +10,32 @@ import com.bumptech.glide.Glide
 import com.example.recipes.R
 import com.example.recipes.data.model.Recipe
 
-class RecipeAdapter(private val recipes: List<Recipe>) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
+class RecipeAdapter(
+    private val recipes: List<Recipe>,
+    private val onItemClicked: (position: Int) -> Unit
+) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
 
-    class RecipeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val image: ImageView = view.findViewById(R.id.image)
-        val title: TextView = view.findViewById(R.id.title)
+    class RecipeViewHolder(
+        itemView: View,
+        private val onItemClicked: (position: Int) -> Unit
+    ) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+        val image: ImageView = itemView.findViewById(R.id.image)
+        val title: TextView = itemView.findViewById(R.id.title)
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(view: View) {
+            onItemClicked(adapterPosition)
+        }
+
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.recipe_list_item, parent, false)
-        return RecipeViewHolder(view)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.recipe_list_item, parent, false)
+        return RecipeViewHolder(view, onItemClicked)
     }
 
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {

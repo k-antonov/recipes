@@ -12,6 +12,9 @@ import com.example.recipes.databinding.ActivityMainBinding
 val recipeApiService: RecipeApiService = RecipeApiServiceImpl()
 val recipeRepository = RecipeRepository(recipeApiService)
 
+const val RECIPE_DETAILS_KEY = "recipeDetailsKey"
+const val RECIPE_POSITION_KEY = "position"
+
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 

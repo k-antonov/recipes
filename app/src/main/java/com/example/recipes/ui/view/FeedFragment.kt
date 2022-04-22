@@ -4,9 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.recipes.R
 import com.example.recipes.databinding.FragmentFeedBinding
 import com.example.recipes.ui.adapter.RecipeAdapter
 import com.example.recipes.ui.viewmodel.FeedViewModel
@@ -16,6 +21,8 @@ class FeedFragment : Fragment() {
 
     private lateinit var binding: FragmentFeedBinding
     private lateinit var recipeAdapter: RecipeAdapter
+
+    private val viewModel: FeedViewModel by activityViewModels { ViewModelFactory(recipeRepository) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,15 +37,26 @@ class FeedFragment : Fragment() {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        val feedViewModel = ViewModelProvider(
-            this,
-            ViewModelFactory(recipeRepository)
-        ).get(FeedViewModel::class.java)
-
-        feedViewModel.recipes.observe(viewLifecycleOwner) {
-            recipeAdapter = RecipeAdapter(it)
+        viewModel.recipes.observe(viewLifecycleOwner) {
+            recipeAdapter = RecipeAdapter(it) { position ->
+                onListItemClick(position)
+            }
             binding.recyclerView.adapter = recipeAdapter
         }
+
+    }
+
+    private fun onListItemClick(position: Int) {
+        setFragmentResult(RECIPE_DETAILS_KEY, bundleOf(RECIPE_POSITION_KEY to position))
+        replaceFragmentWith(RecipeDetailsFragment())
+    }
+
+    private fun replaceFragmentWith(fragment: Fragment) {
+        requireActivity().supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container_view, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
 }
