@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.example.recipes.data.model.Recipe
 import com.example.recipes.data.repository.RecipeRepository
 
-class MainViewModel(private val recipeRepository: RecipeRepository) : ViewModel() {
+class FeedViewModel(private val recipeRepository: RecipeRepository) : ViewModel() {
     private val mutableRecipes = MutableLiveData<List<Recipe>>()
     val recipes: LiveData<List<Recipe>>
         get() = mutableRecipes

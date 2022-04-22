@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".ui.view.MainActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="@dimen/small_margin"
@@ -20,9 +20,12 @@
         android:id="@+id/bottom_navigation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@color/platinum"
+        app:itemIconTint="@color/tangerine"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_container_view"
         app:menu="@menu/bottom_navigation_menu" />
 
 
