@@ -1,20 +1,18 @@
 package com.example.recipes.ui.view
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.ListView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
-import androidx.fragment.app.viewModels
-import com.bumptech.glide.Glide
 import com.example.recipes.databinding.FragmentRecipeDetailsBinding
 import com.example.recipes.ui.ImageDownloader
 import com.example.recipes.ui.viewmodel.FeedViewModel
 import com.example.recipes.ui.viewmodel.ViewModelFactory
-import kotlin.properties.Delegates
 
 class RecipeDetailsFragment : Fragment() {
 
@@ -40,7 +38,24 @@ class RecipeDetailsFragment : Fragment() {
                 binding.recipeTitle.text = it.title
 
                 ImageDownloader.load(binding.recipeImage, it.imageUrl)
+                val adapter = ArrayAdapter(
+                    requireContext(), android.R.layout.simple_list_item_1,
+                    it.ingredients
+                )
+                binding.ingredientsList.adapter = adapter
+                binding.ingredientsList.setSize()
+                binding.ingredientsList.setFooterDividersEnabled(false)
             }
         }
+    }
+
+    private fun ListView.setSize() {
+        var totalHeight = 0
+        for (position in 0 until adapter.count) {
+            val listItem = adapter.getView(position, null, this)
+            listItem.measure(0, 0)
+            totalHeight += listItem.measuredHeight
+        }
+        layoutParams.height = totalHeight + dividerHeight + adapter.count
     }
 }
