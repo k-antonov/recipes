@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipes.R
 import com.example.recipes.data.model.Recipe
+import com.example.recipes.ui.ImageDownloader
 
 class RecipeAdapter(
     private val recipes: List<Recipe>,
@@ -41,11 +42,7 @@ class RecipeAdapter(
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
         val recipe = recipes[position]
 
-        Glide.with(holder.image.context)
-            .load(recipe.imageUrl)
-            .centerCrop()
-            .into(holder.image)
-
+        ImageDownloader.load(holder.image, recipe.imageUrl)
         holder.title.text = recipe.title
     }
 

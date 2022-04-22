@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import com.example.recipes.databinding.FragmentRecipeDetailsBinding
+import com.example.recipes.ui.ImageDownloader
 import com.example.recipes.ui.viewmodel.FeedViewModel
 import com.example.recipes.ui.viewmodel.ViewModelFactory
 import kotlin.properties.Delegates
@@ -33,7 +35,12 @@ class RecipeDetailsFragment : Fragment() {
 
         setFragmentResultListener(RECIPE_DETAILS_KEY) { _, bundle ->
             val position = bundle.getInt(RECIPE_POSITION_KEY)
-            binding.recipeTitle.text = viewModel.recipes.value?.get(position)?.title ?: ""
+
+            viewModel.recipes.value?.get(position)?.let {
+                binding.recipeTitle.text = it.title
+
+                ImageDownloader.load(binding.recipeImage, it.imageUrl)
+            }
         }
     }
 }
