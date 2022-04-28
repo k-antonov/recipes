@@ -39,16 +39,17 @@ class FeedFragment : Fragment() {
 
         viewModel.recipes.observe(viewLifecycleOwner) {
             recipeAdapter = RecipeAdapter(it) { position ->
-                onListItemClick(position)
+                val recipeId = it[position].id
+                onListItemClick(recipeId)
             }
             binding.recyclerView.adapter = recipeAdapter
         }
 
     }
 
-    private fun onListItemClick(position: Int) {
-        setFragmentResult(RECIPE_DETAILS_KEY, bundleOf(RECIPE_POSITION_KEY to position))
-        replaceFragmentWith(RecipeDetailsFragment())
+    private fun onListItemClick(recipeId: Int) {
+        val fragment = RecipeDetailsFragment.newInstance(recipeId)
+        replaceFragmentWith(fragment)
     }
 
     private fun replaceFragmentWith(fragment: Fragment) {
@@ -58,5 +59,4 @@ class FeedFragment : Fragment() {
             .addToBackStack(null)
             .commit()
     }
-
 }

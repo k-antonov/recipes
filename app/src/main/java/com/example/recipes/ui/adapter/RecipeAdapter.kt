@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.recipes.R
 import com.example.recipes.data.model.Recipe
 import com.example.recipes.ui.ImageDownloader
@@ -18,7 +17,7 @@ class RecipeAdapter(
 
     class RecipeViewHolder(
         itemView: View,
-        private val onItemClicked: (position: Int) -> Unit
+        private val onItemClicked: (position: Int) -> Unit,
     ) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         val image: ImageView = itemView.findViewById(R.id.image)
         val title: TextView = itemView.findViewById(R.id.title)
