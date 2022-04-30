@@ -1,11 +1,11 @@
-package com.example.recipes.data.api
+package com.example.recipes.data.datasources.cloud.commands
 
 import android.content.pm.PackageManager
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.recipes.MyApplication
-import com.example.recipes.data.model.Recipe
+import com.example.recipes.data.entities.RecipeData
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
@@ -14,9 +14,9 @@ import okhttp3.*
 import java.io.IOException
 import java.net.URL
 
-class GetRequest : Command<LiveData<Result<List<Recipe>>>> {
-    private val mutableRecipes = MutableLiveData<Result<List<Recipe>>>()
-    val recipes: LiveData<Result<List<Recipe>>>
+class GetRequest : Command<LiveData<Result<List<RecipeData>>>> {
+    private val mutableRecipes = MutableLiveData<Result<List<RecipeData>>>()
+    val recipes: LiveData<Result<List<RecipeData>>>
         get() = mutableRecipes
 
     private companion object {
@@ -37,7 +37,7 @@ class GetRequest : Command<LiveData<Result<List<Recipe>>>> {
             }
     }
 
-    override fun execute(client: OkHttpClient): LiveData<Result<List<Recipe>>> {
+    override fun execute(client: OkHttpClient): LiveData<Result<List<RecipeData>>> {
 
         // можно ли тут try/catch заменить на Result?
         // Тогда придётся изменить возвращаемый тип на Result<LiveData<Result<List<Recipe>>>>
@@ -65,12 +65,12 @@ class GetRequest : Command<LiveData<Result<List<Recipe>>>> {
         return recipes
     }
 
-    private fun parseResponse(response: Response): Result<List<Recipe>> {
+    private fun parseResponse(response: Response): Result<List<RecipeData>> {
         val moshi: Moshi = Moshi.Builder()
             .addLast(KotlinJsonAdapterFactory())
             .build()
-        val listType = Types.newParameterizedType(List::class.java, Recipe::class.java)
-        val jsonAdapter: JsonAdapter<List<Recipe>> = moshi.adapter(listType)
+        val listType = Types.newParameterizedType(List::class.java, RecipeData::class.java)
+        val jsonAdapter: JsonAdapter<List<RecipeData>> = moshi.adapter(listType)
 
         return runCatching {
             val res = jsonAdapter.fromJson(response.body!!.string())

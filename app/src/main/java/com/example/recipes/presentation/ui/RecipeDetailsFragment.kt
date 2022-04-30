@@ -1,4 +1,4 @@
-package com.example.recipes.ui.view
+package com.example.recipes.presentation.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -10,9 +10,9 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.recipes.databinding.FragmentRecipeDetailsBinding
-import com.example.recipes.ui.ImageDownloader
-import com.example.recipes.ui.viewmodel.RecipeDetailsViewModel
-import com.example.recipes.ui.viewmodel.RecipeDetailsViewModelFactory
+import com.example.recipes.presentation.ImageDownloader
+import com.example.recipes.presentation.viewmodels.RecipeDetailsViewModel
+import com.example.recipes.presentation.viewmodels.RecipeDetailsViewModelFactory
 
 class RecipeDetailsFragment : Fragment() {
     private lateinit var binding: FragmentRecipeDetailsBinding
@@ -20,8 +20,9 @@ class RecipeDetailsFragment : Fragment() {
     private val recipeId: Int
         get() = requireArguments().getInt(ARG_RECIPE_ID)
 
-    // проблема в обращении к viewModel
-    private val viewModel: RecipeDetailsViewModel by viewModels { RecipeDetailsViewModelFactory(recipeRepository, recipeId) }
+    private val viewModel: RecipeDetailsViewModel by viewModels {
+        RecipeDetailsViewModelFactory(recipeDetailsInteractor)
+    }
 
     companion object {
         private val TAG = RecipeDetailsFragment::class.java.simpleName
@@ -41,9 +42,7 @@ class RecipeDetailsFragment : Fragment() {
     ): View {
         binding = FragmentRecipeDetailsBinding.inflate(layoutInflater, container, false)
 
-        Log.d(TAG, viewModel.recipe.title)
-
-        val recipe = viewModel.recipe
+        val recipe = viewModel.recipeDetailsDomain
 
         binding.recipeTitle.text = recipe.title
         ImageDownloader.load(binding.recipeImage, recipe.imageUrl)
@@ -55,8 +54,7 @@ class RecipeDetailsFragment : Fragment() {
 
         val instructionsAdapter = ArrayAdapter(
             requireContext(), android.R.layout.simple_list_item_1,
-            // todo написать нормальный маппер
-            recipe.instructions.map { it.text }
+            recipe.instructions
         )
         binding.instructionsList.adapter = instructionsAdapter
 

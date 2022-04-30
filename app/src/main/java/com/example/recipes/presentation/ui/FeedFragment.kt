@@ -1,6 +1,7 @@
-package com.example.recipes.ui.view
+package com.example.recipes.presentation.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,16 +10,22 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipes.R
 import com.example.recipes.databinding.FragmentFeedBinding
-import com.example.recipes.ui.adapter.RecipeAdapter
-import com.example.recipes.ui.viewmodel.FeedViewModel
-import com.example.recipes.ui.viewmodel.FeedViewModelFactory
+import com.example.recipes.presentation.adapter.RecipeAdapter
+import com.example.recipes.presentation.viewmodels.RecipeFeedViewModel
+import com.example.recipes.presentation.viewmodels.RecipeFeedViewModelFactory
 
 class FeedFragment : Fragment() {
 
     private lateinit var binding: FragmentFeedBinding
     private lateinit var recipeAdapter: RecipeAdapter
 
-    private val viewModel: FeedViewModel by activityViewModels { FeedViewModelFactory(recipeRepository) }
+    companion object {
+        private val TAG = FeedFragment::class.java.simpleName
+    }
+
+    private val viewModel: RecipeFeedViewModel by activityViewModels {
+        RecipeFeedViewModelFactory(recipeFeedInteractor)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,13 +40,15 @@ class FeedFragment : Fragment() {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModel.recipes.observe(viewLifecycleOwner) {
+        viewModel.recipeFeed.observe(viewLifecycleOwner) {
+            Log.d(TAG, "$it")
             recipeAdapter = RecipeAdapter(it) { position ->
                 val recipeId = it[position].id
                 onListItemClick(recipeId)
             }
             binding.recyclerView.adapter = recipeAdapter
         }
+
 
     }
 

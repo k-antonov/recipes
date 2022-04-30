@@ -1,18 +1,18 @@
-package com.example.recipes.ui.viewmodel
+package com.example.recipes.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.recipes.data.repository.RecipeRepository
+import com.example.recipes.data.repositories.RecipeRepositoryImpl
+import com.example.recipes.domain.interactors.RecipeDetailsInteractor
 import java.lang.IllegalArgumentException
 
 class RecipeDetailsViewModelFactory(
-    private val repository: RecipeRepository,
-    private val recipeId: Int
+    private val recipeDetailsInteractor: RecipeDetailsInteractor
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(RecipeDetailsViewModel::class.java)) {
-            return RecipeDetailsViewModel(repository, recipeId) as T
+            return RecipeDetailsViewModel(recipeDetailsInteractor) as T
         }
         throw IllegalArgumentException("ViewModel Not Found")
 

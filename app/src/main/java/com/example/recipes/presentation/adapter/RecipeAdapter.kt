@@ -1,5 +1,6 @@
-package com.example.recipes.ui.adapter
+package com.example.recipes.presentation.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,13 +8,18 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipes.R
-import com.example.recipes.data.model.Recipe
-import com.example.recipes.ui.ImageDownloader
+import com.example.recipes.data.entities.RecipeData
+import com.example.recipes.domain.entities.RecipeFeedDomain
+import com.example.recipes.presentation.ImageDownloader
 
 class RecipeAdapter(
-    private val recipes: List<Recipe>,
+    private val recipeFeed: List<RecipeFeedDomain>,
     private val onItemClicked: (position: Int) -> Unit
 ) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
+
+    companion object {
+        private val TAG = RecipeAdapter::class.java.simpleName
+    }
 
     class RecipeViewHolder(
         itemView: View,
@@ -35,15 +41,18 @@ class RecipeAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.recipe_list_item, parent, false)
+        Log.d(TAG, "onCreateViewHOlder")
         return RecipeViewHolder(view, onItemClicked)
     }
 
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
-        val recipe = recipes[position]
+        val recipe = recipeFeed[position]
+
+        Log.d(TAG, "$recipe")
 
         ImageDownloader.load(holder.image, recipe.imageUrl)
         holder.title.text = recipe.title
     }
 
-    override fun getItemCount() = recipes.size
+    override fun getItemCount() = recipeFeed.size
 }

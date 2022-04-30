@@ -1,16 +1,21 @@
-package com.example.recipes.ui.view
+package com.example.recipes.presentation.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.recipes.R
-import com.example.recipes.data.api.RecipeApiService
-import com.example.recipes.data.api.RecipeApiServiceImpl
-import com.example.recipes.data.repository.RecipeRepository
+import com.example.recipes.data.datasources.cloud.RecipeApiService
+import com.example.recipes.data.datasources.cloud.RecipeApiServiceImpl
+import com.example.recipes.data.repositories.RecipeRepositoryImpl
 import com.example.recipes.databinding.ActivityMainBinding
+import com.example.recipes.domain.interactors.RecipeDetailsInteractor
+import com.example.recipes.domain.interactors.RecipeFeedInteractor
 
 // todo перенести (DI)
 val recipeApiService: RecipeApiService = RecipeApiServiceImpl()
-val recipeRepository = RecipeRepository(recipeApiService)
+val recipeRepository = RecipeRepositoryImpl(recipeApiService)
+
+val recipeFeedInteractor = RecipeFeedInteractor(recipeRepository)
+val recipeDetailsInteractor = RecipeDetailsInteractor(recipeRepository)
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

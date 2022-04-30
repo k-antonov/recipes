@@ -1,8 +1,8 @@
-package com.example.recipes.data.model
+package com.example.recipes.data.entities
 
 import com.squareup.moshi.Json
 
-data class Recipe(
+data class RecipeData(
     @Json(name="id")
     val id: Int,
     @Json(name="title")
@@ -10,7 +10,7 @@ data class Recipe(
     @Json(name="ingredients")
     val ingredients: List<String>,
     @Json(name="instructions")
-    val instructions: List<Instruction>,
+    val instructionData: List<InstructionData>,
     @Json(name="times")
     val times: List<String>,
     @Json(name="image")

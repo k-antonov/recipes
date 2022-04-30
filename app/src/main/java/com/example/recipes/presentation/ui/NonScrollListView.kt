@@ -1,4 +1,4 @@
-package com.example.recipes.ui.view
+package com.example.recipes.presentation.ui
 
 import android.content.Context
 import android.util.AttributeSet

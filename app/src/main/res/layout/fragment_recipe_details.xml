@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.view.RecipeDetailsFragment">
+    tools:context=".presentation.ui.RecipeDetailsFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
             android:text="@string/ingredients"
             android:textSize="@dimen/secondary_text" />
 
-        <com.example.recipes.ui.view.NonScrollListView
+        <com.example.recipes.presentation.ui.NonScrollListView
             android:id="@+id/ingredients_list"
             android:layout_width="match_parent"
             android:layout_height="0dp" />
@@ -50,7 +50,7 @@
             android:text="@string/instructions"
             android:textSize="@dimen/secondary_text" />
 
-        <com.example.recipes.ui.view.NonScrollListView
+        <com.example.recipes.presentation.ui.NonScrollListView
             android:id="@+id/instructions_list"
             android:layout_width="match_parent"
             android:layout_height="0dp" />

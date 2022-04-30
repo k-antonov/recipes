@@ -1,4 +1,4 @@
-package com.example.recipes.ui
+package com.example.recipes.presentation
 
 import android.widget.ImageView
 import com.bumptech.glide.Glide
