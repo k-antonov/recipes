@@ -9,9 +9,9 @@ import com.example.recipes.data.repository.RecipeRepository
 class RecipeDetailsViewModel(
     private val repository: RecipeRepository,
     private val recipeId: Int
-) :
-    ViewModel() {
+) : ViewModel() {
 
+    // todo переписать с использованием LiveData
     val recipe: Recipe
         get() {
             val result = repository.recipes.value

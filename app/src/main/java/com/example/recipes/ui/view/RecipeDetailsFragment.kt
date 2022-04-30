@@ -12,7 +12,7 @@ import androidx.fragment.app.viewModels
 import com.example.recipes.databinding.FragmentRecipeDetailsBinding
 import com.example.recipes.ui.ImageDownloader
 import com.example.recipes.ui.viewmodel.RecipeDetailsViewModel
-import com.example.recipes.ui.viewmodel.ViewModelFactory
+import com.example.recipes.ui.viewmodel.RecipeDetailsViewModelFactory
 
 class RecipeDetailsFragment : Fragment() {
     private lateinit var binding: FragmentRecipeDetailsBinding
@@ -20,7 +20,8 @@ class RecipeDetailsFragment : Fragment() {
     private val recipeId: Int
         get() = requireArguments().getInt(ARG_RECIPE_ID)
 
-    private val viewModel: RecipeDetailsViewModel by viewModels { ViewModelFactory(recipeRepository, recipeId) }
+    // проблема в обращении к viewModel
+    private val viewModel: RecipeDetailsViewModel by viewModels { RecipeDetailsViewModelFactory(recipeRepository, recipeId) }
 
     companion object {
         private val TAG = RecipeDetailsFragment::class.java.simpleName
@@ -40,6 +41,8 @@ class RecipeDetailsFragment : Fragment() {
     ): View {
         binding = FragmentRecipeDetailsBinding.inflate(layoutInflater, container, false)
 
+        Log.d(TAG, viewModel.recipe.title)
+
         val recipe = viewModel.recipe
 
         binding.recipeTitle.text = recipe.title
@@ -52,9 +55,7 @@ class RecipeDetailsFragment : Fragment() {
 
         val instructionsAdapter = ArrayAdapter(
             requireContext(), android.R.layout.simple_list_item_1,
-            // todo надо перенести это изменение в слой модели.
-            // Каким образом? Создать два типа модели - первую модель получаем при парсинге json,
-            // вторую преобразовываем и поставляем в следующие слои?
+            // todo написать нормальный маппер
             recipe.instructions.map { it.text }
         )
         binding.instructionsList.adapter = instructionsAdapter
