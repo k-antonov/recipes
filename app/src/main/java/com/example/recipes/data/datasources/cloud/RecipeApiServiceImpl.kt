@@ -2,13 +2,13 @@ package com.example.recipes.data.datasources.cloud
 
 import androidx.lifecycle.LiveData
 import com.example.recipes.MyApplication.Companion.client
-import com.example.recipes.data.datasources.cloud.commands.GetRequest
-import com.example.recipes.data.entities.RecipeData
+import com.example.recipes.data.datasources.cloud.commands.RecipesCloudRequester
+import com.example.recipes.data.datasources.cloud.entities.RecipeCloud
 
 class RecipeApiServiceImpl : RecipeApiService {
-    private val getRequestCommand = GetRequest()
+    private val recipesCloudRequester = RecipesCloudRequester()
 
-    override fun getRecipeDataList(): LiveData<Result<List<RecipeData>>> {
-        return getRequestCommand.execute(client)
+    override fun getRecipeCloudList(): LiveData<Result<List<RecipeCloud>>> {
+        return recipesCloudRequester.execute(client)
     }
 }

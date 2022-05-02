@@ -1,25 +1,27 @@
 package com.example.recipes.data.repositories
 
+import androidx.lifecycle.LiveData
 import com.example.recipes.data.datasources.cloud.RecipeApiService
-import com.example.recipes.domain.repositories.RecipeRepository
+import com.example.recipes.data.datasources.cloud.mappers.RecipeCloudMapperToFeed
 import com.example.recipes.domain.entities.RecipeDetailsDomain
 import com.example.recipes.domain.entities.RecipeFeedDomain
+import com.example.recipes.domain.repositories.RecipeRepository
 
 class RecipeRepositoryImpl(private val recipeApiService: RecipeApiService) : RecipeRepository {
 
-//    val recipes: LiveData<Result<List<RecipeData>>>
-//        get() {
-//            Log.d("RecipeRepository", "calling getRecipeList $this")
-//            return recipeApiService.getRecipeList()
-//        }
+    companion object {
+        val TAG = RecipeRepositoryImpl::class.java.simpleName
+    }
 
-    override val recipeFeedDomainList: List<RecipeFeedDomain>
+    private val mapper = RecipeCloudMapperToFeed()
+
+    override val recipeFeedDomainLiveData: LiveData<Result<List<RecipeFeedDomain>>>
         get() {
-            return listOf(
-                RecipeFeedDomain(0, "mockTitle", "https://eda.yandex.ru/images/2394388/53893769e4f14689fb664551e7061431-680x500.jpg")
-            )
-        }
+            val recipeCloudList = recipeApiService.getRecipeCloudList()
 
+            // проблема из-за создания нового экземпляра лайвдаты
+            return mapper.mapToLiveData(recipeCloudList)
+        }
 
     override val recipeDetailsDomain: RecipeDetailsDomain
         get() {
@@ -28,4 +30,5 @@ class RecipeRepositoryImpl(private val recipeApiService: RecipeApiService) : Rec
                 listOf("mock instructions"), "mockUrl"
             )
         }
+
 }

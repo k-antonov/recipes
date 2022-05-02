@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.recipes.MyApplication
-import com.example.recipes.data.entities.RecipeData
+import com.example.recipes.data.datasources.cloud.entities.RecipeCloud
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
@@ -14,13 +14,13 @@ import okhttp3.*
 import java.io.IOException
 import java.net.URL
 
-class GetRequest : Command<LiveData<Result<List<RecipeData>>>> {
-    private val mutableRecipes = MutableLiveData<Result<List<RecipeData>>>()
-    val recipes: LiveData<Result<List<RecipeData>>>
+class RecipesCloudRequester : Command<LiveData<Result<List<RecipeCloud>>>> {
+    private val mutableRecipes = MutableLiveData<Result<List<RecipeCloud>>>()
+    val recipes: LiveData<Result<List<RecipeCloud>>>
         get() = mutableRecipes
 
     private companion object {
-        val TAG: String = GetRequest::class.java.simpleName
+        val TAG: String = RecipesCloudRequester::class.java.simpleName
         // todo переписать endpoint для гибкости
         const val stringUrl = "https://random-recipes.p.rapidapi.com/ai-quotes/10"
         val apiHostPair = "X-RapidAPI-Host" to "random-recipes.p.rapidapi.com"
@@ -37,11 +37,7 @@ class GetRequest : Command<LiveData<Result<List<RecipeData>>>> {
             }
     }
 
-    override fun execute(client: OkHttpClient): LiveData<Result<List<RecipeData>>> {
-
-        // можно ли тут try/catch заменить на Result?
-        // Тогда придётся изменить возвращаемый тип на Result<LiveData<Result<List<Recipe>>>>
-        // или есть красивый способ?
+    override fun execute(client: OkHttpClient): LiveData<Result<List<RecipeCloud>>> {
 
         try {
             val request = Request.Builder().url(URL(stringUrl)).get()
@@ -56,21 +52,23 @@ class GetRequest : Command<LiveData<Result<List<RecipeData>>>> {
 
                 override fun onResponse(call: Call, response: Response) {
                     val result = parseResponse(response)
+                    Log.d(TAG, "onResponse: $result")
                     mutableRecipes.postValue(result)
                 }
             })
         } catch (e: Error) {
             Log.d(TAG, "Error when executing get request: ${e.localizedMessage}")
         }
+        Log.d(TAG, "returning null")
         return recipes
     }
 
-    private fun parseResponse(response: Response): Result<List<RecipeData>> {
+    private fun parseResponse(response: Response): Result<List<RecipeCloud>> {
         val moshi: Moshi = Moshi.Builder()
             .addLast(KotlinJsonAdapterFactory())
             .build()
-        val listType = Types.newParameterizedType(List::class.java, RecipeData::class.java)
-        val jsonAdapter: JsonAdapter<List<RecipeData>> = moshi.adapter(listType)
+        val listType = Types.newParameterizedType(List::class.java, RecipeCloud::class.java)
+        val jsonAdapter: JsonAdapter<List<RecipeCloud>> = moshi.adapter(listType)
 
         return runCatching {
             val res = jsonAdapter.fromJson(response.body!!.string())

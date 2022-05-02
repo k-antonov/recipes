@@ -1,8 +1,6 @@
 package com.example.recipes.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
-import com.example.recipes.data.entities.RecipeData
-import com.example.recipes.data.repositories.RecipeRepositoryImpl
 import com.example.recipes.domain.interactors.RecipeDetailsInteractor
 
 class RecipeDetailsViewModel(private val recipeDetailsInteractor: RecipeDetailsInteractor) : ViewModel() {

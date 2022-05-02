@@ -8,7 +8,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipes.R
-import com.example.recipes.data.entities.RecipeData
 import com.example.recipes.domain.entities.RecipeFeedDomain
 import com.example.recipes.presentation.ImageDownloader
 
