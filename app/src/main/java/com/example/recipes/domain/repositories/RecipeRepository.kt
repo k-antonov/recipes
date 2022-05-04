@@ -6,7 +6,9 @@ import com.example.recipes.domain.entities.RecipeFeedDomain
 
 interface RecipeRepository {
 
-    val recipeFeedDomainLiveData: LiveData<Result<List<RecipeFeedDomain>>>//List<RecipeFeedDomain>
+    val recipeFeedDomain: LiveData<Result<List<RecipeFeedDomain>>>
 
-    val recipeDetailsDomain: RecipeDetailsDomain
+    fun getRecipeDetailsDomainById(recipeId: Int): LiveData<Result<RecipeDetailsDomain>>
+
+//    val recipeDetailsDomain: LiveData<Result<List<RecipeDetailsDomain>>>
 }

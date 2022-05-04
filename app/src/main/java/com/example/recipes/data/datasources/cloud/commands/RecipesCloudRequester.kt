@@ -21,8 +21,7 @@ class RecipesCloudRequester : Command<LiveData<Result<List<RecipeCloud>>>> {
 
     private companion object {
         val TAG: String = RecipesCloudRequester::class.java.simpleName
-        // todo переписать endpoint для гибкости
-        const val stringUrl = "https://random-recipes.p.rapidapi.com/ai-quotes/10"
+        private var stringUrl = "https://random-recipes.p.rapidapi.com/ai-quotes/"
         val apiHostPair = "X-RapidAPI-Host" to "random-recipes.p.rapidapi.com"
         val apiKeyPair = "X-RapidAPI-Key" to apiKey
 
@@ -37,7 +36,8 @@ class RecipesCloudRequester : Command<LiveData<Result<List<RecipeCloud>>>> {
             }
     }
 
-    override fun execute(client: OkHttpClient): LiveData<Result<List<RecipeCloud>>> {
+    override fun execute(client: OkHttpClient, itemsCount: Int): LiveData<Result<List<RecipeCloud>>> {
+        stringUrl = "${stringUrl}$itemsCount"
 
         try {
             val request = Request.Builder().url(URL(stringUrl)).get()

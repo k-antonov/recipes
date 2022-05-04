@@ -7,12 +7,13 @@ import com.example.recipes.domain.interactors.RecipeDetailsInteractor
 import java.lang.IllegalArgumentException
 
 class RecipeDetailsViewModelFactory(
-    private val recipeDetailsInteractor: RecipeDetailsInteractor
+    private val recipeDetailsInteractor: RecipeDetailsInteractor,
+    private val recipeId: Int
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(RecipeDetailsViewModel::class.java)) {
-            return RecipeDetailsViewModel(recipeDetailsInteractor) as T
+            return RecipeDetailsViewModel(recipeDetailsInteractor, recipeId) as T
         }
         throw IllegalArgumentException("ViewModel Not Found")
 

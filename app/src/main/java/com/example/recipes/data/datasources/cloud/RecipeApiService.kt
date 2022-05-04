@@ -4,5 +4,5 @@ import androidx.lifecycle.LiveData
 import com.example.recipes.data.datasources.cloud.entities.RecipeCloud
 
 interface RecipeApiService {
-    fun getRecipeCloudList() : LiveData<Result<List<RecipeCloud>>>
+    fun getRecipeCloudList(itemsNum: Int) : LiveData<Result<List<RecipeCloud>>>
 }

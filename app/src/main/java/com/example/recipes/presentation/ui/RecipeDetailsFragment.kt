@@ -21,7 +21,7 @@ class RecipeDetailsFragment : Fragment() {
         get() = requireArguments().getInt(ARG_RECIPE_ID)
 
     private val viewModel: RecipeDetailsViewModel by viewModels {
-        RecipeDetailsViewModelFactory(recipeDetailsInteractor)
+        RecipeDetailsViewModelFactory(recipeDetailsInteractor, recipeId)
     }
 
     companion object {
@@ -42,21 +42,20 @@ class RecipeDetailsFragment : Fragment() {
     ): View {
         binding = FragmentRecipeDetailsBinding.inflate(layoutInflater, container, false)
 
-        val recipe = viewModel.recipeDetailsDomain
+        viewModel.recipeDetails.observe(viewLifecycleOwner) {
+            binding.recipeTitle.text = it.title
+            ImageDownloader.load(binding.recipeImage, it.imageUrl)
 
-        binding.recipeTitle.text = recipe.title
-        ImageDownloader.load(binding.recipeImage, recipe.imageUrl)
-        val ingredientsAdapter = ArrayAdapter(
-            requireContext(), android.R.layout.simple_list_item_1,
-            recipe.ingredients
-        )
-        binding.ingredientsList.adapter = ingredientsAdapter
+            val ingredientsAdapter = ArrayAdapter(
+                requireContext(), android.R.layout.simple_list_item_1, it.ingredients
+            )
+            binding.ingredientsList.adapter = ingredientsAdapter
 
-        val instructionsAdapter = ArrayAdapter(
-            requireContext(), android.R.layout.simple_list_item_1,
-            recipe.instructions
-        )
-        binding.instructionsList.adapter = instructionsAdapter
+            val instructionsAdapter = ArrayAdapter(
+                requireContext(), android.R.layout.simple_list_item_1, it.instructions
+            )
+            binding.instructionsList.adapter = instructionsAdapter
+        }
 
         return binding.root
     }

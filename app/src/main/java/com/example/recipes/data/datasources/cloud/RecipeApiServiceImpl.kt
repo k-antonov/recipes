@@ -8,7 +8,7 @@ import com.example.recipes.data.datasources.cloud.entities.RecipeCloud
 class RecipeApiServiceImpl : RecipeApiService {
     private val recipesCloudRequester = RecipesCloudRequester()
 
-    override fun getRecipeCloudList(): LiveData<Result<List<RecipeCloud>>> {
-        return recipesCloudRequester.execute(client)
+    override fun getRecipeCloudList(itemsNum: Int): LiveData<Result<List<RecipeCloud>>> {
+        return recipesCloudRequester.execute(client, itemsNum)
     }
 }

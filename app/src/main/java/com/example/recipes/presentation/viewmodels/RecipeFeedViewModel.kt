@@ -22,8 +22,6 @@ class RecipeFeedViewModel(private val recipeFeedInteractor: RecipeFeedInteractor
         get() = mutableRecipeFeed
 
     private val observer = Observer<Result<List<RecipeFeedDomain>>> { result ->
-//        mutableRecipeFeed.value = result.getOrNull()
-
         result?.onSuccess {
             mutableRecipeFeed.value = it
         }

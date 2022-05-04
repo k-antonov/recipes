@@ -6,6 +6,6 @@ import com.example.recipes.domain.repositories.RecipeRepository
 
 class RecipeFeedInteractor(private val recipeRepository: RecipeRepository) {
 
-    fun execute(): LiveData<Result<List<RecipeFeedDomain>>> = recipeRepository.recipeFeedDomainLiveData
+    fun execute(): LiveData<Result<List<RecipeFeedDomain>>> = recipeRepository.recipeFeedDomain
 
 }
