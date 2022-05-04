@@ -1,7 +1,7 @@
 package com.example.recipes.data.datasources.cloud.mappers
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import com.example.recipes.data.Mapper
 import com.example.recipes.data.datasources.cloud.entities.RecipeCloud
 import com.example.recipes.domain.entities.RecipeFeedDomain
@@ -20,20 +20,12 @@ class RecipeCloudMapperToFeed : Mapper<RecipeCloud, RecipeFeedDomain> {
         return cloudEntities.map { mapToDomain(it) }
     }
 
-    fun mapToLiveData(liveData: LiveData<Result<List<RecipeCloud>>>): LiveData<Result<List<RecipeFeedDomain>>> {
-
-        val resultList = liveData.value?.map {
-            mapToDomainList(it)
-        }
-        return MutableLiveData(resultList)
+    private fun mapToResultDomainList(result: Result<List<RecipeCloud>>): Result<List<RecipeFeedDomain>> {
+        return result.map { mapToDomainList(it) }
     }
 
-//    fun mapToLiveData(liveData: MutableLiveData<Result<List<RecipeCloud>>>) {
-//
-//        val resultList = liveData.value?.map {
-//            mapToDomainList(it)
-//        }
-//        liveData.value = resultList // type mismatch
-//    }
+    fun mapToLiveData(liveData: LiveData<Result<List<RecipeCloud>>>): LiveData<Result<List<RecipeFeedDomain>>> {
+        return Transformations.map(liveData) { mapToResultDomainList(it) }
+    }
 
 }
