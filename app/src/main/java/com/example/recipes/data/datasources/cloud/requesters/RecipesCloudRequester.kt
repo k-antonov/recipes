@@ -1,4 +1,4 @@
-package com.example.recipes.data.datasources.cloud.commands
+package com.example.recipes.data.datasources.cloud.requesters
 
 import android.content.pm.PackageManager
 import android.util.Log

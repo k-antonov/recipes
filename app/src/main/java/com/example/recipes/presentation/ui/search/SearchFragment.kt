@@ -1,14 +1,12 @@
-package com.example.recipes.presentation.ui
+package com.example.recipes.presentation.ui.search
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.recipes.R
+import androidx.fragment.app.Fragment
 import com.example.recipes.databinding.FragmentSearchBinding
 import com.example.recipes.presentation.adapters.SearchViewPagerAdapter
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class SearchFragment : Fragment() {
@@ -41,21 +39,6 @@ class SearchFragment : Fragment() {
         TabLayoutMediator(binding.searchTabLayout, binding.searchViewPager) { tabItem, position ->
             tabItem.text = childFragmentTitles[position]
         }.attach()
-
-//        binding.searchTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-//            override fun onTabSelected(tab: TabLayout.Tab?) {
-//                requireActivity().supportFragmentManager
-//                    .beginTransaction()
-//                    .replace(R.id.search_view_pager, childFragments[tab?.position!!])
-//                    .commit()
-//            }
-//
-//            override fun onTabUnselected(tab: TabLayout.Tab?) {
-//            }
-//
-//            override fun onTabReselected(tab: TabLayout.Tab?) {
-//            }
-//        })
 
         return binding.root
     }

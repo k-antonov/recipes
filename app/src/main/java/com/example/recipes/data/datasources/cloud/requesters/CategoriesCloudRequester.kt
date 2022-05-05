@@ -1,10 +1,9 @@
-package com.example.recipes.data.datasources.cloud.commands
+package com.example.recipes.data.datasources.cloud.requesters
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.recipes.data.datasources.cloud.entities.CategoriesCloud
-import com.example.recipes.data.datasources.cloud.entities.CategoryCloud
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
