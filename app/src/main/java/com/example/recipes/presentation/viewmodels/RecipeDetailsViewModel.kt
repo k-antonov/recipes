@@ -43,23 +43,3 @@ class RecipeDetailsViewModel(
     }
 
 }
-
-
-//class RecipeDetailsViewModel1(
-//    private val repository: RecipeRepositoryImpl,
-//    private val recipeId: Int
-//) : ViewModel() {
-//
-//    val recipeFeedDomain: RecipeData
-//        get() {
-//            val result = repository.recipes.value
-//            val list = result?.getOrNull()
-//
-//            if (list != null) {
-//                return list.first { it.id == recipeId }
-//            } else {
-//                // todo переделать в AlertDialog, например
-//                throw Exception("Result failed")
-//            }
-//        }
-//}

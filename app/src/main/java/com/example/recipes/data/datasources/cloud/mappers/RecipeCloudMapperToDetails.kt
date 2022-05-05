@@ -7,13 +7,13 @@ import com.example.recipes.data.datasources.cloud.entities.RecipeCloud
 import com.example.recipes.domain.entities.RecipeDetailsDomain
 
 class RecipeCloudMapperToDetails : Mapper<RecipeCloud, RecipeDetailsDomain> {
-    override fun mapToDomain(cloudEntity: RecipeCloud): RecipeDetailsDomain {
+    override fun mapEntity(fromEntity: RecipeCloud): RecipeDetailsDomain {
         return RecipeDetailsDomain(
-            id = cloudEntity.id,
-            title = cloudEntity.title,
-            ingredients = cloudEntity.ingredients,
-            instructions = cloudEntity.instructionData.map { it.text },
-            imageUrl = cloudEntity.imageUrl
+            id = fromEntity.id,
+            title = fromEntity.title,
+            ingredients = fromEntity.ingredients,
+            instructions = fromEntity.instructionData.map { it.text },
+            imageUrl = fromEntity.imageUrl
         )
     }
 
@@ -27,7 +27,7 @@ class RecipeCloudMapperToDetails : Mapper<RecipeCloud, RecipeDetailsDomain> {
     ): Result<RecipeDetailsDomain> {
         // todo обработать failure
         val cloudList = result.getOrDefault(emptyList())
-        val mappedEntity = mapToDomain(getEntityById(cloudList, id))
+        val mappedEntity = mapEntity(getEntityById(cloudList, id))
         return Result.success(mappedEntity)
     }
 

@@ -1,7 +1,7 @@
 package com.example.recipes.data
 
-interface Mapper<DataEntity, DomainEntity> {
+interface Mapper<FromEntity, ToEntity> {
 
-    fun mapToDomain(cloudEntity: DataEntity): DomainEntity
+    fun mapEntity(fromEntity: FromEntity): ToEntity
 
 }

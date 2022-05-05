@@ -8,16 +8,16 @@ import com.example.recipes.domain.entities.RecipeFeedDomain
 
 class RecipeCloudMapperToFeed : Mapper<RecipeCloud, RecipeFeedDomain> {
 
-    override fun mapToDomain(cloudEntity: RecipeCloud): RecipeFeedDomain {
+    override fun mapEntity(fromEntity: RecipeCloud): RecipeFeedDomain {
         return RecipeFeedDomain(
-            id = cloudEntity.id,
-            title = cloudEntity.title,
-            imageUrl = cloudEntity.imageUrl
+            id = fromEntity.id,
+            title = fromEntity.title,
+            imageUrl = fromEntity.imageUrl
         )
     }
 
     private fun mapToDomainList(cloudEntities: List<RecipeCloud>): List<RecipeFeedDomain> {
-        return cloudEntities.map { mapToDomain(it) }
+        return cloudEntities.map { mapEntity(it) }
     }
 
     private fun mapToResultDomainList(result: Result<List<RecipeCloud>>): Result<List<RecipeFeedDomain>> {

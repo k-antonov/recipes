@@ -1,4 +1,4 @@
-package com.example.recipes.presentation.adapter
+package com.example.recipes.presentation.adapters
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -39,7 +39,7 @@ class RecipeAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.recipe_list_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.recycler_list_item, parent, false)
         Log.d(TAG, "onCreateViewHOlder")
         return RecipeViewHolder(view, onItemClicked)
     }

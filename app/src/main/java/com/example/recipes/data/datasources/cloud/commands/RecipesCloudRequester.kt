@@ -14,14 +14,14 @@ import okhttp3.*
 import java.io.IOException
 import java.net.URL
 
-class RecipesCloudRequester : Command<LiveData<Result<List<RecipeCloud>>>> {
+class RecipesCloudRequester : Requester<LiveData<Result<List<RecipeCloud>>>> {
     private val mutableRecipes = MutableLiveData<Result<List<RecipeCloud>>>()
     val recipes: LiveData<Result<List<RecipeCloud>>>
         get() = mutableRecipes
 
     private companion object {
         val TAG: String = RecipesCloudRequester::class.java.simpleName
-        private var stringUrl = "https://random-recipes.p.rapidapi.com/ai-quotes/"
+        private var stringUrl = "https://random-recipes.p.rapidapi.com/ai-quotes/10"
         val apiHostPair = "X-RapidAPI-Host" to "random-recipes.p.rapidapi.com"
         val apiKeyPair = "X-RapidAPI-Key" to apiKey
 
@@ -36,9 +36,7 @@ class RecipesCloudRequester : Command<LiveData<Result<List<RecipeCloud>>>> {
             }
     }
 
-    override fun execute(client: OkHttpClient, itemsCount: Int): LiveData<Result<List<RecipeCloud>>> {
-        stringUrl = "${stringUrl}$itemsCount"
-
+    override fun execute(client: OkHttpClient): LiveData<Result<List<RecipeCloud>>> {
         try {
             val request = Request.Builder().url(URL(stringUrl)).get()
                 .addHeader(apiHostPair.first, apiHostPair.second)

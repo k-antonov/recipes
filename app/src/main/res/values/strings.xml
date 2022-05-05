@@ -97,4 +97,6 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="instructions">Instructions</string>
+    <string name="categories">Categories</string>
+    <string name="cuisines">Cuisines</string>
 </resources>

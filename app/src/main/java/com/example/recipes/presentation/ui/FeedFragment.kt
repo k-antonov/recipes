@@ -10,7 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipes.R
 import com.example.recipes.databinding.FragmentFeedBinding
-import com.example.recipes.presentation.adapter.RecipeAdapter
+import com.example.recipes.presentation.adapters.RecipeAdapter
 import com.example.recipes.presentation.viewmodels.RecipeFeedViewModel
 import com.example.recipes.presentation.viewmodels.RecipeFeedViewModelFactory
 
@@ -60,7 +60,7 @@ class FeedFragment : Fragment() {
     private fun replaceFragmentWith(fragment: Fragment) {
         requireActivity().supportFragmentManager
             .beginTransaction()
-            .replace(R.id.fragment_container_view, fragment)
+            .replace(R.id.main_fragment_container, fragment)
             .addToBackStack(null)
             .commit()
     }
