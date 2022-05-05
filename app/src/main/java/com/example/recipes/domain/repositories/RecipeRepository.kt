@@ -3,10 +3,7 @@ package com.example.recipes.domain.repositories
 import androidx.lifecycle.LiveData
 import com.example.recipes.data.datasources.cloud.entities.CategoriesCloud
 import com.example.recipes.data.datasources.cloud.entities.CategoryCloud
-import com.example.recipes.domain.entities.CategoryDomain
-import com.example.recipes.domain.entities.CuisineDomain
-import com.example.recipes.domain.entities.RecipeDetailsDomain
-import com.example.recipes.domain.entities.RecipeFeedDomain
+import com.example.recipes.domain.entities.*
 
 interface RecipeRepository {
 
@@ -17,4 +14,6 @@ interface RecipeRepository {
     fun getCategoryDomainList(): LiveData<Result<List<CategoryDomain>>>
 
     fun getCuisineDomainList(): LiveData<Result<List<CuisineDomain>>>
+
+    fun getPreviewDomainList(endpoint: String): LiveData<Result<List<PreviewDomain>>>
 }

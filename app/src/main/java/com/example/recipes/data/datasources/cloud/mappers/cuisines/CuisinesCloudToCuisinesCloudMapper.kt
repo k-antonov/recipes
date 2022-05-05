@@ -6,7 +6,7 @@ import com.example.recipes.data.Mapper
 import com.example.recipes.data.datasources.cloud.entities.CuisineCloud
 import com.example.recipes.data.datasources.cloud.entities.CuisinesCloud
 
-// todo fix DRY violation
+// todo fix DRY and encapsulation violation
 class CuisinesCloudToCuisinesCloudMapper : Mapper<CuisinesCloud, List<CuisineCloud>> {
     override fun mapEntity(fromEntity: CuisinesCloud): List<CuisineCloud> {
         return fromEntity.cuisineClouds

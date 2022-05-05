@@ -41,7 +41,7 @@ private val cuisineToImageUrl = mapOf(
 )
 
 
-// todo fix DRY violation
+// todo fix DRY and encapsulation violation
 class CuisineCloudToCuisineDomainMapper : Mapper<CuisineCloud, CuisineDomain> {
 
     @SuppressLint("NewApi")

@@ -6,9 +6,8 @@ import com.example.recipes.data.Mapper
 import com.example.recipes.data.datasources.cloud.entities.CategoryCloud
 import com.example.recipes.domain.entities.CategoryDomain
 
-// todo fix DRY violation
+// todo fix DRY and encapsulation violation
 class CategoryCloudToCategoryDomainMapper : Mapper<CategoryCloud, CategoryDomain> {
-    // todo fix encapsulation violation
     override fun mapEntity(fromEntity: CategoryCloud): CategoryDomain {
         return CategoryDomain(
             id = fromEntity.id.toInt(),

@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.ui.search.CategoriesFragment">
+    tools:context=".presentation.ui.search.PreviewFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/categories_recycler_view"
+        android:id="@+id/preview_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

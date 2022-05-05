@@ -11,7 +11,7 @@ import okhttp3.*
 import java.io.IOException
 import java.net.URL
 
-private const val ENDPOINT = "https://www.themealdb.com/api/json/v1/1/categories.php"
+private const val URL = "https://www.themealdb.com/api/json/v1/1/categories.php"
 
 class CategoriesCloudRequester : Requester<LiveData<Result<CategoriesCloud>>> {
 
@@ -23,9 +23,9 @@ class CategoriesCloudRequester : Requester<LiveData<Result<CategoriesCloud>>> {
         val TAG: String = CategoriesCloudRequester::class.java.simpleName
     }
 
-    override fun execute(client: OkHttpClient): LiveData<Result<CategoriesCloud>> {
+    override fun execute(client: OkHttpClient, endpoint: String?): LiveData<Result<CategoriesCloud>> {
         try {
-            val request = Request.Builder().url(URL(ENDPOINT)).get()
+            val request = Request.Builder().url(URL(URL)).get()
                 .build()
 
             client.newCall(request).enqueue(object : Callback {

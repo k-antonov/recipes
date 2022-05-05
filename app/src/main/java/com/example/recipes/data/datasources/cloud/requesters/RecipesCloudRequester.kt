@@ -36,7 +36,7 @@ class RecipesCloudRequester : Requester<LiveData<Result<List<RecipeCloud>>>> {
             }
     }
 
-    override fun execute(client: OkHttpClient): LiveData<Result<List<RecipeCloud>>> {
+    override fun execute(client: OkHttpClient, endpoint: String?): LiveData<Result<List<RecipeCloud>>> {
         try {
             val request = Request.Builder().url(URL(stringUrl)).get()
                 .addHeader(apiHostPair.first, apiHostPair.second)

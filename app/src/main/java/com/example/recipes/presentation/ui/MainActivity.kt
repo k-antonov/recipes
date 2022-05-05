@@ -7,10 +7,7 @@ import com.example.recipes.data.datasources.cloud.RecipeApiService
 import com.example.recipes.data.datasources.cloud.RecipeApiServiceImpl
 import com.example.recipes.data.repositories.RecipeRepositoryImpl
 import com.example.recipes.databinding.ActivityMainBinding
-import com.example.recipes.domain.interactors.CategoriesInteractor
-import com.example.recipes.domain.interactors.CuisinesInteractor
-import com.example.recipes.domain.interactors.RecipeDetailsInteractor
-import com.example.recipes.domain.interactors.RecipeFeedInteractor
+import com.example.recipes.domain.interactors.*
 import com.example.recipes.presentation.ui.search.SearchFragment
 
 // todo перенести (DI)
@@ -22,6 +19,7 @@ val recipeDetailsInteractor = RecipeDetailsInteractor(recipeRepository)
 
 val categoriesInteractor = CategoriesInteractor(recipeRepository)
 val cuisinesInteractor = CuisinesInteractor(recipeRepository)
+val previewsInteractor = PreviewsInteractor(recipeRepository)
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

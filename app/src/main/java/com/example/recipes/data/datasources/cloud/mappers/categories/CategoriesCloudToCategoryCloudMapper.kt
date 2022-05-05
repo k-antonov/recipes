@@ -6,6 +6,7 @@ import com.example.recipes.data.Mapper
 import com.example.recipes.data.datasources.cloud.entities.CategoriesCloud
 import com.example.recipes.data.datasources.cloud.entities.CategoryCloud
 
+// todo fix DRY and encapsulation violation
 class CategoriesCloudToCategoryCloudMapper : Mapper<CategoriesCloud, List<CategoryCloud>> {
     override fun mapEntity(fromEntity: CategoriesCloud): List<CategoryCloud> {
         return fromEntity.categoriesCloud
