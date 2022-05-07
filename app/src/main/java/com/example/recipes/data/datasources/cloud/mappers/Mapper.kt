@@ -1,4 +1,4 @@
-package com.example.recipes.data
+package com.example.recipes.data.datasources.cloud.mappers
 
 interface Mapper<FromEntity, ToEntity> {
 

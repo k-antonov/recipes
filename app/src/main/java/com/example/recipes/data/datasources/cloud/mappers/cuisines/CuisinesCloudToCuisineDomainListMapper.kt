@@ -1,15 +1,12 @@
 package com.example.recipes.data.datasources.cloud.mappers.cuisines
 
 import android.annotation.SuppressLint
-import android.os.Build
-import androidx.annotation.RequiresApi
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
-import com.example.recipes.data.Mapper
 import com.example.recipes.data.datasources.cloud.entities.CuisineCloud
+import com.example.recipes.data.datasources.cloud.entities.CuisinesCloud
+import com.example.recipes.data.datasources.cloud.mappers.BaseMapper
 import com.example.recipes.domain.entities.CuisineDomain
 
-
+// К сожалению, API не предоставляет ссылки на изображения для кухонь
 private val cuisineToImageUrl = mapOf(
     "American" to "https://awol.junkee.com/wp-content/uploads/2018/07/robin-stickel-82145-unsplash-320x200.jpg",
     "British" to "https://p.bookcdn.com/data/Photos/320x200/9430/943044/943044208/Jannah-Marina-Hotel-Apartments-photos-Exterior-Jannah-Marina-Bay-Suites.JPEG",
@@ -40,27 +37,17 @@ private val cuisineToImageUrl = mapOf(
     "Unknown" to "https://lh3.googleusercontent.com/n3KU8XMoRjTHvJbXD-kjyqUTUbW7o8xBN5ndoCfem70yEGkKgSETGudN2elp4zQKThZm01DgzgDPMPjgrPxjhd6tVOEc0Vl_lHrUmrU=h200"
 )
 
-
-// todo fix DRY and encapsulation violation
-class CuisineCloudToCuisineDomainMapper : Mapper<CuisineCloud, CuisineDomain> {
+class CuisinesCloudToCuisineDomainListMapper :
+    BaseMapper<CuisinesCloud, CuisineCloud, CuisineDomain>(){
+    override fun mapToList(from: CuisinesCloud): List<CuisineCloud> {
+        return from.cuisineClouds
+    }
 
     @SuppressLint("NewApi")
-    override fun mapEntity(fromEntity: CuisineCloud): CuisineDomain {
+    override fun mapEntity(from: CuisineCloud): CuisineDomain {
         return CuisineDomain(
-            title = fromEntity.strArea,
-            imageUrl = cuisineToImageUrl.getOrDefault(fromEntity.strArea, "")
+            title = from.title,
+            imageUrl = cuisineToImageUrl.getOrDefault(from.title, "")
         )
-    }
-
-    private fun mapToList(fromEntities: List<CuisineCloud>): List<CuisineDomain> {
-        return fromEntities.map { mapEntity(it) }
-    }
-
-    private fun mapToResult(result: Result<List<CuisineCloud>>): Result<List<CuisineDomain>> {
-        return result.map { mapToList(it) }
-    }
-
-    fun mapToLiveData(liveData: LiveData<Result<List<CuisineCloud>>>): LiveData<Result<List<CuisineDomain>>> {
-        return Transformations.map(liveData) { mapToResult(it) }
     }
 }

@@ -1,16 +1,12 @@
 package com.example.recipes.data.repositories
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.recipes.data.datasources.cloud.RecipeApiService
+import com.example.recipes.data.datasources.cloud.mappers.categories.CategoriesCloudToCategoryDomainListMapper
 import com.example.recipes.data.datasources.cloud.mappers.RecipeCloudMapperToDetails
 import com.example.recipes.data.datasources.cloud.mappers.RecipeCloudMapperToFeed
-import com.example.recipes.data.datasources.cloud.mappers.categories.CategoriesCloudToCategoryCloudMapper
-import com.example.recipes.data.datasources.cloud.mappers.categories.CategoryCloudToCategoryDomainMapper
-import com.example.recipes.data.datasources.cloud.mappers.cuisines.CuisineCloudToCuisineDomainMapper
-import com.example.recipes.data.datasources.cloud.mappers.cuisines.CuisinesCloudToCuisinesCloudMapper
-import com.example.recipes.data.datasources.cloud.mappers.previews.PreviewCloudToPreviewDomainMapper
-import com.example.recipes.data.datasources.cloud.mappers.previews.PreviewsCloudToPreviewCloudMapper
+import com.example.recipes.data.datasources.cloud.mappers.cuisines.CuisinesCloudToCuisineDomainListMapper
+import com.example.recipes.data.datasources.cloud.mappers.previews.PreviewsCloudToPreviewDomainListMapper
 import com.example.recipes.domain.entities.*
 import com.example.recipes.domain.repositories.RecipeRepository
 
@@ -22,15 +18,6 @@ class RecipeRepositoryImpl(private val recipeApiService: RecipeApiService) : Rec
 
     private val mapperToFeed = RecipeCloudMapperToFeed()
     private val mapperToDetails = RecipeCloudMapperToDetails()
-
-    private val toCategoryCloudMapper = CategoriesCloudToCategoryCloudMapper()
-    private val toCategoryDomainMapper = CategoryCloudToCategoryDomainMapper()
-
-    private val toCuisineCloudMapper = CuisinesCloudToCuisinesCloudMapper()
-    private val toCuisineDomainMapper = CuisineCloudToCuisineDomainMapper()
-
-    private val toPreviewCloudMapper = PreviewsCloudToPreviewCloudMapper()
-    private val toPreviewDomainMapper = PreviewCloudToPreviewDomainMapper()
 
     override val recipeFeedDomain: LiveData<Result<List<RecipeFeedDomain>>>
         get() {
@@ -48,20 +35,17 @@ class RecipeRepositoryImpl(private val recipeApiService: RecipeApiService) : Rec
     }
 
     override fun getCategoryDomainList() : LiveData<Result<List<CategoryDomain>>> {
-        val categoriesCloud = recipeApiService.getCategoriesCloud()
-        val categoryCloudList = toCategoryCloudMapper.mapToLiveData(categoriesCloud)
-        return toCategoryDomainMapper.mapToLiveData(categoryCloudList)
+        val mapper = CategoriesCloudToCategoryDomainListMapper()
+        return mapper.mapLiveData(recipeApiService.getCategoriesCloud())
     }
 
     override fun getCuisineDomainList(): LiveData<Result<List<CuisineDomain>>> {
-        val cuisinesCloud = recipeApiService.getCuisinesCloud()
-        val cuisineCloudList = toCuisineCloudMapper.mapToLiveData(cuisinesCloud)
-        return toCuisineDomainMapper.mapToLiveData(cuisineCloudList)
+        val mapper = CuisinesCloudToCuisineDomainListMapper()
+        return mapper.mapLiveData(recipeApiService.getCuisinesCloud())
     }
 
     override fun getPreviewDomainList(endpoint: String): LiveData<Result<List<PreviewDomain>>> {
-        val previewsCloud = recipeApiService.getPreviewsCloud(endpoint)
-        val previewCloudList = toPreviewCloudMapper.mapToLiveData(previewsCloud)
-        return toPreviewDomainMapper.mapToLiveData(previewCloudList)
+        val mapper = PreviewsCloudToPreviewDomainListMapper()
+        return mapper.mapLiveData(recipeApiService.getPreviewsCloud(endpoint))
     }
 }
