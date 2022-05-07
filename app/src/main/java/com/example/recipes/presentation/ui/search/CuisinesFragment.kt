@@ -41,7 +41,7 @@ class CuisinesFragment : Fragment() {
 
         binding.cuisinesRecyclerView.layoutManager = GridLayoutManager(requireContext(), COLUMNS)
 
-        viewModel.cuisineDomainList.observe(viewLifecycleOwner) {
+        viewModel.itemDomainList.observe(viewLifecycleOwner) {
             adapter = PreviewAdapter(it) { position ->
                 val endpoint = "a=${it[position].title}"
                 Log.d("CuisinesFragment", endpoint)

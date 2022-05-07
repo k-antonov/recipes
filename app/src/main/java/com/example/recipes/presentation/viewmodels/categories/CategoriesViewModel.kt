@@ -1,42 +1,19 @@
 package com.example.recipes.presentation.viewmodels.categories
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import com.example.recipes.domain.entities.CategoryDomain
 import com.example.recipes.domain.interactors.CategoriesInteractor
+import com.example.recipes.presentation.viewmodels.BaseViewModel
 
 class CategoriesViewModel(
-    private val categoriesInteractor: CategoriesInteractor
-) : ViewModel() {
-    companion object {
-        private val TAG = CategoriesViewModel::class.java.simpleName
-    }
-
-    private val categoryDomainListFromInteractor: LiveData<Result<List<CategoryDomain>>>
-        get() = categoriesInteractor.execute()
-
-    private val mutableCategoryDomainList = MutableLiveData<List<CategoryDomain>>()
-    val categoryDomainList: LiveData<List<CategoryDomain>>
-        get() = mutableCategoryDomainList
-
-    private val observer = Observer<Result<List<CategoryDomain>>> { result ->
-        result?.onSuccess {
-            mutableCategoryDomainList.value = it
-        }
-        result?.onFailure {
-            Log.d(TAG, "alert dialog")
-        }
-    }
+    categoriesInteractor: CategoriesInteractor
+) : BaseViewModel<CategoryDomain>(categoriesInteractor) {
 
     init {
-        categoryDomainListFromInteractor.observeForever(observer)
+        itemDomainListFromInteractor.observeForever(observer)
     }
 
     override fun onCleared() {
-        categoryDomainListFromInteractor.removeObserver(observer)
+        itemDomainListFromInteractor.removeObserver(observer)
         super.onCleared()
     }
 }

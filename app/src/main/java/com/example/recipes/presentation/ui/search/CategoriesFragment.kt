@@ -13,6 +13,7 @@ import com.example.recipes.databinding.FragmentCategoriesBinding
 import com.example.recipes.domain.entities.CategoryDomain
 import com.example.recipes.presentation.adapters.PreviewAdapter
 import com.example.recipes.presentation.ui.categoriesInteractor
+import com.example.recipes.presentation.ui.previewsInteractor
 import com.example.recipes.presentation.viewmodels.categories.CategoriesViewModel
 import com.example.recipes.presentation.viewmodels.categories.CategoriesViewModelFactory
 
@@ -41,7 +42,7 @@ class CategoriesFragment : Fragment() {
 
         binding.categoriesRecyclerView.layoutManager = GridLayoutManager(requireContext(), COLUMNS)
 
-        viewModel.categoryDomainList.observe(viewLifecycleOwner) {
+        viewModel.itemDomainList.observe(viewLifecycleOwner) {
             adapter = PreviewAdapter(it) { position ->
                 val endpoint = "c=${it[position].title}"
                 Log.d("CategoriesFragment", endpoint)
