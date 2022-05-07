@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 
 data class CuisinesCloud(
     @Json(name = "meals")
-    val cuisineClouds: List<CuisineCloud>
+    val cuisinesCloud: List<CuisineCloud>
 )
 
 data class CuisineCloud(

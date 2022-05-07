@@ -40,7 +40,7 @@ private val cuisineToImageUrl = mapOf(
 class CuisinesCloudToCuisineDomainListMapper :
     BaseMapper<CuisinesCloud, CuisineCloud, CuisineDomain>(){
     override fun mapToList(from: CuisinesCloud): List<CuisineCloud> {
-        return from.cuisineClouds
+        return from.cuisinesCloud
     }
 
     @SuppressLint("NewApi")
