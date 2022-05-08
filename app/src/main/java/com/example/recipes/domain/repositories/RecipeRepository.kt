@@ -16,4 +16,6 @@ interface RecipeRepository {
     fun getCuisineDomainList(): LiveData<Result<List<CuisineDomain>>>
 
     fun getPreviewDomainList(endpoint: String): LiveData<Result<List<PreviewDomain>>>
+
+    fun getDetailDomainList(endpoint: String): LiveData<Result<List<DetailDomain>>>
 }

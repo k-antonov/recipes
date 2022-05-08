@@ -15,7 +15,7 @@ class CategoriesCloudToCategoryDomainListMapper :
     override fun mapEntity(from: CategoryCloud): CategoryDomain {
         return CategoryDomain(
             id = from.id.toInt(),
-            title = from.title,
+            name = from.name,
             imageUrl = from.imageUrl
         )
     }

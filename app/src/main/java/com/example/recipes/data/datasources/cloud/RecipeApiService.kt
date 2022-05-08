@@ -9,4 +9,5 @@ interface RecipeApiService {
     fun getCategoriesCloud(): LiveData<Result<CategoriesCloud>>
     fun getCuisinesCloud(): LiveData<Result<CuisinesCloud>>
     fun getPreviewsCloud(endpoint: String): LiveData<Result<PreviewsCloud>>
+    fun getDetailsCloud(endpoint: String): LiveData<Result<DetailsCloud>>
 }

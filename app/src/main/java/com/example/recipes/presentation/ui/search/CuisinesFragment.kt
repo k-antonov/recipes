@@ -27,8 +27,8 @@ class CuisinesFragment : GridListFragment<CuisineDomain>() {
 
         viewModel.itemDomainList.observe(viewLifecycleOwner) {
             adapter = PreviewAdapter(it) { position ->
-                val endpoint = "a=${it[position].title}"
-                onListItemClick(PreviewFragment.newInstance(endpoint))
+                val endpoint = "a=${it[position].name}"
+                onListItemClick(PreviewsFragment.newInstance(endpoint))
             }
             recyclerView.adapter = adapter
         }

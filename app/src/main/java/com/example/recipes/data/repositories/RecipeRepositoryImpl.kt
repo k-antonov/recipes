@@ -6,6 +6,7 @@ import com.example.recipes.data.datasources.cloud.mappers.categories.CategoriesC
 import com.example.recipes.data.datasources.cloud.mappers.RecipeCloudMapperToDetails
 import com.example.recipes.data.datasources.cloud.mappers.RecipeCloudMapperToFeed
 import com.example.recipes.data.datasources.cloud.mappers.cuisines.CuisinesCloudToCuisineDomainListMapper
+import com.example.recipes.data.datasources.cloud.mappers.details.DetailsCloudToDetailDomainListMapper
 import com.example.recipes.data.datasources.cloud.mappers.previews.PreviewsCloudToPreviewDomainListMapper
 import com.example.recipes.domain.entities.*
 import com.example.recipes.domain.repositories.RecipeRepository
@@ -47,5 +48,10 @@ class RecipeRepositoryImpl(private val recipeApiService: RecipeApiService) : Rec
     override fun getPreviewDomainList(endpoint: String): LiveData<Result<List<PreviewDomain>>> {
         val mapper = PreviewsCloudToPreviewDomainListMapper()
         return mapper.mapLiveData(recipeApiService.getPreviewsCloud(endpoint))
+    }
+
+    override fun getDetailDomainList(endpoint: String): LiveData<Result<List<DetailDomain>>> {
+        val mapper = DetailsCloudToDetailDomainListMapper()
+        return mapper.mapLiveData(recipeApiService.getDetailsCloud(endpoint))
     }
 }

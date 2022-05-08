@@ -1,7 +1,7 @@
 package com.example.recipes.domain.entities
 
 data class PreviewDomain(
-    val id: Int,
-    val title: String,
+    val id: String,
+    val name: String,
     val imageUrl: String
 )

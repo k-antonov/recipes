@@ -11,7 +11,7 @@ data class PreviewCloud(
     @Json(name = "idMeal")
     val id: String,
     @Json(name = "strMeal")
-    val title: String,
+    val name: String,
     @Json(name = "strMealThumb")
     val imageUrl: String
 )

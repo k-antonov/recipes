@@ -15,7 +15,7 @@ import com.example.recipes.presentation.viewmodels.previews.PreviewsViewModelFac
 
 private const val ARG_ENDPOINT = "endpoint"
 
-class PreviewFragment : BaseListFragment<PreviewDomain>() {
+class PreviewsFragment : BaseListFragment<PreviewDomain>() {
 
     private lateinit var endpoint: String
 
@@ -41,7 +41,10 @@ class PreviewFragment : BaseListFragment<PreviewDomain>() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.preview_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewModel.itemDomainList.observe(viewLifecycleOwner) {
-            adapter = PreviewAdapter(it) {}
+            adapter = PreviewAdapter(it) { position ->
+                val endpoint = it[position].id
+                onListItemClick(DetailsFragment.newInstance(endpoint))
+            }
             recyclerView.adapter = adapter
         }
     }
@@ -49,7 +52,7 @@ class PreviewFragment : BaseListFragment<PreviewDomain>() {
     companion object {
         @JvmStatic
         fun newInstance(endpoint: String) =
-            PreviewFragment().apply {
+            PreviewsFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_ENDPOINT, endpoint)
                 }

@@ -45,15 +45,15 @@ class PreviewAdapter<T>(
         when (val item = items[position]) {
             is CategoryDomain -> {
                 ImageDownloader.load(holder.image, item.imageUrl)
-                holder.title.text = item.title
+                holder.title.text = item.name
             }
             is CuisineDomain -> {
                 ImageDownloader.load(holder.image, item.imageUrl)
-                holder.title.text = item.title
+                holder.title.text = item.name
             }
             is PreviewDomain -> {
                 ImageDownloader.load(holder.image, item.imageUrl)
-                holder.title.text = item.title
+                holder.title.text = item.name
             }
         }
     }

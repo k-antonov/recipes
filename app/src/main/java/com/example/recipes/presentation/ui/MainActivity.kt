@@ -20,6 +20,7 @@ val recipeDetailsInteractor = RecipeDetailsInteractor(recipeRepository)
 val categoriesInteractor = CategoriesInteractor(recipeRepository)
 val cuisinesInteractor = CuisinesInteractor(recipeRepository)
 val previewsInteractor = PreviewsInteractor(recipeRepository)
+val detailsInteractor = DetailsInteractor(recipeRepository)
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

@@ -9,5 +9,5 @@ data class CuisinesCloud(
 
 data class CuisineCloud(
     @Json(name = "strArea")
-    val title: String
+    val name: String
 )

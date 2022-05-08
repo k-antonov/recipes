@@ -28,8 +28,8 @@ class CategoriesFragment : GridListFragment<CategoryDomain>() {
 
         viewModel.itemDomainList.observe(viewLifecycleOwner) {
             adapter = PreviewAdapter(it) { position ->
-                val endpoint = "c=${it[position].title}"
-                onListItemClick(PreviewFragment.newInstance(endpoint))
+                val endpoint = "c=${it[position].name}"
+                onListItemClick(PreviewsFragment.newInstance(endpoint))
             }
             recyclerView.adapter = adapter
         }

@@ -2,14 +2,8 @@ package com.example.recipes.data.datasources.cloud
 
 import androidx.lifecycle.LiveData
 import com.example.recipes.MyApplication.Companion.client
-import com.example.recipes.data.datasources.cloud.requesters.CategoriesCloudRequester
-import com.example.recipes.data.datasources.cloud.requesters.RecipesCloudRequester
-import com.example.recipes.data.datasources.cloud.entities.CategoriesCloud
-import com.example.recipes.data.datasources.cloud.entities.CuisinesCloud
-import com.example.recipes.data.datasources.cloud.entities.PreviewsCloud
-import com.example.recipes.data.datasources.cloud.entities.RecipeCloud
-import com.example.recipes.data.datasources.cloud.requesters.CuisinesCloudRequester
-import com.example.recipes.data.datasources.cloud.requesters.PreviewsCloudRequester
+import com.example.recipes.data.datasources.cloud.entities.*
+import com.example.recipes.data.datasources.cloud.requesters.*
 
 class RecipeApiServiceImpl : RecipeApiService {
     private val recipesCloudRequester = RecipesCloudRequester()
@@ -17,6 +11,7 @@ class RecipeApiServiceImpl : RecipeApiService {
     private val categoriesCloudRequester = CategoriesCloudRequester()
     private val cuisinesCloudRequester = CuisinesCloudRequester()
     private val previewsCloudRequester = PreviewsCloudRequester()
+    private val detailsCloudRequester = DetailsCloudRequester()
 
     override fun getRecipeCloudList(): LiveData<Result<List<RecipeCloud>>> {
         return recipesCloudRequester.execute(client)
@@ -33,4 +28,10 @@ class RecipeApiServiceImpl : RecipeApiService {
     override fun getPreviewsCloud(endpoint: String): LiveData<Result<PreviewsCloud>> {
         return previewsCloudRequester.execute(client, endpoint)
     }
+
+    override fun getDetailsCloud(endpoint: String): LiveData<Result<DetailsCloud>> {
+        return detailsCloudRequester.execute(client, endpoint)
+    }
+
+
 }

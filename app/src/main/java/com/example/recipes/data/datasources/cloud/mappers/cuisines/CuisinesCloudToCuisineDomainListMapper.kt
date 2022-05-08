@@ -46,8 +46,8 @@ class CuisinesCloudToCuisineDomainListMapper :
     @SuppressLint("NewApi")
     override fun mapEntity(from: CuisineCloud): CuisineDomain {
         return CuisineDomain(
-            title = from.title,
-            imageUrl = cuisineToImageUrl.getOrDefault(from.title, "")
+            name = from.name,
+            imageUrl = cuisineToImageUrl.getOrDefault(from.name, "")
         )
     }
 }

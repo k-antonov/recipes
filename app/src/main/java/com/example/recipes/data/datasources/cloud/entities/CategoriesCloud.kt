@@ -11,7 +11,7 @@ data class CategoryCloud(
     @Json(name = "idCategory")
     val id: String,
     @Json(name = "strCategory")
-    val title: String,
+    val name: String,
     @Json(name = "strCategoryDescription")
     val description: String,
     @Json(name = "strCategoryThumb")
