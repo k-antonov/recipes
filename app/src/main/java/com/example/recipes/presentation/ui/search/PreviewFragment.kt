@@ -1,29 +1,32 @@
 package com.example.recipes.presentation.ui.search
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.recipes.databinding.FragmentPreviewBinding
+import androidx.recyclerview.widget.RecyclerView
+import com.example.recipes.R
 import com.example.recipes.domain.entities.PreviewDomain
 import com.example.recipes.presentation.adapters.PreviewAdapter
+import com.example.recipes.presentation.ui.BaseListFragment
 import com.example.recipes.presentation.ui.previewsInteractor
-import com.example.recipes.presentation.viewmodels.previews.PreviewsViewModel
+import com.example.recipes.presentation.viewmodels.BaseViewModel
 import com.example.recipes.presentation.viewmodels.previews.PreviewsViewModelFactory
 
 private const val ARG_ENDPOINT = "endpoint"
 
-class PreviewFragment : Fragment() {
-    private lateinit var binding: FragmentPreviewBinding
-    private lateinit var adapter: PreviewAdapter<PreviewDomain>
+class PreviewFragment : BaseListFragment<PreviewDomain>() {
+
     private lateinit var endpoint: String
 
-    private val viewModel: PreviewsViewModel by viewModels {
+    override val viewModel: BaseViewModel<PreviewDomain> by viewModels {
         PreviewsViewModelFactory(previewsInteractor, endpoint)
     }
+
+    override val layoutResId = R.layout.fragment_preview
+
+    override val layoutManager: RecyclerView.LayoutManager
+        get() = LinearLayoutManager(requireContext())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,21 +35,14 @@ class PreviewFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentPreviewBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.previewRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        val recyclerView = view.findViewById<RecyclerView>(R.id.preview_recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewModel.itemDomainList.observe(viewLifecycleOwner) {
             adapter = PreviewAdapter(it) {}
-            binding.previewRecyclerView.adapter = adapter
+            recyclerView.adapter = adapter
         }
     }
 
@@ -59,4 +55,5 @@ class PreviewFragment : Fragment() {
                 }
             }
     }
+
 }
