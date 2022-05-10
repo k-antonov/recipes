@@ -1,8 +1,7 @@
-package com.example.recipes.data.datasources.cloud.mappers.previews
+package com.example.recipes.data.datasources.cloud.mappers
 
 import com.example.recipes.data.datasources.cloud.entities.PreviewCloud
 import com.example.recipes.data.datasources.cloud.entities.PreviewsCloud
-import com.example.recipes.data.datasources.cloud.mappers.BaseMapper
 import com.example.recipes.domain.entities.PreviewDomain
 
 class PreviewsCloudToPreviewDomainListMapper :

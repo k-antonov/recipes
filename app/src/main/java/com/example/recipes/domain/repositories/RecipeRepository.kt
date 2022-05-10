@@ -7,10 +7,6 @@ import com.example.recipes.domain.entities.*
 
 interface RecipeRepository {
 
-    val recipeFeedDomain: LiveData<Result<List<RecipeFeedDomain>>>
-
-    fun getRecipeDetailsDomainById(recipeId: Int): LiveData<Result<RecipeDetailsDomain>>
-
     fun getCategoryDomainList(): LiveData<Result<List<CategoryDomain>>>
 
     fun getCuisineDomainList(): LiveData<Result<List<CuisineDomain>>>

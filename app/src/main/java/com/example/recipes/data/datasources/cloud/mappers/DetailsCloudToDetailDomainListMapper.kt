@@ -1,9 +1,7 @@
-package com.example.recipes.data.datasources.cloud.mappers.details
+package com.example.recipes.data.datasources.cloud.mappers
 
-import android.util.Log
 import com.example.recipes.data.datasources.cloud.entities.DetailCloud
 import com.example.recipes.data.datasources.cloud.entities.DetailsCloud
-import com.example.recipes.data.datasources.cloud.mappers.BaseMapper
 import com.example.recipes.domain.entities.DetailDomain
 
 class DetailsCloudToDetailDomainListMapper : BaseMapper<DetailsCloud, DetailCloud, DetailDomain>() {

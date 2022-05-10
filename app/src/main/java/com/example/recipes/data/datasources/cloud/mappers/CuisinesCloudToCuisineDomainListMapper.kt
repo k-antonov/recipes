@@ -1,9 +1,8 @@
-package com.example.recipes.data.datasources.cloud.mappers.cuisines
+package com.example.recipes.data.datasources.cloud.mappers
 
 import android.annotation.SuppressLint
 import com.example.recipes.data.datasources.cloud.entities.CuisineCloud
 import com.example.recipes.data.datasources.cloud.entities.CuisinesCloud
-import com.example.recipes.data.datasources.cloud.mappers.BaseMapper
 import com.example.recipes.domain.entities.CuisineDomain
 
 // К сожалению, API не предоставляет ссылки на изображения для кухонь

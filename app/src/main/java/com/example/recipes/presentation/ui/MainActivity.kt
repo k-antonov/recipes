@@ -14,9 +14,6 @@ import com.example.recipes.presentation.ui.search.SearchFragment
 val recipeApiService: RecipeApiService = RecipeApiServiceImpl()
 val recipeRepository = RecipeRepositoryImpl(recipeApiService)
 
-val recipeFeedInteractor = RecipeFeedInteractor(recipeRepository)
-val recipeDetailsInteractor = RecipeDetailsInteractor(recipeRepository)
-
 val categoriesInteractor = CategoriesInteractor(recipeRepository)
 val cuisinesInteractor = CuisinesInteractor(recipeRepository)
 val previewsInteractor = PreviewsInteractor(recipeRepository)

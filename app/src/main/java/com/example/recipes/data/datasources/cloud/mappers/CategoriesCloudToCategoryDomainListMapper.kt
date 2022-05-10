@@ -1,8 +1,7 @@
-package com.example.recipes.data.datasources.cloud.mappers.categories
+package com.example.recipes.data.datasources.cloud.mappers
 
 import com.example.recipes.data.datasources.cloud.entities.CategoriesCloud
 import com.example.recipes.data.datasources.cloud.entities.CategoryCloud
-import com.example.recipes.data.datasources.cloud.mappers.BaseMapper
 import com.example.recipes.domain.entities.CategoryDomain
 
 class CategoriesCloudToCategoryDomainListMapper :
