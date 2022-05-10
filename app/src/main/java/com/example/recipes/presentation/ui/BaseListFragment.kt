@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipes.R
-import com.example.recipes.presentation.adapters.PreviewAdapter
+import com.example.recipes.presentation.adapters.ClickableItemAdapter
 import com.example.recipes.presentation.viewmodels.BaseViewModel
 
 abstract class BaseListFragment<Entity> : Fragment() {
@@ -18,7 +18,7 @@ abstract class BaseListFragment<Entity> : Fragment() {
 
     protected abstract val layoutManager: RecyclerView.LayoutManager
 
-    protected lateinit var adapter: PreviewAdapter<Entity>
+    protected lateinit var adapter: ClickableItemAdapter<Entity>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

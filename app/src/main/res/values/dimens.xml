@@ -5,7 +5,7 @@
     <dimen name="medium_padding">16dp</dimen>
     <dimen name="upper_medium_padding">20dp</dimen>
     <dimen name="recipe_card">160dp</dimen>
-    <dimen name="recipe_detailed">320dp</dimen>
+    <dimen name="details_image">320dp</dimen>
     <dimen name="secondary_text">20sp</dimen>
     <dimen name="text_margin">16dp</dimen>
 </resources>

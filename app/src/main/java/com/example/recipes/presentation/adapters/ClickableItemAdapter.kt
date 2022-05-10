@@ -12,10 +12,10 @@ import com.example.recipes.domain.entities.CuisineDomain
 import com.example.recipes.domain.entities.PreviewDomain
 import com.example.recipes.presentation.ImageDownloader
 
-class PreviewAdapter<T>(
+class ClickableItemAdapter<T>(
     private val items: List<T>,
     private val onItemClicked: (position: Int) -> Unit
-) : RecyclerView.Adapter<PreviewAdapter.ItemViewHolder>() {
+) : RecyclerView.Adapter<ClickableItemAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(
         itemView: View,

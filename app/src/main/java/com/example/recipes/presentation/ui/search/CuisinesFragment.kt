@@ -6,7 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipes.R
 import com.example.recipes.domain.entities.CuisineDomain
-import com.example.recipes.presentation.adapters.PreviewAdapter
+import com.example.recipes.presentation.adapters.ClickableItemAdapter
 import com.example.recipes.presentation.ui.GridListFragment
 import com.example.recipes.presentation.ui.cuisinesInteractor
 import com.example.recipes.presentation.viewmodels.BaseViewModel
@@ -26,7 +26,7 @@ class CuisinesFragment : GridListFragment<CuisineDomain>() {
         recyclerView.layoutManager = layoutManager
 
         viewModel.itemDomainList.observe(viewLifecycleOwner) {
-            adapter = PreviewAdapter(it) { position ->
+            adapter = ClickableItemAdapter(it) { position ->
                 val endpoint = "a=${it[position].name}"
                 onListItemClick(PreviewsFragment.newInstance(endpoint))
             }

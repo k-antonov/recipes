@@ -5,10 +5,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.recipes.R
 import com.example.recipes.domain.entities.DetailDomain
+import com.example.recipes.presentation.ImageDownloader
+import com.example.recipes.presentation.adapters.IngredientsAdapter
 import com.example.recipes.presentation.ui.detailsInteractor
 import com.example.recipes.presentation.viewmodels.BaseViewModel
 import com.example.recipes.presentation.viewmodels.details.DetailsViewModelFactory
@@ -40,8 +46,29 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val image = view.findViewById<ImageView>(R.id.details_image)
+        val name = view.findViewById<TextView>(R.id.details_name)
+        val category = view.findViewById<TextView>(R.id.details_category)
+        val cuisine = view.findViewById<TextView>(R.id.details_cuisine)
+
+        val ingredientsRecyclerView = view.findViewById<RecyclerView>(R.id.details_ingredients_recyclerview)
+        ingredientsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        val instructions = view.findViewById<TextView>(R.id.details_instructions)
+
         viewModel.itemDomainList.observe(viewLifecycleOwner) {
-            Log.d("DetailsFragment", "observing $it")
+            // нужно как-то переписать маппер
+            with(it[0]) {
+                ImageDownloader.load(image, imageUrl)
+                name.text = this.name
+                category.text = nameCategory
+                cuisine.text = nameCuisine
+
+                val adapter = IngredientsAdapter(ingredients, measures)
+                ingredientsRecyclerView.adapter = adapter
+
+                instructions.text = strInstructions
+            }
         }
     }
 

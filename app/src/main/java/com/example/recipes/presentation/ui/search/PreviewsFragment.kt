@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipes.R
 import com.example.recipes.domain.entities.PreviewDomain
-import com.example.recipes.presentation.adapters.PreviewAdapter
+import com.example.recipes.presentation.adapters.ClickableItemAdapter
 import com.example.recipes.presentation.ui.BaseListFragment
 import com.example.recipes.presentation.ui.previewsInteractor
 import com.example.recipes.presentation.viewmodels.BaseViewModel
@@ -41,7 +41,7 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.preview_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewModel.itemDomainList.observe(viewLifecycleOwner) {
-            adapter = PreviewAdapter(it) { position ->
+            adapter = ClickableItemAdapter(it) { position ->
                 val endpoint = it[position].id
                 onListItemClick(DetailsFragment.newInstance(endpoint))
             }
