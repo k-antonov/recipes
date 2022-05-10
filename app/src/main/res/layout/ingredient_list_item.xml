@@ -6,19 +6,14 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/ingredient_name"
+        android:id="@+id/ingredient_name_and_measure"
+        style="@style/TextAppearance.AppCompat.Headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="@dimen/small_margin"
+        android:textSize="@dimen/secondary_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Olives: " />
-
-    <TextView
-        android:id="@+id/ingredient_measure"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/ingredient_name"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="100g" />
+        tools:text="Beef, 1kg " />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

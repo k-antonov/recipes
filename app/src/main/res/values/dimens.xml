@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="title">24sp</dimen>
+    <dimen name="detail_title">32sp</dimen>
     <dimen name="small_margin">8dp</dimen>
     <dimen name="medium_padding">16dp</dimen>
     <dimen name="upper_medium_padding">20dp</dimen>
@@ -8,4 +9,7 @@
     <dimen name="details_image">320dp</dimen>
     <dimen name="secondary_text">20sp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="progress_bar">80dp</dimen>
+    <dimen name="line_spacing">4sp</dimen>
+    <dimen name="long_text">16sp</dimen>
 </resources>

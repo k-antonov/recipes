@@ -12,8 +12,9 @@
 
     <ProgressBar
         android:id="@+id/cuisines_progress_bar"
-        android:layout_width="@dimen/recipe_card"
-        android:layout_height="@dimen/recipe_card"
-        android:layout_gravity="center" />
+        android:layout_width="@dimen/progress_bar"
+        android:layout_height="@dimen/progress_bar"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/yellow_orange" />
 
 </FrameLayout>

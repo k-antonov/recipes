@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.ui.search.DetailsFragment">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <ProgressBar
+        android:id="@+id/details_progress_bar"
+        android:layout_width="@dimen/progress_bar"
+        android:layout_height="@dimen/progress_bar"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/yellow_orange"
+        android:visibility="gone" />
 
-        <ProgressBar
-            android:id="@+id/details_progress_bar"
-            android:layout_width="@dimen/recipe_card"
-            android:layout_height="@dimen/recipe_card"
-            android:layout_gravity="center" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/details_constraint_layout"
@@ -38,48 +41,40 @@
                 android:paddingStart="@dimen/upper_medium_padding"
                 android:paddingTop="@dimen/upper_medium_padding"
                 android:paddingEnd="@dimen/upper_medium_padding"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textSize="@dimen/detail_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/details_image"
-                tools:text="Some not very long recipe title. Crispy bacon with cheese" />
+                tools:text="Beef and Mustard Pie" />
 
             <TextView
-                android:id="@+id/details_category"
+                android:id="@+id/details_category_and_cuisine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/upper_medium_padding"
                 android:paddingTop="@dimen/small_margin"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/details_name"
-                tools:text="Breakfast" />
-
-            <TextView
-                android:id="@+id/details_cuisine"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="8dp"
-                android:paddingTop="@dimen/small_margin"
-                android:paddingEnd="@dimen/upper_medium_padding"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                app:layout_constraintStart_toEndOf="@id/details_category"
-                app:layout_constraintTop_toBottomOf="@id/details_name"
-                tools:text="Mexican" />
+                tools:text="Beef, British" />
 
             <TextView
                 android:id="@+id/details_ingredients_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/upper_medium_padding"
+                android:paddingTop="@dimen/small_margin"
                 android:text="@string/ingredients"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/details_category" />
+                app:layout_constraintTop_toBottomOf="@id/details_category_and_cuisine" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/details_ingredients_recyclerview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingTop="@dimen/small_margin"
+                android:paddingStart="@dimen/upper_medium_padding"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/details_ingredients_label" />
 
@@ -87,14 +82,24 @@
                 android:id="@+id/details_instructions_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingStart="@dimen/upper_medium_padding"
+                android:paddingTop="@dimen/small_margin"
                 android:text="@string/instructions"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/details_ingredients_recyclerview" />
 
             <TextView
                 android:id="@+id/details_instructions"
+                style="@style/TextAppearance.AppCompat.Body1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:justificationMode="inter_word"
+                android:lineSpacingExtra="@dimen/line_spacing"
+                android:padding="@dimen/small_margin"
+                android:paddingStart="@dimen/upper_medium_padding"
+                android:paddingEnd="@dimen/upper_medium_padding"
+                android:textSize="@dimen/long_text"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/details_instructions_label"
                 tools:text="@tools:sample/lorem/random" />
@@ -102,8 +107,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </FrameLayout>
+    </androidx.core.widget.NestedScrollView>
 
-
-
-</androidx.core.widget.NestedScrollView>
+</FrameLayout>

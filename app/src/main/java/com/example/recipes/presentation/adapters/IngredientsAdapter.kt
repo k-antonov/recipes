@@ -14,21 +14,22 @@ class IngredientsAdapter(
 ) : RecyclerView.Adapter<IngredientsAdapter.IngredientsViewHolder>() {
 
     class IngredientsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val ingredient: TextView = view.findViewById(R.id.ingredient_name)
-        val measure: TextView = view.findViewById(R.id.ingredient_measure)
+        val ingredientAndMeasure: TextView = view.findViewById(R.id.ingredient_name_and_measure)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientsViewHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.ingredient_list_item, parent, false)
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.ingredient_list_item, parent, false)
         return IngredientsViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: IngredientsViewHolder, position: Int) {
-        with(holder) {
-            ingredient.text = ingredients[position]
-            measure.text = measures[position]
-        }
+        holder.ingredientAndMeasure.text = holder.itemView.context.getString(
+            R.string.string_comma_string_placeholder,
+            ingredients[position],
+            measures[position]
+        )
     }
 
     override fun getItemCount() = ingredients.size

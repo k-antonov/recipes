@@ -8,4 +8,5 @@
     <string name="instructions">Instructions</string>
     <string name="categories">Categories</string>
     <string name="cuisines">Cuisines</string>
+    <string name="string_comma_string_placeholder">%1$s, %2$s</string>
 </resources>

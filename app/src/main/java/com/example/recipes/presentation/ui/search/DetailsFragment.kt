@@ -52,10 +52,10 @@ class DetailsFragment : Fragment() {
         val layout = view.findViewById<ConstraintLayout>(R.id.details_constraint_layout)
         val image = view.findViewById<ImageView>(R.id.details_image)
         val name = view.findViewById<TextView>(R.id.details_name)
-        val category = view.findViewById<TextView>(R.id.details_category)
-        val cuisine = view.findViewById<TextView>(R.id.details_cuisine)
+        val category = view.findViewById<TextView>(R.id.details_category_and_cuisine)
 
-        val ingredientsRecyclerView = view.findViewById<RecyclerView>(R.id.details_ingredients_recyclerview)
+        val ingredientsRecyclerView =
+            view.findViewById<RecyclerView>(R.id.details_ingredients_recyclerview)
         ingredientsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         val instructions = view.findViewById<TextView>(R.id.details_instructions)
@@ -76,8 +76,11 @@ class DetailsFragment : Fragment() {
                     with(it.items[0]) {
                         ImageDownloader.load(image, imageUrl)
                         name.text = this.name
-                        category.text = nameCategory
-                        cuisine.text = nameCuisine
+                        category.text = getString(
+                            R.string.string_comma_string_placeholder,
+                            nameCategory,
+                            nameCuisine
+                        )
 
                         val adapter = IngredientsAdapter(ingredients, measures)
                         ingredientsRecyclerView.adapter = adapter
