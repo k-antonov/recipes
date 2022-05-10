@@ -7,21 +7,14 @@ import com.example.recipes.presentation.viewmodels.BaseViewModel
 
 class DetailsViewModel(
     private val detailsInteractor: DetailsInteractor,
-    private val endpoint: String
+    endpoint: String
 ) : BaseViewModel<DetailDomain>(detailsInteractor) {
 
-    override val itemDomainListFromInteractor: LiveData<Result<List<DetailDomain>>>
-        get() {
-            detailsInteractor.endpoint = endpoint
-            return detailsInteractor.execute()
-        }
+    override val liveDataFromInteractor: LiveData<Result<List<DetailDomain>>>
+        get() = detailsInteractor.execute()
 
     init {
-        itemDomainListFromInteractor.observeForever(observer)
-    }
-
-    override fun onCleared() {
-        itemDomainListFromInteractor.removeObserver(observer)
-        super.onCleared()
+        detailsInteractor.endpoint = endpoint
+        fetch()
     }
 }

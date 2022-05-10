@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,9 +45,11 @@ class DetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? = layoutInflater.inflate(layoutResId, container, false)
 
+    // todo fix DRY violation
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val layout = view.findViewById<ConstraintLayout>(R.id.details_constraint_layout)
         val image = view.findViewById<ImageView>(R.id.details_image)
         val name = view.findViewById<TextView>(R.id.details_name)
         val category = view.findViewById<TextView>(R.id.details_category)
@@ -56,20 +60,35 @@ class DetailsFragment : Fragment() {
 
         val instructions = view.findViewById<TextView>(R.id.details_instructions)
 
-        viewModel.itemDomainList.observe(viewLifecycleOwner) {
-            // нужно как-то переписать маппер
-            with(it[0]) {
-                ImageDownloader.load(image, imageUrl)
-                name.text = this.name
-                category.text = nameCategory
-                cuisine.text = nameCuisine
+        val progressBar = view.findViewById<ProgressBar>(R.id.details_progress_bar)
 
-                val adapter = IngredientsAdapter(ingredients, measures)
-                ingredientsRecyclerView.adapter = adapter
+        viewModel.uiState.observe(viewLifecycleOwner) {
+            when (it) {
+                is BaseViewModel.UiState.Loading -> {
+                    progressBar.visibility = View.VISIBLE
+                    layout.visibility = View.GONE
+                }
+                is BaseViewModel.UiState.Success -> {
+                    progressBar.visibility = View.GONE
+                    layout.visibility = View.VISIBLE
 
-                instructions.text = strInstructions
+                    // нужно как-то переписать маппер
+                    with(it.items[0]) {
+                        ImageDownloader.load(image, imageUrl)
+                        name.text = this.name
+                        category.text = nameCategory
+                        cuisine.text = nameCuisine
+
+                        val adapter = IngredientsAdapter(ingredients, measures)
+                        ingredientsRecyclerView.adapter = adapter
+
+                        instructions.text = strInstructions
+                    }
+                }
+                else -> Log.d("CategoriesFragment", "error handling")
             }
         }
+
     }
 
     companion object {

@@ -1,7 +1,9 @@
 package com.example.recipes.presentation.ui.search
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.ProgressBar
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -35,18 +37,30 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>() {
         }
     }
 
+    // todo fix DRY violation
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.preview_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        viewModel.itemDomainList.observe(viewLifecycleOwner) {
-            adapter = ClickableItemAdapter(it) { position ->
-                val endpoint = it[position].id
-                onListItemClick(DetailsFragment.newInstance(endpoint))
+
+        val progressBar = view.findViewById<ProgressBar>(R.id.preview_progress_bar)
+
+        viewModel.uiState.observe(viewLifecycleOwner) {
+            when (it) {
+                is BaseViewModel.UiState.Loading -> progressBar.visibility = View.VISIBLE
+                is BaseViewModel.UiState.Success -> {
+                    progressBar.visibility = View.GONE
+                    adapter = ClickableItemAdapter(it.items) { position ->
+                        val endpoint = it.items[position].id
+                        onListItemClick(DetailsFragment.newInstance(endpoint))
+                    }
+                    recyclerView.adapter = adapter
+                }
+                else -> Log.d("CategoriesFragment", "error handling")
             }
-            recyclerView.adapter = adapter
         }
+
     }
 
     companion object {
