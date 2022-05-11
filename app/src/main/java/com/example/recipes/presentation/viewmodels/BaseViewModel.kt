@@ -1,5 +1,6 @@
 package com.example.recipes.presentation.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -22,6 +23,7 @@ abstract class BaseViewModel<T>(private val interactor: Interactor<T>) : ViewMod
             mutableUiState.value = UiState.Success(items = it)
         }
         result?.onFailure {
+            Log.d("BaseViewModel", "throwable: $it")
             mutableUiState.value = UiState.Failure(throwable = it)
         }
 

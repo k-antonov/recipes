@@ -20,11 +20,11 @@ abstract class BaseFragment<Entity> : Fragment() {
         savedInstanceState: Bundle?
     ): View? = layoutInflater.inflate(layoutResId, container, false)
 
-    protected fun showErrorDialog() {
+    protected fun showErrorDialog(message: String?) {
         val alertDialog = requireActivity().let {
             val builder = AlertDialog.Builder(it)
             builder.apply {
-                setMessage(R.string.error)
+                setMessage(message)
                 setPositiveButton(R.string.try_again) { _, _ ->
                     viewModel.reload()
                 }

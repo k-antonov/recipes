@@ -56,9 +56,9 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>() {
                     }
                     recyclerView.adapter = adapter
                 }
-                else -> {
+                is BaseViewModel.UiState.Failure -> {
                     progressBar.visibility = View.INVISIBLE
-                    showErrorDialog()
+                    showErrorDialog(it.throwable.message)
                 }
             }
         }

@@ -80,9 +80,9 @@ class DetailsFragment : BaseFragment<DetailDomain>() {
                         instructions.text = strInstructions
                     }
                 }
-                else -> {
+                is BaseViewModel.UiState.Failure -> {
                     progressBar.visibility = View.INVISIBLE
-                    showErrorDialog()
+                    showErrorDialog(it.throwable.message)
                 }
             }
         }

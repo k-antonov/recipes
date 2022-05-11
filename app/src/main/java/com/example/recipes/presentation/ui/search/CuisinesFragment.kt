@@ -40,9 +40,9 @@ class CuisinesFragment : GridListFragment<CuisineDomain>() {
                     }
                     recyclerView.adapter = adapter
                 }
-                else -> {
+                is BaseViewModel.UiState.Failure -> {
                     progressBar.visibility = View.INVISIBLE
-                    showErrorDialog()
+                    showErrorDialog(it.throwable.message)
                 }
             }
         }
