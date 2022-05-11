@@ -28,6 +28,7 @@ abstract class BaseCloudRequester<T> {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     Log.d(TAG, "onFailure: ${e.stackTraceToString()}")
+                    mutableEntitiesCloud.postValue(Result.failure(Exception("Network Error")))
                 }
 
                 override fun onResponse(call: Call, response: Response) {

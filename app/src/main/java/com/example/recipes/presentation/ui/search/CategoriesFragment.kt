@@ -1,7 +1,6 @@
 package com.example.recipes.presentation.ui.search
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import androidx.fragment.app.viewModels
@@ -42,7 +41,10 @@ class CategoriesFragment : GridListFragment<CategoryDomain>() {
                     }
                     recyclerView.adapter = adapter
                 }
-                else -> Log.d("CategoriesFragment", "error handling")
+                else -> {
+                    progressBar.visibility = View.INVISIBLE
+                    showErrorDialog()
+                }
             }
         }
 

@@ -1,15 +1,11 @@
 package com.example.recipes.presentation.ui.search
 
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,21 +13,22 @@ import com.example.recipes.R
 import com.example.recipes.domain.entities.DetailDomain
 import com.example.recipes.presentation.ImageDownloader
 import com.example.recipes.presentation.adapters.IngredientsAdapter
+import com.example.recipes.presentation.ui.BaseFragment
 import com.example.recipes.presentation.ui.detailsInteractor
 import com.example.recipes.presentation.viewmodels.BaseViewModel
 import com.example.recipes.presentation.viewmodels.details.DetailsViewModelFactory
 
 private const val ARG_ENDPOINT = "endpoint"
 
-class DetailsFragment : Fragment() {
+class DetailsFragment : BaseFragment<DetailDomain>() {
 
     private lateinit var endpoint: String
 
-    val viewModel: BaseViewModel<DetailDomain> by viewModels {
+    override val viewModel: BaseViewModel<DetailDomain> by viewModels {
         DetailsViewModelFactory(detailsInteractor, endpoint)
     }
 
-    private val layoutResId = R.layout.fragment_details
+    override val layoutResId = R.layout.fragment_details
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,11 +36,6 @@ class DetailsFragment : Fragment() {
             endpoint = it.getString(ARG_ENDPOINT).toString()
         }
     }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = layoutInflater.inflate(layoutResId, container, false)
 
     // todo fix DRY violation
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -88,7 +80,10 @@ class DetailsFragment : Fragment() {
                         instructions.text = strInstructions
                     }
                 }
-                else -> Log.d("CategoriesFragment", "error handling")
+                else -> {
+                    progressBar.visibility = View.INVISIBLE
+                    showErrorDialog()
+                }
             }
         }
 

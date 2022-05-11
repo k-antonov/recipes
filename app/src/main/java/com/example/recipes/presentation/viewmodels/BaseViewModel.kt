@@ -8,6 +8,8 @@ import com.example.recipes.domain.interactors.Interactor
 
 abstract class BaseViewModel<T>(private val interactor: Interactor<T>) : ViewModel() {
 
+    protected val reloadTrigger = MutableLiveData<Boolean>()
+
     protected abstract val liveDataFromInteractor: LiveData<Result<List<T>>>
 
     private val mutableUiState = MutableLiveData<UiState<T>>()
@@ -26,8 +28,13 @@ abstract class BaseViewModel<T>(private val interactor: Interactor<T>) : ViewMod
     }
 
     protected open fun fetch() {
+        reload()
         mutableUiState.value = UiState.Loading()
         liveDataFromInteractor.observeForever(observer)
+    }
+
+    fun reload() {
+        reloadTrigger.value = true
     }
 
     override fun onCleared() {
