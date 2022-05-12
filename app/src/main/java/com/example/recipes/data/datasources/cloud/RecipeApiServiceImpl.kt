@@ -7,6 +7,7 @@ import com.example.recipes.data.datasources.cloud.requesters.*
 
 class RecipeApiServiceImpl : RecipeApiService {
 
+    // как тут избавиться от повторяющегося кода?
     override fun getCategoriesCloud(): LiveData<Result<CategoriesCloud>> {
         val requester = CategoriesCloudRequester()
         return requester.execute(client)
