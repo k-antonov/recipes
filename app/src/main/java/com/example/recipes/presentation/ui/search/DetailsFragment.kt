@@ -2,6 +2,7 @@ package com.example.recipes.presentation.ui.search
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -49,7 +50,6 @@ class DetailsFragment : BaseFragment<DetailDomain>() {
         val ingredientsRecyclerView =
             view.findViewById<RecyclerView>(R.id.details_ingredients_recyclerview)
         ingredientsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        ingredientsRecyclerView.isNestedScrollingEnabled = false
 
         val adapter = IngredientsAdapter()
         ingredientsRecyclerView.adapter = adapter
@@ -58,10 +58,16 @@ class DetailsFragment : BaseFragment<DetailDomain>() {
 
         val progressBar = view.findViewById<ProgressBar>(R.id.details_progress_bar)
 
+        val reconnectButton = view.findViewById<Button>(R.id.details_reconnect_button)
+        reconnectButton.setOnClickListener {
+            viewModel.reload()
+        }
+
         viewModel.uiState.observe(viewLifecycleOwner) {
             when (it) {
                 is BaseViewModel.UiState.Loading -> {
                     progressBar.visibility = View.VISIBLE
+                    reconnectButton.visibility = View.GONE
                     layout.visibility = View.GONE
                 }
                 is BaseViewModel.UiState.Success -> {
@@ -84,7 +90,7 @@ class DetailsFragment : BaseFragment<DetailDomain>() {
                 }
                 is BaseViewModel.UiState.Failure -> {
                     progressBar.visibility = View.INVISIBLE
-                    showErrorDialog(it.throwable.message)
+                    showErrorDialog(it.throwable.message, reconnectButton)
                 }
             }
         }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.example.recipes.R
 import com.example.recipes.presentation.viewmodels.BaseViewModel
@@ -20,18 +21,24 @@ abstract class BaseFragment<Entity> : Fragment() {
         savedInstanceState: Bundle?
     ): View? = layoutInflater.inflate(layoutResId, container, false)
 
-    protected fun showErrorDialog(message: String?) {
+    protected fun showErrorDialog(message: String?, view: View) {
         val alertDialog = requireActivity().let {
             val builder = AlertDialog.Builder(it)
             builder.apply {
                 setMessage(message)
                 setPositiveButton(R.string.try_again) { _, _ ->
+                    view.visibility = View.GONE
                     viewModel.reload()
+                }
+                setOnDismissListener {
+                    view.visibility = View.VISIBLE
                 }
             }
             builder.create()
         }
         alertDialog.show()
     }
+
+
 
 }

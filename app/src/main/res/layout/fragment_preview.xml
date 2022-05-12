@@ -17,4 +17,14 @@
         android:layout_gravity="center"
         android:indeterminateTint="@color/yellow_orange" />
 
+    <Button
+        android:id="@+id/preview_reconnect_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/yellow_orange"
+        android:textColor="@color/black"
+        android:text="@string/reconnect"
+        android:visibility="gone" />
+
 </FrameLayout>

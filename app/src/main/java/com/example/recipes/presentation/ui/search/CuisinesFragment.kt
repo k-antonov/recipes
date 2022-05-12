@@ -2,6 +2,7 @@ package com.example.recipes.presentation.ui.search
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.ProgressBar
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
@@ -32,9 +33,17 @@ class CuisinesFragment : GridListFragment<CuisineDomain>() {
 
         val progressBar = view.findViewById<ProgressBar>(R.id.cuisines_progress_bar)
 
+        val reconnectButton = view.findViewById<Button>(R.id.cuisines_reconnect_button)
+        reconnectButton.setOnClickListener {
+            viewModel.reload()
+        }
+
         viewModel.uiState.observe(viewLifecycleOwner) {
             when (it) {
-                is BaseViewModel.UiState.Loading -> progressBar.visibility = View.VISIBLE
+                is BaseViewModel.UiState.Loading -> {
+                    progressBar.visibility = View.VISIBLE
+                    reconnectButton.visibility = View.GONE
+                }
                 is BaseViewModel.UiState.Success -> {
                     progressBar.visibility = View.GONE
 
@@ -47,7 +56,7 @@ class CuisinesFragment : GridListFragment<CuisineDomain>() {
                 }
                 is BaseViewModel.UiState.Failure -> {
                     progressBar.visibility = View.INVISIBLE
-                    showErrorDialog(it.throwable.message)
+                    showErrorDialog(it.throwable.message, reconnectButton)
                 }
             }
         }

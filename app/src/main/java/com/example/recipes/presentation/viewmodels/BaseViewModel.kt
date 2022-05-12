@@ -31,11 +31,11 @@ abstract class BaseViewModel<T>(private val interactor: Interactor<T>) : ViewMod
 
     protected open fun fetch() {
         reload()
-        mutableUiState.value = UiState.Loading()
         liveDataFromInteractor.observeForever(observer)
     }
 
     fun reload() {
+        mutableUiState.value = UiState.Loading()
         reloadTrigger.value = true
     }
 

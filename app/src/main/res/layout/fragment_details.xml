@@ -14,6 +14,16 @@
         android:indeterminateTint="@color/yellow_orange"
         android:visibility="gone" />
 
+    <Button
+        android:id="@+id/details_reconnect_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/yellow_orange"
+        android:text="@string/reconnect"
+        android:textColor="@color/black"
+        android:visibility="gone" />
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -73,8 +83,9 @@
                 android:id="@+id/details_ingredients_recyclerview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/small_margin"
+                android:overScrollMode="never"
                 android:paddingStart="@dimen/upper_medium_padding"
+                android:paddingTop="@dimen/small_margin"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/details_ingredients_label" />
 
