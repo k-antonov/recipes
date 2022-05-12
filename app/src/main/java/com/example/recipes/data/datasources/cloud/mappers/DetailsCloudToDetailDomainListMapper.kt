@@ -10,26 +10,13 @@ class DetailsCloudToDetailDomainListMapper : BaseMapper<DetailsCloud, DetailClou
     }
 
     override fun mapEntity(from: DetailCloud): DetailDomain {
-
-//        for (field in from.javaClass.declaredFields) {
-//            if (field != null) {
-//                val name = field.name
-//                Log.d("Mapper", "name=$name")
-//                if (name == "strIngredient1") {
-//                    ingredients.add()
-//                }
-//            }
-//        }
-
-        // есть ли более изящный способ создания списка по названиям полей?
         val ingredients = mutableListOf(
             from.strIngredient1, from.strIngredient2, from.strIngredient3, from.strIngredient4,
             from.strIngredient5, from.strIngredient6, from.strIngredient7, from.strIngredient8,
             from.strIngredient9, from.strIngredient10, from.strIngredient11, from.strIngredient12,
             from.strIngredient13, from.strIngredient14, from.strIngredient15, from.strIngredient16,
             from.strIngredient17, from.strIngredient18, from.strIngredient19, from.strIngredient20
-        )
-        ingredients.removeAll { it == null || it.isBlank()}
+        ).filterNotNull().filter { it.isNotBlank() }
 
         val measures = mutableListOf(
             from.strMeasure1, from.strMeasure2, from.strMeasure3, from.strMeasure4,
@@ -37,8 +24,7 @@ class DetailsCloudToDetailDomainListMapper : BaseMapper<DetailsCloud, DetailClou
             from.strMeasure9, from.strMeasure10, from.strMeasure11, from.strMeasure12,
             from.strMeasure13, from.strMeasure14, from.strMeasure15, from.strMeasure16,
             from.strMeasure17, from.strMeasure18, from.strMeasure19, from.strMeasure20,
-        )
-        measures.removeAll { it == null || it.isBlank() }
+        ).filterNotNull().filter { it.isNotBlank() }
 
         return DetailDomain(
             id = from.id,
@@ -47,8 +33,8 @@ class DetailsCloudToDetailDomainListMapper : BaseMapper<DetailsCloud, DetailClou
             nameCuisine = from.nameCuisine,
             strInstructions = from.strInstructions,
             imageUrl = from.imageUrl,
-            ingredients = ingredients as List<String>,
-            measures = measures as List<String>
+            ingredients = ingredients,
+            measures = measures
         )
     }
 }
