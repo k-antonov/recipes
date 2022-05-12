@@ -14,23 +14,24 @@ import com.example.recipes.domain.repositories.RecipeRepository
 
 class RecipeRepositoryImpl(private val recipeApiService: RecipeApiService) : RecipeRepository {
 
+    private val categoryMapper: CategoriesCloudToCategoryDomainListMapper by lazy { CategoriesCloudToCategoryDomainListMapper() }
+    private val cuisineMapper: CuisinesCloudToCuisineDomainListMapper by lazy { CuisinesCloudToCuisineDomainListMapper() }
+    private val previewMapper: PreviewsCloudToPreviewDomainListMapper by lazy { PreviewsCloudToPreviewDomainListMapper() }
+    private val detailMapper: DetailsCloudToDetailDomainListMapper by lazy { DetailsCloudToDetailDomainListMapper() }
+
     override fun getCategoryDomainList() : LiveData<Result<List<CategoryDomain>>> {
-        val mapper = CategoriesCloudToCategoryDomainListMapper()
-        return mapper.mapLiveData(recipeApiService.getCategoriesCloud())
+        return categoryMapper.mapLiveData(recipeApiService.getCategoriesCloud())
     }
 
     override fun getCuisineDomainList(): LiveData<Result<List<CuisineDomain>>> {
-        val mapper = CuisinesCloudToCuisineDomainListMapper()
-        return mapper.mapLiveData(recipeApiService.getCuisinesCloud())
+        return cuisineMapper.mapLiveData(recipeApiService.getCuisinesCloud())
     }
 
     override fun getPreviewDomainList(endpoint: String): LiveData<Result<List<PreviewDomain>>> {
-        val mapper = PreviewsCloudToPreviewDomainListMapper()
-        return mapper.mapLiveData(recipeApiService.getPreviewsCloud(endpoint))
+        return previewMapper.mapLiveData(recipeApiService.getPreviewsCloud(endpoint))
     }
 
     override fun getDetailDomainList(endpoint: String): LiveData<Result<List<DetailDomain>>> {
-        val mapper = DetailsCloudToDetailDomainListMapper()
-        return mapper.mapLiveData(recipeApiService.getDetailsCloud(endpoint))
+        return detailMapper.mapLiveData(recipeApiService.getDetailsCloud(endpoint))
     }
 }
