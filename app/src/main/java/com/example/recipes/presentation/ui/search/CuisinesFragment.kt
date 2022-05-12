@@ -27,6 +27,9 @@ class CuisinesFragment : GridListFragment<CuisineDomain>() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.cuisines_recycler_view)
         recyclerView.layoutManager = layoutManager
 
+        adapter = ClickableItemAdapter()
+        recyclerView.adapter = adapter
+
         val progressBar = view.findViewById<ProgressBar>(R.id.cuisines_progress_bar)
 
         viewModel.uiState.observe(viewLifecycleOwner) {
@@ -34,11 +37,13 @@ class CuisinesFragment : GridListFragment<CuisineDomain>() {
                 is BaseViewModel.UiState.Loading -> progressBar.visibility = View.VISIBLE
                 is BaseViewModel.UiState.Success -> {
                     progressBar.visibility = View.GONE
-                    adapter = ClickableItemAdapter(it.items) { position ->
+
+                    adapter.onItemClicked = { position ->
                         val endpoint = "a=${it.items[position].name}"
                         onListItemClick(PreviewsFragment.newInstance(endpoint))
                     }
-                    recyclerView.adapter = adapter
+                    adapter.reload(it.items)
+
                 }
                 is BaseViewModel.UiState.Failure -> {
                     progressBar.visibility = View.INVISIBLE

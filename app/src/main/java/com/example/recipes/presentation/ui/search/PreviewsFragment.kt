@@ -43,6 +43,9 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.preview_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
+        adapter = ClickableItemAdapter()
+        recyclerView.adapter = adapter
+
         val progressBar = view.findViewById<ProgressBar>(R.id.preview_progress_bar)
 
         viewModel.uiState.observe(viewLifecycleOwner) {
@@ -50,11 +53,13 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>() {
                 is BaseViewModel.UiState.Loading -> progressBar.visibility = View.VISIBLE
                 is BaseViewModel.UiState.Success -> {
                     progressBar.visibility = View.GONE
-                    adapter = ClickableItemAdapter(it.items) { position ->
+
+                    adapter.onItemClicked = { position ->
                         val endpoint = it.items[position].id
                         onListItemClick(DetailsFragment.newInstance(endpoint))
                     }
-                    recyclerView.adapter = adapter
+                    adapter.reload(it.items)
+
                 }
                 is BaseViewModel.UiState.Failure -> {
                     progressBar.visibility = View.INVISIBLE

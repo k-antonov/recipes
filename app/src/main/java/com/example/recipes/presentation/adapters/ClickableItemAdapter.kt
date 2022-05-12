@@ -12,10 +12,11 @@ import com.example.recipes.domain.entities.CuisineDomain
 import com.example.recipes.domain.entities.PreviewDomain
 import com.example.recipes.presentation.ImageDownloader
 
-class ClickableItemAdapter<T>(
-    private val items: List<T>,
-    private val onItemClicked: (position: Int) -> Unit
-) : RecyclerView.Adapter<ClickableItemAdapter.ItemViewHolder>() {
+class ClickableItemAdapter<T> : RecyclerView.Adapter<ClickableItemAdapter.ItemViewHolder>() {
+
+    private var items = listOf<T>()
+
+    var onItemClicked: (position: Int) -> Unit = {}
 
     class ItemViewHolder(
         itemView: View,
@@ -59,4 +60,10 @@ class ClickableItemAdapter<T>(
     }
 
     override fun getItemCount() = items.size
+
+    // todo заменить на DiffUtils
+    fun reload(newList: List<T>) {
+        items = newList
+        notifyDataSetChanged()
+    }
 }

@@ -49,6 +49,10 @@ class DetailsFragment : BaseFragment<DetailDomain>() {
         val ingredientsRecyclerView =
             view.findViewById<RecyclerView>(R.id.details_ingredients_recyclerview)
         ingredientsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        ingredientsRecyclerView.isNestedScrollingEnabled = false
+
+        val adapter = IngredientsAdapter()
+        ingredientsRecyclerView.adapter = adapter
 
         val instructions = view.findViewById<TextView>(R.id.details_instructions)
 
@@ -73,11 +77,9 @@ class DetailsFragment : BaseFragment<DetailDomain>() {
                             nameCategory,
                             nameCuisine
                         )
-
-                        val adapter = IngredientsAdapter(ingredients, measures)
-                        ingredientsRecyclerView.adapter = adapter
-
                         instructions.text = strInstructions
+
+                        adapter.reload(ingredients, measures)
                     }
                 }
                 is BaseViewModel.UiState.Failure -> {
