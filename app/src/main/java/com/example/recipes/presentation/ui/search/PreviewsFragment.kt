@@ -64,7 +64,7 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>() {
                     progressBar.visibility = View.GONE
 
                     adapter.onItemClicked = { position ->
-                        val endpoint = it.items[position].id
+                        val endpoint = it.items[position].id.toString()
                         onListItemClick(DetailsFragment.newInstance(endpoint))
                     }
                     adapter.reload(it.items)

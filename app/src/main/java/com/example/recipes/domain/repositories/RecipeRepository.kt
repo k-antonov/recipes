@@ -1,9 +1,10 @@
 package com.example.recipes.domain.repositories
 
 import androidx.lifecycle.LiveData
-import com.example.recipes.data.datasources.cloud.entities.CategoriesCloud
-import com.example.recipes.data.datasources.cloud.entities.CategoryCloud
-import com.example.recipes.domain.entities.*
+import com.example.recipes.domain.entities.CategoryDomain
+import com.example.recipes.domain.entities.CuisineDomain
+import com.example.recipes.domain.entities.DetailDomain
+import com.example.recipes.domain.entities.PreviewDomain
 
 interface RecipeRepository {
 
@@ -14,4 +15,6 @@ interface RecipeRepository {
     fun getPreviewDomainList(endpoint: String): LiveData<Result<List<PreviewDomain>>>
 
     fun getDetailDomainList(endpoint: String): LiveData<Result<List<DetailDomain>>>
+
+    fun getLocalPreviewDomainList(): LiveData<Result<List<PreviewDomain>>>
 }

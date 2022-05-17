@@ -15,7 +15,8 @@
         android:layout_width="@dimen/progress_bar"
         android:layout_height="@dimen/progress_bar"
         android:layout_gravity="center"
-        android:indeterminateTint="@color/yellow_orange" />
+        android:indeterminateTint="@color/yellow_orange"
+        android:visibility="invisible"/>
 
     <Button
         android:id="@+id/cuisines_reconnect_button"

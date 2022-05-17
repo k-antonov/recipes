@@ -12,7 +12,7 @@ class PreviewsCloudToPreviewDomainListMapper :
 
     override fun mapEntity(from: PreviewCloud) =
         PreviewDomain(
-            id = from.id,
+            id = from.id.toLong(),
             name = from.name,
             imageUrl = from.imageUrl
         )

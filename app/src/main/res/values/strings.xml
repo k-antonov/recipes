@@ -12,4 +12,5 @@
     <string name="try_again">Try Again</string>
     <string name="error">Error</string>
     <string name="reconnect">Reconnect</string>
+    <string name="clear_cache">Clear cache</string>
 </resources>
