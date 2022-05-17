@@ -17,4 +17,6 @@ interface RecipeRepository {
     fun getDetailDomainList(endpoint: String): LiveData<Result<List<DetailDomain>>>
 
     fun getLocalPreviewDomainList(): LiveData<Result<List<PreviewDomain>>>
+
+    fun clearCache()
 }

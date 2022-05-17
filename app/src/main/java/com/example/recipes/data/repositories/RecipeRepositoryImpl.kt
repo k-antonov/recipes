@@ -47,26 +47,28 @@ class RecipeRepositoryImpl(
     override fun getDetailDomainList(endpoint: String): LiveData<Result<List<DetailDomain>>> {
         val detailDomain = detailMapper.mapLiveData(recipeApiService.getDetailsCloud(endpoint))
 
-        Log.d("Repository", "before onSuccess")
-
         detailDomain.observeForever { result ->
             result.onSuccess {
                 Log.d("Repository", "inside onSuccess")
                 val value = it[0]
 
-                val categoryId = localDataSource.getCategoryDao().insert(
-                    CategoryDb(
-                        name = value.nameCategory
+                var categoryId = localDataSource.getCategoryDao().getIdByName(value.nameCategory)
+                if (categoryId == 0L) {
+                    categoryId = localDataSource.getCategoryDao().insert(
+                        CategoryDb(
+                            name = value.nameCategory
+                        )
                     )
-                )
+                }
 
-                Log.d("Repository", "categoryId=$categoryId")
-
-                val cuisineId = localDataSource.getCuisineDao().insert(
-                    CuisineDb(
-                        name = value.nameCuisine
+                var cuisineId = localDataSource.getCuisineDao().getIdByName(value.nameCuisine)
+                if (cuisineId == 0L) {
+                    cuisineId = localDataSource.getCuisineDao().insert(
+                        CuisineDb(
+                            name = value.nameCuisine
+                        )
                     )
-                )
+                }
 
                 localDataSource.getRecipeDao().insert(
                     RecipeDb(
@@ -78,9 +80,6 @@ class RecipeRepositoryImpl(
                         imageUrl = value.imageUrl
                     )
                 )
-
-                val list = localDataSource.getRecipeDao().getAll()
-                Log.d("Repository", "$list")
             }
         }
 
@@ -94,5 +93,9 @@ class RecipeRepositoryImpl(
             Result.success(it)
         }
         return liveDataResult
+    }
+
+    override fun clearCache() {
+        localDataSource.clearAllTables()
     }
 }

@@ -1,9 +1,28 @@
 package com.example.recipes.data.datasources.local
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "recipes")
+@Entity(
+    tableName = "recipes",
+    foreignKeys = [
+        ForeignKey(
+            entity = CategoryDb::class,
+            parentColumns = ["id"],
+            childColumns = ["categoryId"],
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = CuisineDb::class,
+            parentColumns = ["id"],
+            childColumns = ["cuisineId"],
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE
+        )
+    ]
+)
 data class RecipeDb(
     @PrimaryKey(autoGenerate = false) val id: Long,
     val name: String,

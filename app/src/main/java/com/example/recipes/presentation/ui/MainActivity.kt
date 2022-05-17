@@ -26,6 +26,7 @@ val previewsInteractor = PreviewsInteractor(recipeRepository)
 val detailsInteractor = DetailsInteractor(recipeRepository)
 
 val localPreviewsInteractor = LocalPreviewsInteractor(recipeRepository)
+val settingsInteractor = SettingsInteractor(recipeRepository)
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

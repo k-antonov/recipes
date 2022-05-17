@@ -10,7 +10,7 @@ import com.example.recipes.R
 import com.example.recipes.domain.entities.CategoryDomain
 import com.example.recipes.domain.entities.CuisineDomain
 import com.example.recipes.domain.entities.PreviewDomain
-import com.example.recipes.presentation.ImageDownloader
+import com.example.recipes.presentation.utils.ImageDownloader
 
 class ClickableItemAdapter<T> : RecyclerView.Adapter<ClickableItemAdapter.ItemViewHolder>() {
 

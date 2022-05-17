@@ -24,4 +24,8 @@ class LocalDataSource(context: Context) {
     fun getRecipeDao(): RecipeDao {
         return database.getRecipeDao()
     }
+
+    fun clearAllTables() {
+        return database.clearAllTables()
+    }
 }

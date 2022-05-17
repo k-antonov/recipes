@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipes.R
 import com.example.recipes.domain.entities.DetailDomain
-import com.example.recipes.presentation.ImageDownloader
+import com.example.recipes.presentation.utils.ImageDownloader
 import com.example.recipes.presentation.adapters.IngredientsAdapter
 import com.example.recipes.presentation.ui.BaseFragment
 import com.example.recipes.presentation.ui.detailsInteractor
