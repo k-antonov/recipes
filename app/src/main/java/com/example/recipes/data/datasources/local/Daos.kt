@@ -7,14 +7,19 @@ import com.example.recipes.domain.entities.PreviewDomain
 @Dao
 interface RecipeDao {
 
+    @Query("SELECT COUNT(1) FROM recipes WHERE id = :id")
+    fun isRecordExist(id: Long): Int
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(recipeDb: RecipeDb)
 
-    @Query("SELECT * FROM recipes")
-    fun getAll(): List<RecipeDb>
-
     @Query("SELECT id, name, imageUrl FROM recipes")
     fun getPreviews(): LiveData<List<PreviewDomain>>
+
+    @Transaction
+    @Query("SELECT * FROM recipes")
+    fun getDetails(): List<RecipeWithCategoryAndCuisineRelation>
+
 }
 
 @Dao
@@ -55,14 +60,20 @@ interface CuisineDao {
 interface IngredientDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(ingredientDb: IngredientDb)
+    fun insert(ingredientDb: IngredientDb): Long
+
+    @Query("SELECT id FROM ingredients WHERE name = :name")
+    fun getIdByName(name: String): Long
 }
 
 @Dao
 interface MeasureDao{
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(measureDb: MeasureDb)
+    fun insert(measureDb: MeasureDb): Long
+
+    @Query("SELECT id FROM measures WHERE name = :name")
+    fun getIdByName(name: String): Long
 }
 
 

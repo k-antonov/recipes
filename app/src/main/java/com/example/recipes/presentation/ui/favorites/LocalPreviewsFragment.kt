@@ -1,6 +1,7 @@
 package com.example.recipes.presentation.ui.favorites
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.recipes.MyApplication.Companion.localDataSource
 import com.example.recipes.R
 import com.example.recipes.domain.entities.PreviewDomain
 import com.example.recipes.presentation.adapters.ClickableItemAdapter
@@ -43,6 +45,12 @@ class LocalPreviewsFragment : Fragment() {
                 }
                 is BaseViewModel.UiState.Success -> {
                     adapter.reload(it.items)
+
+                    val list = localDataSource.getRecipeDao().getDetails()
+                    for (row in list) {
+                        Log.d("RecipeRepository", "${row.recipe.name}: ${row.category.name}, ${row.cuisine.name}")
+                    }
+
                 }
                 is BaseViewModel.UiState.Failure -> {
                 }

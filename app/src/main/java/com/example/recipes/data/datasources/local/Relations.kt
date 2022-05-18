@@ -6,40 +6,57 @@ import androidx.room.Relation
 data class RecipeWithCategoryAndCuisineRelation(
     @Embedded val recipe: RecipeDb,
     @Relation(
-        parentColumn = "id",
-        entityColumn = "categoryId",
+        parentColumn = "categoryId",
+        entityColumn = "id",
         entity = CategoryDb::class
     )
     val category: CategoryDb,
     @Relation(
-        parentColumn = "id",
-        entityColumn = "cuisineId",
+        parentColumn = "cuisineId",
+        entityColumn = "id",
         entity = CuisineDb::class
     )
     val cuisine: CuisineDb
 )
 
-data class RecipeWithIngredientAndMeasureRelation(
+data class AllDatabaseRelation(
     @Embedded val recipesToIngredientsAndMeasures: RecipesToIngredientsAndMeasures,
     @Relation(
-        parentColumn = "id",
-        entityColumn = "ingredientId",
+        parentColumn = "ingredientId",
+        entityColumn = "id",
         entity = IngredientDb::class
     )
     val ingredient: IngredientDb,
     @Relation(
-        parentColumn = "id",
-        entityColumn = "measureId",
+        parentColumn = "measureId",
+        entityColumn = "id",
         entity = MeasureDb::class
     )
     val measure: MeasureDb,
-    @Relation(
-        parentColumn = "id",
-        entityColumn = "recipeId",
-        entity = RecipeDb::class
-    )
-    val recipe: RecipeDb
+    val recipeWithCategoryAndCuisineRelation: RecipeWithCategoryAndCuisineRelation
 )
+
+//data class RecipeWithIngredientAndMeasureRelation(
+//    @Embedded val recipesToIngredientsAndMeasures: RecipesToIngredientsAndMeasures,
+//    @Relation(
+//        parentColumn = "id",
+//        entityColumn = "ingredientId",
+//        entity = IngredientDb::class
+//    )
+//    val ingredient: IngredientDb,
+//    @Relation(
+//        parentColumn = "id",
+//        entityColumn = "measureId",
+//        entity = MeasureDb::class
+//    )
+//    val measure: MeasureDb,
+//    @Relation(
+//        parentColumn = "id",
+//        entityColumn = "recipeId",
+//        entity = RecipeDb::class
+//    )
+//    val recipe: RecipeDb
+//)
 
 
 //data class CategoryWithRecipes(

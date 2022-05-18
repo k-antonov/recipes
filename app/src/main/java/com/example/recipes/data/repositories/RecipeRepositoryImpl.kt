@@ -8,10 +8,7 @@ import com.example.recipes.data.datasources.cloud.mappers.CategoriesCloudToCateg
 import com.example.recipes.data.datasources.cloud.mappers.CuisinesCloudToCuisineDomainListMapper
 import com.example.recipes.data.datasources.cloud.mappers.DetailsCloudToDetailDomainListMapper
 import com.example.recipes.data.datasources.cloud.mappers.PreviewsCloudToPreviewDomainListMapper
-import com.example.recipes.data.datasources.local.CategoryDb
-import com.example.recipes.data.datasources.local.CuisineDb
-import com.example.recipes.data.datasources.local.LocalDataSource
-import com.example.recipes.data.datasources.local.RecipeDb
+import com.example.recipes.data.datasources.local.*
 import com.example.recipes.domain.entities.CategoryDomain
 import com.example.recipes.domain.entities.CuisineDomain
 import com.example.recipes.domain.entities.DetailDomain
@@ -52,34 +49,70 @@ class RecipeRepositoryImpl(
                 Log.d("Repository", "inside onSuccess")
                 val value = it[0]
 
-                var categoryId = localDataSource.getCategoryDao().getIdByName(value.nameCategory)
-                if (categoryId == 0L) {
-                    categoryId = localDataSource.getCategoryDao().insert(
-                        CategoryDb(
-                            name = value.nameCategory
+                if (localDataSource.getRecipeDao().isRecordExist(value.id.toLong()) == 0) {
+
+                    var categoryId =
+                        localDataSource.getCategoryDao().getIdByName(value.nameCategory)
+                    if (categoryId == 0L) {
+                        categoryId = localDataSource.getCategoryDao().insert(
+                            CategoryDb(
+                                name = value.nameCategory
+                            )
+                        )
+                    }
+
+                    var cuisineId = localDataSource.getCuisineDao().getIdByName(value.nameCuisine)
+                    if (cuisineId == 0L) {
+                        cuisineId = localDataSource.getCuisineDao().insert(
+                            CuisineDb(
+                                name = value.nameCuisine
+                            )
+                        )
+                    }
+
+                    localDataSource.getRecipeDao().insert(
+                        RecipeDb(
+                            id = value.id.toLong(),
+                            name = value.name,
+                            categoryId = categoryId,
+                            cuisineId = cuisineId,
+                            instructions = value.strInstructions,
+                            imageUrl = value.imageUrl
                         )
                     )
-                }
 
-                var cuisineId = localDataSource.getCuisineDao().getIdByName(value.nameCuisine)
-                if (cuisineId == 0L) {
-                    cuisineId = localDataSource.getCuisineDao().insert(
-                        CuisineDb(
-                            name = value.nameCuisine
+                    for (pair in value.ingredients.zip(value.measures)) {
+                        var ingredientId =
+                            localDataSource.getIngredientDao().getIdByName(pair.first)
+                        var measureId = localDataSource.getMeasureDao().getIdByName(pair.second)
+
+                        if (ingredientId == 0L) {
+                            ingredientId = localDataSource.getIngredientDao().insert(
+                                IngredientDb(
+                                    name = pair.first
+                                )
+                            )
+                        }
+
+                        if (measureId == 0L) {
+                            measureId = localDataSource.getMeasureDao().insert(
+                                MeasureDb(
+                                    name = pair.second
+                                )
+                            )
+                        }
+
+                        Log.d("RecipeRepo", "recipeId=${value.id.toLong()}, ingredientId=${ingredientId}," +
+                                "measureId=${measureId}")
+                        localDataSource.getRecipesToIngredientsAndMeasuresDao().insert(
+                            RecipesToIngredientsAndMeasures(
+                                recipeId = value.id.toLong(),
+                                ingredientId = ingredientId,
+                                measureId = measureId
+                            )
                         )
-                    )
+                    }
                 }
-
-                localDataSource.getRecipeDao().insert(
-                    RecipeDb(
-                        id = value.id.toLong(),
-                        name = value.name,
-                        categoryId = categoryId,
-                        cuisineId = cuisineId,
-                        instructions = value.strInstructions,
-                        imageUrl = value.imageUrl
-                    )
-                )
             }
         }
 
@@ -92,6 +125,7 @@ class RecipeRepositoryImpl(
         val liveDataResult = Transformations.map(liveData) {
             Result.success(it)
         }
+
         return liveDataResult
     }
 

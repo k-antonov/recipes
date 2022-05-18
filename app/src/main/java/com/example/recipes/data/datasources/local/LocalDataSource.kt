@@ -11,7 +11,7 @@ class LocalDataSource(context: Context) {
         context,
         AppDataBase::class.java,
         DATABASE_NAME
-    ).allowMainThreadQueries().build()
+    ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
 
     fun getCategoryDao(): CategoryDao {
         return database.getCategoryDao()
@@ -23,6 +23,18 @@ class LocalDataSource(context: Context) {
 
     fun getRecipeDao(): RecipeDao {
         return database.getRecipeDao()
+    }
+
+    fun getRecipesToIngredientsAndMeasuresDao(): RecipesToIngredientsAndMeasuresDao {
+        return database.getRecipesToIngredientsAndMeasuresDao()
+    }
+
+    fun getIngredientDao(): IngredientDao {
+        return database.getIngredientDao()
+    }
+
+    fun getMeasureDao(): MeasureDao {
+        return database.getMeasureDao()
     }
 
     fun clearAllTables() {

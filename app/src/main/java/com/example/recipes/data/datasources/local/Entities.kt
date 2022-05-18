@@ -35,7 +35,30 @@ data class RecipeDb(
 
 @Entity(
     tableName = "recipes_to_ingredients_and_measures",
-    primaryKeys = ["recipeId", "ingredientId", "measureId"]
+    primaryKeys = ["recipeId", "ingredientId", "measureId"],
+    foreignKeys = [
+        ForeignKey(
+            entity = RecipeDb::class,
+            parentColumns = ["id"],
+            childColumns = ["recipeId"],
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = IngredientDb::class,
+            parentColumns = ["id"],
+            childColumns = ["ingredientId"],
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = MeasureDb::class,
+            parentColumns = ["id"],
+            childColumns = ["measureId"],
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE
+        )
+    ]
 )
 data class RecipesToIngredientsAndMeasures(
     val recipeId: Long,
