@@ -10,15 +10,18 @@ interface RecipeDao {
     @Query("SELECT COUNT(1) FROM recipes WHERE id = :id")
     fun isRecordExist(id: Long): Int
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE) // может ignore?
     fun insert(recipeDb: RecipeDb)
 
+//    @Query("SELECT id, name, imageUrl FROM recipes")
+//    fun getPreviews(): LiveData<List<PreviewDomain>>
+
     @Query("SELECT id, name, imageUrl FROM recipes")
-    fun getPreviews(): LiveData<List<PreviewDomain>>
+    fun getPreviews(): List<PreviewDomain>
 
     @Transaction
-    @Query("SELECT * FROM recipes")
-    fun getDetails(): List<RecipeWithCategoryAndCuisineRelation>
+    @Query("SELECT * FROM recipes WHERE id = :id")
+    fun getDetailsById(id: Long): RecipeWithCategoryAndCuisineRelation
 
 }
 
@@ -27,6 +30,14 @@ interface RecipesToIngredientsAndMeasuresDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(recipesToIngredientsAndMeasures: RecipesToIngredientsAndMeasures)
+
+    @Transaction
+    @Query("SELECT * FROM recipes_to_ingredients_and_measures")
+    fun getDetails(): LiveData<List<AllRecipeInfoRelation>>
+
+    @Transaction
+    @Query("SELECT * FROM recipes_to_ingredients_and_measures WHERE recipeId = :id")
+    fun getIngredientsAndMeasuresById(id: Long): List<RecipeWithIngredientAndMeasureRelation>
 }
 
 
@@ -67,7 +78,7 @@ interface IngredientDao {
 }
 
 @Dao
-interface MeasureDao{
+interface MeasureDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(measureDb: MeasureDb): Long

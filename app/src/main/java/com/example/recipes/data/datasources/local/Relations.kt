@@ -19,7 +19,7 @@ data class RecipeWithCategoryAndCuisineRelation(
     val cuisine: CuisineDb
 )
 
-data class AllDatabaseRelation(
+data class RecipeWithIngredientAndMeasureRelation(
     @Embedded val recipesToIngredientsAndMeasures: RecipesToIngredientsAndMeasures,
     @Relation(
         parentColumn = "ingredientId",
@@ -33,6 +33,27 @@ data class AllDatabaseRelation(
         entity = MeasureDb::class
     )
     val measure: MeasureDb,
+)
+
+data class AllRecipeInfoRelation(
+    @Embedded val recipesToIngredientsAndMeasures: RecipesToIngredientsAndMeasures,
+    @Relation(
+        parentColumn = "ingredientId",
+        entityColumn = "id",
+        entity = IngredientDb::class
+    )
+    val ingredient: IngredientDb,
+    @Relation(
+        parentColumn = "measureId",
+        entityColumn = "id",
+        entity = MeasureDb::class
+    )
+    val measure: MeasureDb,
+    @Relation(
+        parentColumn = "recipeId",
+        entityColumn = "id",
+        entity = RecipeDb::class
+    )
     val recipeWithCategoryAndCuisineRelation: RecipeWithCategoryAndCuisineRelation
 )
 

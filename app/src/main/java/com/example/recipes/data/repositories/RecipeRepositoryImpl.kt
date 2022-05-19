@@ -2,6 +2,7 @@ package com.example.recipes.data.repositories
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.example.recipes.data.datasources.cloud.RecipeApiService
 import com.example.recipes.data.datasources.cloud.mappers.CategoriesCloudToCategoryDomainListMapper
@@ -102,8 +103,11 @@ class RecipeRepositoryImpl(
                             )
                         }
 
-                        Log.d("RecipeRepo", "recipeId=${value.id.toLong()}, ingredientId=${ingredientId}," +
-                                "measureId=${measureId}")
+                        Log.d(
+                            "RecipeRepo",
+                            "recipeId=${value.id.toLong()}, ingredientId=${ingredientId}," +
+                                    "measureId=${measureId}"
+                        )
                         localDataSource.getRecipesToIngredientsAndMeasuresDao().insert(
                             RecipesToIngredientsAndMeasures(
                                 recipeId = value.id.toLong(),
@@ -120,13 +124,40 @@ class RecipeRepositoryImpl(
     }
 
     override fun getLocalPreviewDomainList(): LiveData<Result<List<PreviewDomain>>> {
-        val liveData = localDataSource.getRecipeDao().getPreviews()
+        val liveData = MutableLiveData(localDataSource.getRecipeDao().getPreviews())
 
         val liveDataResult = Transformations.map(liveData) {
             Result.success(it)
         }
 
         return liveDataResult
+    }
+
+    override fun getLocalDetailDomainList(id: Long): LiveData<Result<List<DetailDomain>>> {
+
+        val recipesTable = localDataSource.getRecipeDao().getDetailsById(id)
+        val recipesToIngredientsAndMeasuresTable =
+            localDataSource.getRecipesToIngredientsAndMeasuresDao().getIngredientsAndMeasuresById(id)
+
+        val ingredients = mutableListOf<String>()
+        val measures = mutableListOf<String>()
+        for (relation in recipesToIngredientsAndMeasuresTable) {
+            ingredients.add(relation.ingredient.name)
+            measures.add(relation.measure.name)
+        }
+
+        val detailDomain = DetailDomain(
+            id = id.toString(),
+            name = recipesTable.recipe.name,
+            nameCategory = recipesTable.category.name,
+            nameCuisine = recipesTable.cuisine.name,
+            strInstructions = recipesTable.recipe.instructions,
+            imageUrl = recipesTable.recipe.imageUrl,
+            ingredients = ingredients,
+            measures = measures
+        )
+
+        return MutableLiveData(Result.success(listOf(detailDomain)))
     }
 
     override fun clearCache() {

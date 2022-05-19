@@ -11,9 +11,6 @@ class DetailsViewModel(
     endpoint: String
 ) : BaseViewModel<DetailDomain>(detailsInteractor) {
 
-//    override val liveDataFromInteractor: LiveData<Result<List<DetailDomain>>>
-//        get() = detailsInteractor.execute()
-
     override val liveDataFromInteractor: LiveData<Result<List<DetailDomain>>>
         get() = Transformations.switchMap(reloadTrigger) {
             detailsInteractor.execute()

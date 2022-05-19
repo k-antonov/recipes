@@ -44,13 +44,12 @@ class LocalPreviewsFragment : Fragment() {
                 is BaseViewModel.UiState.Loading -> {
                 }
                 is BaseViewModel.UiState.Success -> {
-                    adapter.reload(it.items)
 
-                    val list = localDataSource.getRecipeDao().getDetails()
-                    for (row in list) {
-                        Log.d("RecipeRepository", "${row.recipe.name}: ${row.category.name}, ${row.cuisine.name}")
+                    adapter.onItemClicked = { position ->
+                        val recipeId = it.items[position].id
+                        onListItemClick(LocalDetailsFragment.newInstance(recipeId))
                     }
-
+                    adapter.reload(it.items)
                 }
                 is BaseViewModel.UiState.Failure -> {
                 }
@@ -62,6 +61,19 @@ class LocalPreviewsFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() = LocalPreviewsFragment()
+    }
+
+    // перенести эти два метода (взяты из BaseListFragment)
+    protected fun onListItemClick(fragment: Fragment) {
+        replaceFragmentWith(fragment)
+    }
+
+    private fun replaceFragmentWith(fragment: Fragment) {
+        requireActivity().supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.main_fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
 }
