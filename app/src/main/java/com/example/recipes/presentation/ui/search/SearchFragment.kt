@@ -14,7 +14,7 @@ class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
 
     // by lazy?
-    private val childFragments = listOf(
+    private val childFragments = listOf<Fragment>(
         CategoriesFragment.newInstance(),
         CuisinesFragment.newInstance()
     )

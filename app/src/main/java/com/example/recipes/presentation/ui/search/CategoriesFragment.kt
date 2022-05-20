@@ -14,7 +14,7 @@ import com.example.recipes.presentation.ui.categoriesInteractor
 import com.example.recipes.presentation.viewmodels.BaseViewModel
 import com.example.recipes.presentation.viewmodels.CategoriesViewModelFactory
 
-class CategoriesFragment : GridListFragment<CategoryDomain>() {
+class CategoriesFragment : GridListFragment<CategoryDomain>(), ErrorDialog {
 
     override val viewModel: BaseViewModel<CategoryDomain> by viewModels {
         CategoriesViewModelFactory(categoriesInteractor)
@@ -57,7 +57,7 @@ class CategoriesFragment : GridListFragment<CategoryDomain>() {
                 }
                 is BaseViewModel.UiState.Failure -> {
                     progressBar.visibility = View.INVISIBLE
-                    showErrorDialog(it.throwable.message, reconnectButton)
+                    showErrorDialog(it.throwable.message, reconnectButton, requireActivity(), viewModel)
                 }
             }
         }

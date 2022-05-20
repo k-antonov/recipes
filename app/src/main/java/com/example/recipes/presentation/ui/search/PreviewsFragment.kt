@@ -17,7 +17,7 @@ import com.example.recipes.presentation.viewmodels.PreviewsViewModelFactory
 
 private const val ARG_ENDPOINT = "endpoint"
 
-class PreviewsFragment : BaseListFragment<PreviewDomain>() {
+class PreviewsFragment : BaseListFragment<PreviewDomain>(), ErrorDialog {
 
     private lateinit var endpoint: String
 
@@ -72,7 +72,7 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>() {
                 }
                 is BaseViewModel.UiState.Failure -> {
                     progressBar.visibility = View.INVISIBLE
-                    showErrorDialog(it.throwable.message, reconnectButton)
+                    showErrorDialog(it.throwable.message, reconnectButton, requireActivity(), viewModel)
                 }
             }
         }

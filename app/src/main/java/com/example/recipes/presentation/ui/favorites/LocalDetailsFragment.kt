@@ -1,19 +1,16 @@
 package com.example.recipes.presentation.ui.favorites
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipes.R
 import com.example.recipes.domain.entities.DetailDomain
 import com.example.recipes.presentation.adapters.IngredientsAdapter
+import com.example.recipes.presentation.ui.BaseFragment
 import com.example.recipes.presentation.ui.localDetailsInteractor
 import com.example.recipes.presentation.utils.ImageDownloader
 import com.example.recipes.presentation.viewmodels.BaseViewModel
@@ -21,13 +18,13 @@ import com.example.recipes.presentation.viewmodels.LocalDetailsViewModelFactory
 
 private const val ARG_RECIPE_ID = "arg_recipe_id"
 
-class LocalDetailsFragment : Fragment() {
+class LocalDetailsFragment : BaseFragment<DetailDomain>() {
 
-    private var recipeId: Long = 0L // should be changed
+    private var recipeId: Long = 0L
 
-    private val layoutResId = R.layout.fragment_details
+    override val layoutResId = R.layout.fragment_details
 
-    private val viewModel: BaseViewModel<DetailDomain> by viewModels {
+    override val viewModel: BaseViewModel<DetailDomain> by viewModels {
         LocalDetailsViewModelFactory(localDetailsInteractor, recipeId)
     }
 
@@ -38,15 +35,10 @@ class LocalDetailsFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = layoutInflater.inflate(layoutResId, container, false)
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val layout = view.findViewById<ConstraintLayout>(R.id.details_constraint_layout)
+//        val layout = view.findViewById<ConstraintLayout>(R.id.details_constraint_layout)
         val image = view.findViewById<ImageView>(R.id.details_image)
         val name = view.findViewById<TextView>(R.id.details_name)
         val category = view.findViewById<TextView>(R.id.details_category_and_cuisine)
@@ -94,5 +86,4 @@ class LocalDetailsFragment : Fragment() {
                 }
             }
     }
-
 }
