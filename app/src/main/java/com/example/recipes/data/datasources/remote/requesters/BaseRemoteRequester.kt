@@ -1,4 +1,4 @@
-package com.example.recipes.data.datasources.cloud.requesters
+package com.example.recipes.data.datasources.remote.requesters
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -9,15 +9,15 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.*
 import java.io.IOException
 
-abstract class BaseCloudRequester<T> {
+abstract class BaseRemoteRequester<T> {
 
     companion object {
-        val TAG: String = BaseCloudRequester::class.java.simpleName
+        val TAG: String = BaseRemoteRequester::class.java.simpleName
     }
 
     protected abstract val BASE_URL: String
 
-    private val mutableEntitiesCloud = MutableLiveData<Result<T>>()
+    private val mutableEntitiesRemote = MutableLiveData<Result<T>>()
 
     fun execute(client: OkHttpClient, endpoint: String = ""): LiveData<Result<T>> {
         val url = "$BASE_URL$endpoint"
@@ -28,19 +28,19 @@ abstract class BaseCloudRequester<T> {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     Log.d(TAG, "onFailure: ${e.stackTraceToString()}")
-                    mutableEntitiesCloud.postValue(Result.failure(Exception("Network Error")))
+                    mutableEntitiesRemote.postValue(Result.failure(Exception("Network Error")))
                 }
 
                 override fun onResponse(call: Call, response: Response) {
                     val result = parseResponse(response, jsonAdapter)
                     Log.d(TAG, "onResponse: $result")
-                    mutableEntitiesCloud.postValue(result)
+                    mutableEntitiesRemote.postValue(result)
                 }
             })
         } catch (e: Error) {
             Log.d(TAG, "Error when executing get request: ${e.localizedMessage}")
         }
-        return mutableEntitiesCloud
+        return mutableEntitiesRemote
     }
 
     protected val moshi: Moshi = Moshi.Builder()

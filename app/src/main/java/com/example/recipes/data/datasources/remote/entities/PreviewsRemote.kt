@@ -1,13 +1,13 @@
-package com.example.recipes.data.datasources.cloud.entities
+package com.example.recipes.data.datasources.remote.entities
 import com.squareup.moshi.Json
 
 
-data class PreviewsCloud(
+data class PreviewsRemote(
     @Json(name = "meals")
-    val previewsCloud: List<PreviewCloud>
+    val previewsRemote: List<PreviewRemote>
 )
 
-data class PreviewCloud(
+data class PreviewRemote(
     @Json(name = "idMeal")
     val id: String,
     @Json(name = "strMeal")

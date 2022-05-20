@@ -1,4 +1,4 @@
-package com.example.recipes.data.datasources.cloud.mappers
+package com.example.recipes.data.datasources.remote.mappers
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations

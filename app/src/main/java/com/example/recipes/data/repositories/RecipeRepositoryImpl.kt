@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.Transformations
-import com.example.recipes.data.datasources.cloud.RecipeApiService
-import com.example.recipes.data.datasources.cloud.mappers.CategoriesCloudToCategoryDomainListMapper
-import com.example.recipes.data.datasources.cloud.mappers.CuisinesCloudToCuisineDomainListMapper
-import com.example.recipes.data.datasources.cloud.mappers.DetailsCloudToDetailDomainListMapper
-import com.example.recipes.data.datasources.cloud.mappers.PreviewsCloudToPreviewDomainListMapper
+import com.example.recipes.data.datasources.remote.RecipeApiService
+import com.example.recipes.data.datasources.remote.mappers.CategoriesRemoteToCategoryDomainListMapper
+import com.example.recipes.data.datasources.remote.mappers.CuisinesRemoteToCuisineDomainListMapper
+import com.example.recipes.data.datasources.remote.mappers.DetailsRemoteToDetailDomainListMapper
+import com.example.recipes.data.datasources.remote.mappers.PreviewsRemoteToPreviewDomainListMapper
 import com.example.recipes.data.datasources.local.DatabaseSource
 import com.example.recipes.data.datasources.local.repositoryqueries.DetailInserter
 import com.example.recipes.data.datasources.local.repositoryqueries.DetailSelector
@@ -24,28 +24,28 @@ class RecipeRepositoryImpl(
     private val databaseSource: DatabaseSource
 ) : RecipeRepository {
 
-    private val categoryMapper: CategoriesCloudToCategoryDomainListMapper by lazy { CategoriesCloudToCategoryDomainListMapper() }
-    private val cuisineMapper: CuisinesCloudToCuisineDomainListMapper by lazy { CuisinesCloudToCuisineDomainListMapper() }
-    private val previewMapper: PreviewsCloudToPreviewDomainListMapper by lazy { PreviewsCloudToPreviewDomainListMapper() }
-    private val detailMapper: DetailsCloudToDetailDomainListMapper by lazy { DetailsCloudToDetailDomainListMapper() }
+    private val categoryMapper: CategoriesRemoteToCategoryDomainListMapper by lazy { CategoriesRemoteToCategoryDomainListMapper() }
+    private val cuisineMapper: CuisinesRemoteToCuisineDomainListMapper by lazy { CuisinesRemoteToCuisineDomainListMapper() }
+    private val previewMapper: PreviewsRemoteToPreviewDomainListMapper by lazy { PreviewsRemoteToPreviewDomainListMapper() }
+    private val detailMapper: DetailsRemoteToDetailDomainListMapper by lazy { DetailsRemoteToDetailDomainListMapper() }
 
     private val detailInserter: DetailInserter by lazy { DetailInserter(databaseSource) }
     private val detailSelector: DetailSelector by lazy { DetailSelector(databaseSource) }
 
     override fun getCategoryDomainList(): LiveData<Result<List<CategoryDomain>>> {
-        return categoryMapper.mapLiveData(recipeApiService.getCategoriesCloud())
+        return categoryMapper.mapLiveData(recipeApiService.getCategoriesRemote())
     }
 
     override fun getCuisineDomainList(): LiveData<Result<List<CuisineDomain>>> {
-        return cuisineMapper.mapLiveData(recipeApiService.getCuisinesCloud())
+        return cuisineMapper.mapLiveData(recipeApiService.getCuisinesRemote())
     }
 
     override fun getPreviewDomainList(endpoint: String): LiveData<Result<List<PreviewDomain>>> {
-        return previewMapper.mapLiveData(recipeApiService.getPreviewsCloud(endpoint))
+        return previewMapper.mapLiveData(recipeApiService.getPreviewsRemote(endpoint))
     }
 
     override fun getDetailDomainList(endpoint: String): LiveData<Result<List<DetailDomain>>> {
-        val mappedToDomain = detailMapper.mapLiveData(recipeApiService.getDetailsCloud(endpoint))
+        val mappedToDomain = detailMapper.mapLiveData(recipeApiService.getDetailsRemote(endpoint))
 
         val observer = Observer<Result<List<DetailDomain>>> { result ->
             result.onSuccess {

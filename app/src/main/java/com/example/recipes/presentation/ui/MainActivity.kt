@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.recipes.MyApplication.Companion.databaseSource
 import com.example.recipes.R
-import com.example.recipes.data.datasources.cloud.RecipeApiService
-import com.example.recipes.data.datasources.cloud.RecipeApiServiceImpl
+import com.example.recipes.data.datasources.remote.RecipeApiService
+import com.example.recipes.data.datasources.remote.RecipeApiServiceImpl
 import com.example.recipes.data.repositories.RecipeRepositoryImpl
 import com.example.recipes.databinding.ActivityMainBinding
 import com.example.recipes.domain.interactors.*
@@ -60,7 +60,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // вынести в extension, т. к. повторяется в другом классе
     private fun replaceFragmentWith(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_fragment_container, fragment)

@@ -1,8 +1,8 @@
-package com.example.recipes.data.datasources.cloud.mappers
+package com.example.recipes.data.datasources.remote.mappers
 
 import android.annotation.SuppressLint
-import com.example.recipes.data.datasources.cloud.entities.CuisineCloud
-import com.example.recipes.data.datasources.cloud.entities.CuisinesCloud
+import com.example.recipes.data.datasources.remote.entities.CuisineRemote
+import com.example.recipes.data.datasources.remote.entities.CuisinesRemote
 import com.example.recipes.domain.entities.CuisineDomain
 
 // К сожалению, API не предоставляет ссылки на изображения для кухонь
@@ -36,14 +36,14 @@ private val cuisineToImageUrl = mapOf(
     "Unknown" to "https://lh3.googleusercontent.com/n3KU8XMoRjTHvJbXD-kjyqUTUbW7o8xBN5ndoCfem70yEGkKgSETGudN2elp4zQKThZm01DgzgDPMPjgrPxjhd6tVOEc0Vl_lHrUmrU=h200"
 )
 
-class CuisinesCloudToCuisineDomainListMapper :
-    BaseMapper<CuisinesCloud, CuisineCloud, CuisineDomain>(){
-    override fun mapToList(from: CuisinesCloud): List<CuisineCloud> {
-        return from.cuisinesCloud
+class CuisinesRemoteToCuisineDomainListMapper :
+    BaseMapper<CuisinesRemote, CuisineRemote, CuisineDomain>(){
+    override fun mapToList(from: CuisinesRemote): List<CuisineRemote> {
+        return from.cuisinesRemote
     }
 
     @SuppressLint("NewApi")
-    override fun mapEntity(from: CuisineCloud): CuisineDomain {
+    override fun mapEntity(from: CuisineRemote): CuisineDomain {
         return CuisineDomain(
             name = from.name,
             imageUrl = cuisineToImageUrl.getOrDefault(from.name, "")

@@ -1,15 +1,15 @@
-package com.example.recipes.data.datasources.cloud.mappers
+package com.example.recipes.data.datasources.remote.mappers
 
-import com.example.recipes.data.datasources.cloud.entities.DetailCloud
-import com.example.recipes.data.datasources.cloud.entities.DetailsCloud
+import com.example.recipes.data.datasources.remote.entities.DetailRemote
+import com.example.recipes.data.datasources.remote.entities.DetailsRemote
 import com.example.recipes.domain.entities.DetailDomain
 
-class DetailsCloudToDetailDomainListMapper : BaseMapper<DetailsCloud, DetailCloud, DetailDomain>() {
-    override fun mapToList(from: DetailsCloud): List<DetailCloud> {
-        return from.detailsClouds
+class DetailsRemoteToDetailDomainListMapper : BaseMapper<DetailsRemote, DetailRemote, DetailDomain>() {
+    override fun mapToList(from: DetailsRemote): List<DetailRemote> {
+        return from.detailsRemote
     }
 
-    override fun mapEntity(from: DetailCloud): DetailDomain {
+    override fun mapEntity(from: DetailRemote): DetailDomain {
         val ingredients = mutableListOf(
             from.strIngredient1, from.strIngredient2, from.strIngredient3, from.strIngredient4,
             from.strIngredient5, from.strIngredient6, from.strIngredient7, from.strIngredient8,
