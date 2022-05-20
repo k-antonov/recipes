@@ -1,13 +1,13 @@
 package com.example.recipes
 
 import android.app.Application
-import com.example.recipes.data.datasources.local.LocalDataSource
+import com.example.recipes.data.datasources.local.DatabaseSource
 import okhttp3.OkHttpClient
 
 class MyApplication : Application() {
     companion object {
         private lateinit var instance: MyApplication
-        lateinit var localDataSource: LocalDataSource
+        lateinit var databaseSource: DatabaseSource
 
         val client = OkHttpClient()
 
@@ -22,6 +22,6 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        localDataSource = LocalDataSource(this)
+        databaseSource = DatabaseSource(this)
     }
 }

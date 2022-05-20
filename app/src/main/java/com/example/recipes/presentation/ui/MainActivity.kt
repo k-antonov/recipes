@@ -1,10 +1,9 @@
 package com.example.recipes.presentation.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.recipes.MyApplication.Companion.localDataSource
+import com.example.recipes.MyApplication.Companion.databaseSource
 import com.example.recipes.R
 import com.example.recipes.data.datasources.cloud.RecipeApiService
 import com.example.recipes.data.datasources.cloud.RecipeApiServiceImpl
@@ -14,11 +13,10 @@ import com.example.recipes.domain.interactors.*
 import com.example.recipes.presentation.ui.favorites.LocalPreviewsFragment
 import com.example.recipes.presentation.ui.search.SearchFragment
 import com.example.recipes.presentation.ui.settings.SettingsFragment
-import com.google.android.material.navigation.NavigationBarView
 
 // todo перенести (DI)
 val recipeApiService: RecipeApiService = RecipeApiServiceImpl()
-val recipeRepository = RecipeRepositoryImpl(recipeApiService, localDataSource)
+val recipeRepository = RecipeRepositoryImpl(recipeApiService, databaseSource)
 
 val categoriesInteractor = CategoriesInteractor(recipeRepository)
 val cuisinesInteractor = CuisinesInteractor(recipeRepository)

@@ -4,8 +4,7 @@ import android.content.Context
 
 private const val DATABASE_NAME = "database.db"
 
-// todo причесать код
-class LocalDataSource(context: Context) {
+class DatabaseSource(context: Context) {
 
     private val database = androidx.room.Room.databaseBuilder(
         context,
@@ -40,4 +39,5 @@ class LocalDataSource(context: Context) {
     fun clearAllTables() {
         return database.clearAllTables()
     }
+
 }
