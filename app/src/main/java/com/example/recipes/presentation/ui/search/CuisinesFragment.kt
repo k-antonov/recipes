@@ -12,7 +12,7 @@ import com.example.recipes.presentation.adapters.ClickableItemAdapter
 import com.example.recipes.presentation.ui.GridListFragment
 import com.example.recipes.presentation.ui.cuisinesInteractor
 import com.example.recipes.presentation.viewmodels.BaseViewModel
-import com.example.recipes.presentation.viewmodels.cuisines.CuisinesViewModelFactory
+import com.example.recipes.presentation.viewmodels.CuisinesViewModelFactory
 
 class CuisinesFragment : GridListFragment<CuisineDomain>() {
     override val viewModel: BaseViewModel<CuisineDomain> by viewModels {

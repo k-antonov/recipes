@@ -17,7 +17,7 @@ import com.example.recipes.presentation.adapters.IngredientsAdapter
 import com.example.recipes.presentation.ui.localDetailsInteractor
 import com.example.recipes.presentation.utils.ImageDownloader
 import com.example.recipes.presentation.viewmodels.BaseViewModel
-import com.example.recipes.presentation.viewmodels.localdetails.LocalDetailsViewModelFactory
+import com.example.recipes.presentation.viewmodels.LocalDetailsViewModelFactory
 
 private const val ARG_RECIPE_ID = "arg_recipe_id"
 

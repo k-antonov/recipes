@@ -13,7 +13,7 @@ import com.example.recipes.domain.entities.PreviewDomain
 import com.example.recipes.presentation.adapters.ClickableItemAdapter
 import com.example.recipes.presentation.ui.localPreviewsInteractor
 import com.example.recipes.presentation.viewmodels.BaseViewModel
-import com.example.recipes.presentation.viewmodels.localpreviews.LocalPreviewsViewModelFactory
+import com.example.recipes.presentation.viewmodels.LocalPreviewsViewModelFactory
 
 class LocalPreviewsFragment : Fragment() {
 

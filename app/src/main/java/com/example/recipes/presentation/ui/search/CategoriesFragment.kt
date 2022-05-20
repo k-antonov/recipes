@@ -12,7 +12,7 @@ import com.example.recipes.presentation.adapters.ClickableItemAdapter
 import com.example.recipes.presentation.ui.GridListFragment
 import com.example.recipes.presentation.ui.categoriesInteractor
 import com.example.recipes.presentation.viewmodels.BaseViewModel
-import com.example.recipes.presentation.viewmodels.categories.CategoriesViewModelFactory
+import com.example.recipes.presentation.viewmodels.CategoriesViewModelFactory
 
 class CategoriesFragment : GridListFragment<CategoryDomain>() {
 

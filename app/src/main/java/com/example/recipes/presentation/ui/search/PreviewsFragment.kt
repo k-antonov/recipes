@@ -13,7 +13,7 @@ import com.example.recipes.presentation.adapters.ClickableItemAdapter
 import com.example.recipes.presentation.ui.BaseListFragment
 import com.example.recipes.presentation.ui.previewsInteractor
 import com.example.recipes.presentation.viewmodels.BaseViewModel
-import com.example.recipes.presentation.viewmodels.previews.PreviewsViewModelFactory
+import com.example.recipes.presentation.viewmodels.PreviewsViewModelFactory
 
 private const val ARG_ENDPOINT = "endpoint"
 

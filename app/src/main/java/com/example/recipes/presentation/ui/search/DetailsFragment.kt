@@ -17,7 +17,7 @@ import com.example.recipes.presentation.adapters.IngredientsAdapter
 import com.example.recipes.presentation.ui.BaseFragment
 import com.example.recipes.presentation.ui.detailsInteractor
 import com.example.recipes.presentation.viewmodels.BaseViewModel
-import com.example.recipes.presentation.viewmodels.details.DetailsViewModelFactory
+import com.example.recipes.presentation.viewmodels.DetailsViewModelFactory
 
 private const val ARG_ENDPOINT = "endpoint"
 
