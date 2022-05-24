@@ -1,8 +1,9 @@
 package com.example.recipes.domain.interactors
 
-//import com.example.recipes.domain.repositories.RecipeRepository
+import com.example.recipes.domain.repositories.CommonRepository
 
-//class SettingsInteractor(private val recipeRepository: RecipeRepository) {
-//
-//    fun execute() = recipeRepository.clearCache()
-//}
+
+class SettingsInteractor(private val commonRepository: CommonRepository) {
+
+    fun clearCache() = commonRepository.clearCache()
+}

@@ -13,8 +13,4 @@ abstract class LocalDataSource(context: Context) {
         DATABASE_NAME
     ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
 
-//    protected fun clearAllTables() {
-//        return database.clearAllTables()
-//    }
-
 }

@@ -6,18 +6,13 @@ import androidx.fragment.app.Fragment
 import com.example.recipes.R
 import com.example.recipes.data.datasources.remote.RecipeApiService
 import com.example.recipes.data.datasources.remote.RecipeApiServiceImpl
-import com.example.recipes.data.repositories.CategoriesRepositoryImpl
-import com.example.recipes.data.repositories.CuisinesRepositoryImpl
-import com.example.recipes.data.repositories.DetailsRepositoryImpl
-import com.example.recipes.data.repositories.PreviewsRepositoryImpl
+import com.example.recipes.data.repositories.*
 import com.example.recipes.databinding.ActivityMainBinding
-import com.example.recipes.domain.interactors.CategoriesInteractor
-import com.example.recipes.domain.interactors.CuisinesInteractor
-import com.example.recipes.domain.interactors.DetailsInteractor
-import com.example.recipes.domain.interactors.PreviewsInteractor
+import com.example.recipes.domain.interactors.*
 //import com.example.recipes.presentation.ui.favorites.LocalPreviewsFragment
 import com.example.recipes.presentation.ui.search.SearchFragment
-//import com.example.recipes.presentation.ui.settings.SettingsFragment
+import com.example.recipes.presentation.ui.settings.SettingsFragment
+
 
 // todo перенести (DI)
 val recipeApiService: RecipeApiService = RecipeApiServiceImpl()
@@ -27,6 +22,7 @@ val categoriesRepository = CategoriesRepositoryImpl(recipeApiService)
 val cuisinesRepository = CuisinesRepositoryImpl(recipeApiService)
 val previewsRepository = PreviewsRepositoryImpl(recipeApiService)
 val detailsRepository = DetailsRepositoryImpl(recipeApiService)
+val commonRepository = CommonRepositoryImpl()
 
 val categoriesInteractor = CategoriesInteractor(categoriesRepository)
 val cuisinesInteractor = CuisinesInteractor(cuisinesRepository)
@@ -35,7 +31,7 @@ val detailsInteractor = DetailsInteractor(detailsRepository)
 
 //val localPreviewsInteractor = LocalPreviewsInteractor(recipeRepository)
 //val localDetailsInteractor = LocalDetailsInteractor(recipeRepository)
-//val settingsInteractor = SettingsInteractor(recipeRepository)
+val settingsInteractor = SettingsInteractor(commonRepository)
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -62,7 +58,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.settings -> {
-//                    replaceFragmentWith(SettingsFragment.newInstance())
+                    replaceFragmentWith(SettingsFragment.newInstance())
                     true
                 }
                 else -> false

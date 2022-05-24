@@ -13,6 +13,7 @@ class MyApplication : Application() {
         lateinit var measureLocalDataSource: MeasureLocalDataSource
         lateinit var recipeLocalDataSource: RecipeLocalDataSource
         lateinit var recipesToIngredientsAndMeasuresLocalDataSource: RecipesToIngredientsAndMeasuresLocalDataSource
+        lateinit var commonLocalDataSource: CommonLocalDataSource
 
         val client = OkHttpClient()
 
@@ -31,5 +32,6 @@ class MyApplication : Application() {
         measureLocalDataSource = MeasureLocalDataSource(this)
         recipeLocalDataSource = RecipeLocalDataSource(this)
         recipesToIngredientsAndMeasuresLocalDataSource = RecipesToIngredientsAndMeasuresLocalDataSource(this)
+        commonLocalDataSource = CommonLocalDataSource(this)
     }
 }
