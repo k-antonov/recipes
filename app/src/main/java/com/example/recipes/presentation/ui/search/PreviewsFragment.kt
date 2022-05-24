@@ -17,7 +17,7 @@ import com.example.recipes.presentation.viewmodels.PreviewsViewModelFactory
 
 private const val ARG_ENDPOINT = "endpoint"
 
-class PreviewsFragment : BaseListFragment<PreviewDomain>(), ErrorDialog {
+class PreviewsFragment : BaseListFragment<PreviewDomain>() {
 
     private lateinit var endpoint: String
 
@@ -53,6 +53,15 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>(), ErrorDialog {
             viewModel.reload()
         }
 
+        val onDialogPositiveAction = {
+            reconnectButton.visibility = View.GONE
+            viewModel.reload()
+        }
+
+        val onDialogDismissAction = {
+            reconnectButton.visibility = View.VISIBLE
+        }
+
         viewModel.uiState.observe(viewLifecycleOwner) {
             when (it) {
                 is BaseViewModel.UiState.Loading -> {
@@ -71,7 +80,11 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>(), ErrorDialog {
                 }
                 is BaseViewModel.UiState.Failure -> {
                     progressBar.visibility = View.INVISIBLE
-                    showErrorDialog(it.throwable.message, reconnectButton, requireActivity(), viewModel)
+                    showErrorDialog(
+                        it.throwable.message,
+                        onPositiveAction = onDialogPositiveAction,
+                        onDismissAction = onDialogDismissAction
+                    )
                 }
             }
         }

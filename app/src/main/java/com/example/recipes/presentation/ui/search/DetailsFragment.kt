@@ -21,9 +21,8 @@ import com.example.recipes.presentation.viewmodels.DetailsViewModelFactory
 
 private const val ARG_ENDPOINT = "endpoint"
 
-class DetailsFragment : BaseFragment<DetailDomain>(), ErrorDialog {
+class DetailsFragment : BaseFragment<DetailDomain>() {
 
-//    private lateinit var endpoint: String
     private var recipeId: Long = 0
 
     override val viewModel: BaseViewModel<DetailDomain> by viewModels {
@@ -64,6 +63,15 @@ class DetailsFragment : BaseFragment<DetailDomain>(), ErrorDialog {
             viewModel.reload()
         }
 
+        val onDialogPositiveAction = {
+            reconnectButton.visibility = View.GONE
+            viewModel.reload()
+        }
+
+        val onDialogDismissAction = {
+            reconnectButton.visibility = View.VISIBLE
+        }
+
         viewModel.uiState.observe(viewLifecycleOwner) {
             when (it) {
                 is BaseViewModel.UiState.Loading -> {
@@ -91,7 +99,11 @@ class DetailsFragment : BaseFragment<DetailDomain>(), ErrorDialog {
                 }
                 is BaseViewModel.UiState.Failure -> {
                     progressBar.visibility = View.INVISIBLE
-                    showErrorDialog(it.throwable.message, reconnectButton, requireActivity(), viewModel)
+                    showErrorDialog(
+                        it.throwable.message,
+                        onPositiveAction = onDialogPositiveAction,
+                        onDismissAction = onDialogDismissAction
+                    )
                 }
             }
         }

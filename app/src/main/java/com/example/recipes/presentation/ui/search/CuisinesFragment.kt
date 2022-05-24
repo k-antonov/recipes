@@ -14,14 +14,13 @@ import com.example.recipes.presentation.ui.cuisinesInteractor
 import com.example.recipes.presentation.viewmodels.BaseViewModel
 import com.example.recipes.presentation.viewmodels.CuisinesViewModelFactory
 
-class CuisinesFragment : GridListFragment<CuisineDomain>(), ErrorDialog {
+class CuisinesFragment : GridListFragment<CuisineDomain>() {
     override val viewModel: BaseViewModel<CuisineDomain> by viewModels {
         CuisinesViewModelFactory(cuisinesInteractor)
     }
 
     override val layoutResId = R.layout.fragment_cuisines
 
-    // todo fix DRY violation
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -36,6 +35,15 @@ class CuisinesFragment : GridListFragment<CuisineDomain>(), ErrorDialog {
         val reconnectButton = view.findViewById<Button>(R.id.cuisines_reconnect_button)
         reconnectButton.setOnClickListener {
             viewModel.reload()
+        }
+
+        val onDialogPositiveAction = {
+            reconnectButton.visibility = View.GONE
+            viewModel.reload()
+        }
+
+        val onDialogDismissAction = {
+            reconnectButton.visibility = View.VISIBLE
         }
 
         viewModel.uiState.observe(viewLifecycleOwner) {
@@ -56,7 +64,11 @@ class CuisinesFragment : GridListFragment<CuisineDomain>(), ErrorDialog {
                 }
                 is BaseViewModel.UiState.Failure -> {
                     progressBar.visibility = View.INVISIBLE
-                    showErrorDialog(it.throwable.message, reconnectButton, requireActivity(), viewModel)
+                    showErrorDialog(
+                        it.throwable.message,
+                        onPositiveAction = onDialogPositiveAction,
+                        onDismissAction = onDialogDismissAction
+                    )
                 }
             }
         }
