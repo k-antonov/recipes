@@ -41,8 +41,12 @@ class PreviewsRepositoryImpl(private val apiService: RecipeApiService) : Preview
 
     // endpoint - categoryName или cuisineName
     private fun fetchLocalData(endpoint: String): List<PreviewDomain> {
-        // todo пофиксить
-        val fixedEndpoint = endpoint.slice(2..endpoint.lastIndex)
-        return recipeLocalDataSource.loadPreviewsByCategoryOrCuisine(fixedEndpoint)
+        val categoryOrCuisineName = getCategoryOrCuisineName(endpoint)
+        return recipeLocalDataSource.loadPreviewsByCategoryOrCuisine(categoryOrCuisineName)
+    }
+
+    // приходит в виде "c=Pork" или "a=Dutch"
+    private fun getCategoryOrCuisineName(endpoint: String): String {
+        return endpoint.slice(2..endpoint.lastIndex)
     }
 }
