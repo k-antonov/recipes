@@ -7,7 +7,6 @@ import com.example.recipes.data.datasources.remote.requesters.*
 
 class RecipeApiServiceImpl : RecipeApiService {
 
-    // как тут избавиться от повторяющегося кода?
     override fun getCategoriesRemote(): LiveData<Result<CategoriesRemote>> {
         val requester = CategoriesRemoteRequester()
         return requester.execute(client)
@@ -23,9 +22,9 @@ class RecipeApiServiceImpl : RecipeApiService {
         return requester.execute(client, endpoint)
     }
 
-    override fun getDetailsRemote(endpoint: String): LiveData<Result<DetailsRemote>> {
+    override fun getDetailsRemote(recipeId: Long): LiveData<Result<DetailsRemote>> {
         val requester = DetailsRemoteRequester()
-        return requester.execute(client, endpoint)
+        return requester.execute(client, recipeId.toString())
     }
 
 }

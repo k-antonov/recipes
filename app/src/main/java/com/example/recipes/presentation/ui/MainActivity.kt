@@ -3,29 +3,39 @@ package com.example.recipes.presentation.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.recipes.MyApplication.Companion.databaseSource
 import com.example.recipes.R
 import com.example.recipes.data.datasources.remote.RecipeApiService
 import com.example.recipes.data.datasources.remote.RecipeApiServiceImpl
-import com.example.recipes.data.repositories.RecipeRepositoryImpl
+import com.example.recipes.data.repositories.CategoriesRepositoryImpl
+import com.example.recipes.data.repositories.CuisinesRepositoryImpl
+import com.example.recipes.data.repositories.DetailsRepositoryImpl
+import com.example.recipes.data.repositories.PreviewsRepositoryImpl
 import com.example.recipes.databinding.ActivityMainBinding
-import com.example.recipes.domain.interactors.*
-import com.example.recipes.presentation.ui.favorites.LocalPreviewsFragment
+import com.example.recipes.domain.interactors.CategoriesInteractor
+import com.example.recipes.domain.interactors.CuisinesInteractor
+import com.example.recipes.domain.interactors.DetailsInteractor
+import com.example.recipes.domain.interactors.PreviewsInteractor
+//import com.example.recipes.presentation.ui.favorites.LocalPreviewsFragment
 import com.example.recipes.presentation.ui.search.SearchFragment
-import com.example.recipes.presentation.ui.settings.SettingsFragment
+//import com.example.recipes.presentation.ui.settings.SettingsFragment
 
 // todo перенести (DI)
 val recipeApiService: RecipeApiService = RecipeApiServiceImpl()
-val recipeRepository = RecipeRepositoryImpl(recipeApiService, databaseSource)
+//val recipeRepository = RecipeRepositoryImpl(recipeApiService, localDataSource)
 
-val categoriesInteractor = CategoriesInteractor(recipeRepository)
-val cuisinesInteractor = CuisinesInteractor(recipeRepository)
-val previewsInteractor = PreviewsInteractor(recipeRepository)
-val detailsInteractor = DetailsInteractor(recipeRepository)
+val categoriesRepository = CategoriesRepositoryImpl(recipeApiService)
+val cuisinesRepository = CuisinesRepositoryImpl(recipeApiService)
+val previewsRepository = PreviewsRepositoryImpl(recipeApiService)
+val detailsRepository = DetailsRepositoryImpl(recipeApiService)
 
-val localPreviewsInteractor = LocalPreviewsInteractor(recipeRepository)
-val localDetailsInteractor = LocalDetailsInteractor(recipeRepository)
-val settingsInteractor = SettingsInteractor(recipeRepository)
+val categoriesInteractor = CategoriesInteractor(categoriesRepository)
+val cuisinesInteractor = CuisinesInteractor(cuisinesRepository)
+val previewsInteractor = PreviewsInteractor(previewsRepository)
+val detailsInteractor = DetailsInteractor(detailsRepository)
+
+//val localPreviewsInteractor = LocalPreviewsInteractor(recipeRepository)
+//val localDetailsInteractor = LocalDetailsInteractor(recipeRepository)
+//val settingsInteractor = SettingsInteractor(recipeRepository)
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -48,11 +58,11 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.favorites -> {
-                    replaceFragmentWith(LocalPreviewsFragment.newInstance())
+//                    replaceFragmentWith(LocalPreviewsFragment.newInstance())
                     true
                 }
                 R.id.settings -> {
-                    replaceFragmentWith(SettingsFragment.newInstance())
+//                    replaceFragmentWith(SettingsFragment.newInstance())
                     true
                 }
                 else -> false

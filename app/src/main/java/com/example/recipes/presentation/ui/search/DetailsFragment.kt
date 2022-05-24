@@ -23,10 +23,11 @@ private const val ARG_ENDPOINT = "endpoint"
 
 class DetailsFragment : BaseFragment<DetailDomain>(), ErrorDialog {
 
-    private lateinit var endpoint: String
+//    private lateinit var endpoint: String
+    private var recipeId: Long = 0
 
     override val viewModel: BaseViewModel<DetailDomain> by viewModels {
-        DetailsViewModelFactory(detailsInteractor, endpoint)
+        DetailsViewModelFactory(detailsInteractor, recipeId)
     }
 
     override val layoutResId = R.layout.fragment_details
@@ -34,7 +35,7 @@ class DetailsFragment : BaseFragment<DetailDomain>(), ErrorDialog {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            endpoint = it.getString(ARG_ENDPOINT).toString()
+            recipeId = it.getLong(ARG_ENDPOINT)
         }
     }
 
@@ -99,10 +100,10 @@ class DetailsFragment : BaseFragment<DetailDomain>(), ErrorDialog {
 
     companion object {
         @JvmStatic
-        fun newInstance(endpoint: String) =
+        fun newInstance(recipeId: Long) =
             DetailsFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_ENDPOINT, endpoint)
+                    putLong(ARG_ENDPOINT, recipeId)
                 }
             }
     }

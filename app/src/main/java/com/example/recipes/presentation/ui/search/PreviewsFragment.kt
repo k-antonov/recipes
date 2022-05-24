@@ -37,7 +37,6 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>(), ErrorDialog {
         }
     }
 
-    // todo fix DRY violation
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -64,8 +63,8 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>(), ErrorDialog {
                     progressBar.visibility = View.GONE
 
                     adapter.onItemClicked = { position ->
-                        val endpoint = it.items[position].id.toString()
-                        onListItemClick(DetailsFragment.newInstance(endpoint))
+                        val recipeId = it.items[position].id
+                        onListItemClick(DetailsFragment.newInstance(recipeId))
                     }
                     adapter.reload(it.items)
 

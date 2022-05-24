@@ -23,12 +23,13 @@ import androidx.room.PrimaryKey
         )
     ]
 )
+// возможно не нужны nullable, подумать
 data class RecipeDb(
     @PrimaryKey(autoGenerate = false) val id: Long,
     val name: String,
-    val categoryId: Long,
-    val cuisineId: Long,
-    val instructions: String,
+    val categoryId: Long? = null,
+    val cuisineId: Long? = null,
+    val instructions: String? = null,
     val imageUrl: String
 )
 
@@ -70,14 +71,16 @@ data class RecipesToIngredientsAndMeasures(
 @Entity(tableName = "categories")
 data class CategoryDb(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val name: String
+    val name: String,
+    val imageUrl: String
 )
 
 
 @Entity(tableName = "cuisines")
 data class CuisineDb(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val name: String
+    val name: String,
+    val imageUrl: String
 )
 
 

@@ -9,7 +9,7 @@ import com.example.recipes.domain.interactors.DetailsInteractor
 
 class DetailsViewModel(
     private val detailsInteractor: DetailsInteractor,
-    endpoint: String
+    recipeId: Long
 ) : BaseViewModel<DetailDomain>(detailsInteractor) {
 
     override val liveDataFromInteractor: LiveData<Result<List<DetailDomain>>>
@@ -18,18 +18,18 @@ class DetailsViewModel(
         }
 
     init {
-        detailsInteractor.endpoint = endpoint
+        detailsInteractor.recipeId = recipeId
         fetch()
     }
 }
 
 class DetailsViewModelFactory(
     private val detailsInteractor: DetailsInteractor,
-    private val endpoint: String
+    private val recipeId: Long
 ) : ViewModelProvider.Factory{
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DetailsViewModel::class.java)) {
-            return DetailsViewModel(detailsInteractor, endpoint) as T
+            return DetailsViewModel(detailsInteractor, recipeId) as T
         }
         throw IllegalArgumentException("ViewModel Not Found")
     }

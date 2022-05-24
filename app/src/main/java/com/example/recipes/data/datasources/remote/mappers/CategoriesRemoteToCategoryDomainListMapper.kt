@@ -13,7 +13,7 @@ class CategoriesRemoteToCategoryDomainListMapper :
 
     override fun mapEntity(from: CategoryRemote): CategoryDomain {
         return CategoryDomain(
-            id = from.id.toInt(),
+            id = from.id.toLong(),
             name = from.name,
             imageUrl = from.imageUrl
         )

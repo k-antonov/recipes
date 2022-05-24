@@ -11,6 +11,6 @@ interface RecipeApiService {
 
     fun getPreviewsRemote(endpoint: String): LiveData<Result<PreviewsRemote>>
 
-    fun getDetailsRemote(endpoint: String): LiveData<Result<DetailsRemote>>
+    fun getDetailsRemote(recipeId: Long): LiveData<Result<DetailsRemote>>
 
 }
