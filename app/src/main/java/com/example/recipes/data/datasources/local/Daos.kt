@@ -8,27 +8,8 @@ import com.example.recipes.domain.entities.PreviewDomain
 @Dao
 interface RecipeDao {
 
-    @Query("SELECT COUNT(1) FROM recipes WHERE id = :id")
-    fun isRecordExist(id: Long): Int
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(recipeDb: RecipeDb): Long
-
-//    // добавить условие на категорию/кухню. Возможно, с разделением на две функции:
-//    // getPreviewsByCategoryId и getPreviewsByCuisineId.
-//    // Возможно через RecipeWithCategoryAndCuisineRelation
-//    @Query("SELECT id, name, imageUrl FROM recipes")
-//    fun getPreviews(): List<PreviewDomain>
-
-//    @Query("SELECT recipes.id, recipes.name, recipes.imageUrl " +
-//            "FROM recipes JOIN categories ON recipes.categoryId = categories.id " +
-//            "WHERE categories.name = :categoryName")
-//    fun getPreviewsByCategory(categoryName: String): List<PreviewDomain>
-//
-//    @Query("SELECT recipes.id, recipes.name, recipes.imageUrl " +
-//            "FROM recipes JOIN cuisines ON recipes.cuisineId = cuisines.id " +
-//            "WHERE cuisines.name = :cuisineName")
-//    fun getPreviewsByCuisine(cuisineName: String): List<PreviewDomain>
 
     @Query("SELECT recipes.id, recipes.name, recipes.imageUrl " +
             "FROM recipes JOIN categories ON recipes.categoryId = categories.id " +

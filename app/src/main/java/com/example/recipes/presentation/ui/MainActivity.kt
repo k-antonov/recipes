@@ -16,7 +16,6 @@ import com.example.recipes.presentation.ui.settings.SettingsFragment
 
 // todo перенести (DI)
 val recipeApiService: RecipeApiService = RecipeApiServiceImpl()
-//val recipeRepository = RecipeRepositoryImpl(recipeApiService, localDataSource)
 
 val categoriesRepository = CategoriesRepositoryImpl(recipeApiService)
 val cuisinesRepository = CuisinesRepositoryImpl(recipeApiService)

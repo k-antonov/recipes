@@ -13,7 +13,6 @@ class CategoryLocalDataSource(context: Context) : LocalDataSource(context) {
         if (categoryId == 0L) {
             categoryId = dao.insert(
                 CategoryDb(
-                    // todo подумать что делать с id
                     name = categoryName,
                     imageUrl = imageUrl
                 )

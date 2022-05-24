@@ -27,7 +27,7 @@ class DetailsRemoteToDetailDomainListMapper : BaseMapper<DetailsRemote, DetailRe
         ).filterNotNull().filter { it.isNotBlank() }
 
         return DetailDomain(
-            id = from.id,
+            id = from.id.toLong(),
             name = from.name,
             nameCategory = from.nameCategory,
             nameCuisine = from.nameCuisine,

@@ -23,7 +23,7 @@ import androidx.room.PrimaryKey
         )
     ]
 )
-// возможно не нужны nullable, подумать
+// todo возможно не нужны nullable, подумать
 data class RecipeDb(
     @PrimaryKey(autoGenerate = false) val id: Long,
     val name: String,

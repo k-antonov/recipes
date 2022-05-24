@@ -17,7 +17,7 @@ class RecipeLocalDataSource(
     fun insertDetail(entity: DetailDomain, categoryId: Long, cuisineId: Long): Long {
         return dao.insert(
             RecipeDb(
-                id = entity.id.toLong(),
+                id = entity.id,
                 name = entity.name,
                 categoryId = categoryId,
                 cuisineId = cuisineId,
@@ -67,8 +67,7 @@ class RecipeLocalDataSource(
         }
 
         return DetailDomain(
-            // todo убрать toString()
-            id = recipeId.toString(),
+            id = recipeId,
             name = recipeWithCategoryAndCuisine.recipe.name,
             nameCategory = recipeWithCategoryAndCuisine.category!!.name,
             nameCuisine = recipeWithCategoryAndCuisine.cuisine!!.name,

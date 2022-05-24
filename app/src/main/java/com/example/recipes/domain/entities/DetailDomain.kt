@@ -1,7 +1,7 @@
 package com.example.recipes.domain.entities
 
 data class DetailDomain(
-    val id: String,
+    val id: Long,
     val name: String,
     val nameCategory: String,
     val nameCuisine: String,
