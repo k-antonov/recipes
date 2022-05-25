@@ -58,7 +58,7 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>() {
             viewModel.reload()
         }
 
-        val onDialogDismissAction = {
+        val onDialogCancelAction = {
             reconnectButton.visibility = View.VISIBLE
         }
 
@@ -83,7 +83,7 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>() {
                     showErrorDialog(
                         it.throwable.message,
                         onPositiveAction = onDialogPositiveAction,
-                        onDismissAction = onDialogDismissAction
+                        onCancelAction = onDialogCancelAction
                     )
                 }
             }

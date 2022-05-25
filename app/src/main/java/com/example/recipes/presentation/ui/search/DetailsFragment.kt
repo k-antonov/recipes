@@ -38,7 +38,6 @@ class DetailsFragment : BaseFragment<DetailDomain>() {
         }
     }
 
-    // todo fix DRY violation
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -68,7 +67,7 @@ class DetailsFragment : BaseFragment<DetailDomain>() {
             viewModel.reload()
         }
 
-        val onDialogDismissAction = {
+        val onDialogCancelAction = {
             reconnectButton.visibility = View.VISIBLE
         }
 
@@ -102,7 +101,7 @@ class DetailsFragment : BaseFragment<DetailDomain>() {
                     showErrorDialog(
                         it.throwable.message,
                         onPositiveAction = onDialogPositiveAction,
-                        onDismissAction = onDialogDismissAction
+                        onCancelAction = onDialogCancelAction
                     )
                 }
             }

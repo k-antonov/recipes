@@ -24,7 +24,7 @@ abstract class BaseFragment<Entity> : Fragment() {
         message: String?,
         positiveActionTextId: Int = R.string.try_again,
         onPositiveAction: () -> Unit,
-        onDismissAction: () -> Unit
+        onCancelAction: () -> Unit
     ) {
         val alertDialog = requireActivity().let {
             val builder = AlertDialog.Builder(it)
@@ -33,8 +33,8 @@ abstract class BaseFragment<Entity> : Fragment() {
                 setPositiveButton(positiveActionTextId) { _, _ ->
                     onPositiveAction()
                 }
-                setOnDismissListener {
-                    onDismissAction()
+                setOnCancelListener {
+                    onCancelAction()
                 }
             }
             builder.create()

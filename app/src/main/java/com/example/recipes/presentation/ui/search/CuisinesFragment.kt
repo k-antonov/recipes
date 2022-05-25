@@ -42,7 +42,7 @@ class CuisinesFragment : GridListFragment<CuisineDomain>() {
             viewModel.reload()
         }
 
-        val onDialogDismissAction = {
+        val onDialogCancelAction = {
             reconnectButton.visibility = View.VISIBLE
         }
 
@@ -67,7 +67,7 @@ class CuisinesFragment : GridListFragment<CuisineDomain>() {
                     showErrorDialog(
                         it.throwable.message,
                         onPositiveAction = onDialogPositiveAction,
-                        onDismissAction = onDialogDismissAction
+                        onCancelAction = onDialogCancelAction
                     )
                 }
             }

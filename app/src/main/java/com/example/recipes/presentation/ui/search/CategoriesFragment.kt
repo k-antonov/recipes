@@ -37,13 +37,13 @@ class CategoriesFragment : GridListFragment<CategoryDomain>() {
         reconnectButton.setOnClickListener {
             viewModel.reload()
         }
-
+        
         val onDialogPositiveAction = {
             reconnectButton.visibility = View.GONE
             viewModel.reload()
         }
 
-        val onDialogDismissAction = {
+        val onDialogCancelAction = {
             reconnectButton.visibility = View.VISIBLE
         }
 
@@ -68,7 +68,7 @@ class CategoriesFragment : GridListFragment<CategoryDomain>() {
                     showErrorDialog(
                         it.throwable.message,
                         onPositiveAction = onDialogPositiveAction,
-                        onDismissAction = onDialogDismissAction
+                        onCancelAction = onDialogCancelAction
                     )
                 }
             }
