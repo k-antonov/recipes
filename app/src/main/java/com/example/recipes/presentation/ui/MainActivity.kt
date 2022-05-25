@@ -3,6 +3,7 @@ package com.example.recipes.presentation.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.example.recipes.R
 import com.example.recipes.data.datasources.remote.RecipeApiService
 import com.example.recipes.data.datasources.remote.RecipeApiServiceImpl
@@ -49,14 +50,17 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.search -> {
+                    clearBackStack()
                     replaceFragmentWith(SearchFragment.newInstance())
                     true
                 }
                 R.id.favorites -> {
 //                    replaceFragmentWith(LocalPreviewsFragment.newInstance())
+                    clearBackStack()
                     true
                 }
                 R.id.settings -> {
+                    clearBackStack()
                     replaceFragmentWith(SettingsFragment.newInstance())
                     true
                 }
@@ -69,5 +73,12 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_fragment_container, fragment)
             .commit()
+    }
+
+    private fun clearBackStack() {
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            val first = supportFragmentManager.getBackStackEntryAt(0)
+            supportFragmentManager.popBackStack(first.id, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        }
     }
 }
