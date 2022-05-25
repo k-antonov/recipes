@@ -27,7 +27,10 @@ class RecipeLocalDataSource(
         )
     }
 
-    // todo как проверить на already exist? upd. вроде все норм с ignore, проверить
+    // вроде бы проверка на существование такой записи не нужна, т. к.
+    // в DAO указана OnConflictStrategy.REPLACE. Именно REPLACE, а не IGNORE,
+    // т. к. открывая PreviewsFragment в БД вносится частичная информация о рецептах,
+    // необходимая для отображения превью (id, name, imageUrl)
     private fun insertPreview(previewDomain: PreviewDomain): Long {
         return dao.insert(
             RecipeDb(

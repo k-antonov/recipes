@@ -3,6 +3,7 @@ package com.example.recipes.data.repositories
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.Transformations
 import com.example.recipes.MyApplication.Companion.categoryLocalDataSource
 import com.example.recipes.MyApplication.Companion.cuisineLocalDataSource
 import com.example.recipes.MyApplication.Companion.ingredientLocalDataSource
@@ -23,15 +24,20 @@ class DetailsRepositoryImpl(private val apiService: RecipeApiService) : DetailsR
     private val observer = Observer<Result<List<DetailDomain>>> { result ->
         result.onSuccess {
             val detailDomain = it[0]
-            val categoryId = categoryLocalDataSource.insert(detailDomain.nameCategory, detailDomain.imageUrl)
-            val cuisineId = cuisineLocalDataSource.insert(detailDomain.nameCuisine, detailDomain.imageUrl)
+            val categoryId =
+                categoryLocalDataSource.insert(detailDomain.nameCategory, detailDomain.imageUrl)
+            val cuisineId =
+                cuisineLocalDataSource.insert(detailDomain.nameCuisine, detailDomain.imageUrl)
             recipeLocalDataSource.insertDetail(detailDomain, categoryId, cuisineId)
 
             for (pair in detailDomain.ingredients.zip(detailDomain.measures)) {
                 val ingredientId = ingredientLocalDataSource.insert(pair.first)
                 val measureId = measureLocalDataSource.insert(pair.second)
-                // todo toLong()
-                recipesToIngredientsAndMeasuresLocalDataSource.insert(detailDomain.id.toLong(), ingredientId, measureId)
+                recipesToIngredientsAndMeasuresLocalDataSource.insert(
+                    detailDomain.id,
+                    ingredientId,
+                    measureId
+                )
             }
         }
     }
