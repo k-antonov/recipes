@@ -12,4 +12,5 @@
     <color name="light_gray">#B8B8B8</color>
     <color name="dark_gray">#858585</color>
     <color name="platinum">#EBEBEB</color>
+    <color name="transparent">#0000</color>
 </resources>

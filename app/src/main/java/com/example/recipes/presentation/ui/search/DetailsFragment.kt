@@ -1,6 +1,7 @@
 package com.example.recipes.presentation.ui.search
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -12,14 +13,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipes.R
 import com.example.recipes.domain.entities.DetailDomain
-import com.example.recipes.presentation.utils.ImageDownloader
 import com.example.recipes.presentation.adapters.IngredientsAdapter
 import com.example.recipes.presentation.ui.BaseFragment
 import com.example.recipes.presentation.ui.detailsInteractor
+import com.example.recipes.presentation.utils.ImageDownloader
 import com.example.recipes.presentation.viewmodels.BaseViewModel
 import com.example.recipes.presentation.viewmodels.DetailsViewModelFactory
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.CollapsingToolbarLayout
 
-private const val ARG_ENDPOINT = "endpoint"
+private const val ARG_RECIPE_ID = "recipe_id"
 
 class DetailsFragment : BaseFragment<DetailDomain>() {
 
@@ -34,12 +37,15 @@ class DetailsFragment : BaseFragment<DetailDomain>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            recipeId = it.getLong(ARG_ENDPOINT)
+            recipeId = it.getLong(ARG_RECIPE_ID)
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val appbar = view.findViewById<AppBarLayout>(R.id.appbar)
+        val collapsingToolbar = view.findViewById<CollapsingToolbarLayout>(R.id.collapsing_toolbar)
 
         val layout = view.findViewById<ConstraintLayout>(R.id.details_constraint_layout)
         val image = view.findViewById<ImageView>(R.id.details_image)
@@ -85,6 +91,7 @@ class DetailsFragment : BaseFragment<DetailDomain>() {
                     // нужно как-то переписать маппер
                     with(it.items[0]) {
                         ImageDownloader.load(image, imageUrl)
+                        setTitleWhenCollapsed(appbar, collapsingToolbar, this.name)
                         name.text = this.name
                         category.text = getString(
                             R.string.string_comma_string_placeholder,
@@ -109,12 +116,44 @@ class DetailsFragment : BaseFragment<DetailDomain>() {
 
     }
 
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_favorite -> {
+            //
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
+    }
+
+    private fun setTitleWhenCollapsed(
+        appbar: AppBarLayout,
+        collapsingToolbar: CollapsingToolbarLayout,
+        title: String
+    ) {
+        var isShow = true
+        var scrollRange = -1
+        appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+            if (scrollRange == -1) {
+                scrollRange = appBarLayout?.totalScrollRange!!
+            }
+            when {
+                scrollRange + verticalOffset == 0 -> {
+                    collapsingToolbar.title = title
+                    isShow = true
+                }
+                isShow -> {
+                    collapsingToolbar.title = " "
+                    isShow = false
+                }
+            }
+        })
+    }
+
     companion object {
         @JvmStatic
         fun newInstance(recipeId: Long) =
             DetailsFragment().apply {
                 arguments = Bundle().apply {
-                    putLong(ARG_ENDPOINT, recipeId)
+                    putLong(ARG_RECIPE_ID, recipeId)
                 }
             }
     }
