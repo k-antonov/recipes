@@ -4,7 +4,8 @@ import com.example.recipes.data.datasources.remote.entities.DetailRemote
 import com.example.recipes.data.datasources.remote.entities.DetailsRemote
 import com.example.recipes.domain.entities.DetailDomain
 
-class DetailsRemoteToDetailDomainListMapper : BaseMapper<DetailsRemote, DetailRemote, DetailDomain>() {
+class DetailsRemoteToDetailDomainListMapper :
+    BaseMapper<DetailsRemote, DetailRemote, DetailDomain>() {
     override fun mapToList(from: DetailsRemote): List<DetailRemote> {
         return from.detailsRemote
     }
@@ -25,6 +26,10 @@ class DetailsRemoteToDetailDomainListMapper : BaseMapper<DetailsRemote, DetailRe
             from.strMeasure13, from.strMeasure14, from.strMeasure15, from.strMeasure16,
             from.strMeasure17, from.strMeasure18, from.strMeasure19, from.strMeasure20,
         ).filterNotNull().filter { it.isNotBlank() }
+
+        for (i in measures.size..ingredients.lastIndex) {
+            (measures as MutableList).add("to taste")
+        }
 
         return DetailDomain(
             id = from.id.toLong(),
