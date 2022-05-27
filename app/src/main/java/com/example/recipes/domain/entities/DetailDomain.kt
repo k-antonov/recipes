@@ -8,5 +8,6 @@ data class DetailDomain(
     val strInstructions: String,
     val imageUrl: String,
     val ingredients: List<String>,
-    val measures: List<String>
+    val measures: List<String>,
+    var isFavorite: Boolean
 )

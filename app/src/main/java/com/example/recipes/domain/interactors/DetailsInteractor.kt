@@ -12,4 +12,8 @@ class DetailsInteractor(
     override fun execute(): LiveData<Result<List<DetailDomain>>> {
         return detailsRepository.fetchData(recipeId)
     }
+
+    fun changeFavoriteStatus(recipeId: Long, isFavorite: Boolean) {
+        detailsRepository.changeFavoriteStatus(recipeId, isFavorite)
+    }
 }

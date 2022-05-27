@@ -30,7 +30,8 @@ data class RecipeDb(
     val categoryId: Long? = null,
     val cuisineId: Long? = null,
     val instructions: String? = null,
-    val imageUrl: String
+    val imageUrl: String,
+    var isFavorite: Boolean = false
 )
 
 

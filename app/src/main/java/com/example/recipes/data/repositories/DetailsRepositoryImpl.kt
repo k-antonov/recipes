@@ -63,4 +63,8 @@ class DetailsRepositoryImpl(private val apiService: RecipeApiService) : DetailsR
     private fun fetchLocalData(id: Long): DetailDomain? {
         return recipeLocalDataSource.loadDetail(id)
     }
+
+    override fun changeFavoriteStatus(recipeId: Long, isFavorite: Boolean) {
+        recipeLocalDataSource.changeFavoriteStatus(recipeId, isFavorite)
+    }
 }

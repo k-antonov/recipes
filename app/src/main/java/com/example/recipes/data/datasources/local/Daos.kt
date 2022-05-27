@@ -20,6 +20,9 @@ interface RecipeDao {
     @Transaction
     @Query("SELECT * FROM recipes WHERE id = :id")
     fun getDetailsById(id: Long): RecipeWithCategoryAndCuisineRelation
+
+    @Query("UPDATE recipes SET isFavorite = :isFavorite WHERE id = :id")
+    fun updateFavoriteStatusById(id: Long, isFavorite: Boolean)
 }
 
 @Dao

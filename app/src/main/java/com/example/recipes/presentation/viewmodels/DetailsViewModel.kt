@@ -21,6 +21,10 @@ class DetailsViewModel(
         detailsInteractor.recipeId = recipeId
         fetch()
     }
+
+    fun changeFavoriteStatus(recipeId: Long, isFavorite: Boolean) {
+        detailsInteractor.changeFavoriteStatus(recipeId, isFavorite)
+    }
 }
 
 class DetailsViewModelFactory(

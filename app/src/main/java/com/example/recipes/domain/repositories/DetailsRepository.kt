@@ -5,4 +5,5 @@ import com.example.recipes.domain.entities.DetailDomain
 
 interface DetailsRepository {
     fun fetchData(recipeId: Long): LiveData<Result<List<DetailDomain>>>
+    fun changeFavoriteStatus(recipeId: Long, isFavorite: Boolean)
 }

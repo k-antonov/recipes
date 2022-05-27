@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 
 @Database(
-    version = 4,
+    version = 5,
     entities = [
         CategoryDb::class,
         CuisineDb::class,

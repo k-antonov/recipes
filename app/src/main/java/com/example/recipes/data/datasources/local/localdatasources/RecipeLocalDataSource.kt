@@ -14,6 +14,10 @@ class RecipeLocalDataSource(
 
     private val dao = database.getRecipeDao()
 
+    fun changeFavoriteStatus(recipeId: Long, isFavorite: Boolean) {
+        return dao.updateFavoriteStatusById(recipeId, isFavorite)
+    }
+
     fun insertDetail(entity: DetailDomain, categoryId: Long, cuisineId: Long): Long {
         return dao.insert(
             RecipeDb(
@@ -77,7 +81,8 @@ class RecipeLocalDataSource(
             strInstructions = recipeWithCategoryAndCuisine.recipe.instructions!!,
             imageUrl = recipeWithCategoryAndCuisine.recipe.imageUrl,
             ingredients = ingredients,
-            measures = measures
+            measures = measures,
+            isFavorite = recipeWithCategoryAndCuisine.recipe.isFavorite
         )
     }
 

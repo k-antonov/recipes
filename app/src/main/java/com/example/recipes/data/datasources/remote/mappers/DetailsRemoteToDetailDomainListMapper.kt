@@ -39,7 +39,8 @@ class DetailsRemoteToDetailDomainListMapper :
             strInstructions = from.strInstructions,
             imageUrl = from.imageUrl,
             ingredients = ingredients,
-            measures = measures
+            measures = measures,
+            isFavorite = false
         )
     }
 }

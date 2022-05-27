@@ -18,9 +18,11 @@ import com.example.recipes.presentation.ui.BaseFragment
 import com.example.recipes.presentation.ui.detailsInteractor
 import com.example.recipes.presentation.utils.ImageDownloader
 import com.example.recipes.presentation.viewmodels.BaseViewModel
+import com.example.recipes.presentation.viewmodels.DetailsViewModel
 import com.example.recipes.presentation.viewmodels.DetailsViewModelFactory
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.google.android.material.appbar.MaterialToolbar
 
 private const val ARG_RECIPE_ID = "recipe_id"
 
@@ -46,11 +48,14 @@ class DetailsFragment : BaseFragment<DetailDomain>() {
 
         val appbar = view.findViewById<AppBarLayout>(R.id.appbar)
         val collapsingToolbar = view.findViewById<CollapsingToolbarLayout>(R.id.collapsing_toolbar)
+        val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbar)
 
         val layout = view.findViewById<ConstraintLayout>(R.id.details_constraint_layout)
         val image = view.findViewById<ImageView>(R.id.details_image)
         val name = view.findViewById<TextView>(R.id.details_name)
         val category = view.findViewById<TextView>(R.id.details_category_and_cuisine)
+
+        val favoriteItem = toolbar.menu.findItem(R.id.action_favorite)
 
         val ingredientsRecyclerView =
             view.findViewById<RecyclerView>(R.id.details_ingredients_recyclerview)
@@ -101,6 +106,10 @@ class DetailsFragment : BaseFragment<DetailDomain>() {
                         instructions.text = strInstructions
 
                         adapter.reload(ingredients, measures)
+
+                        favoriteItem.setFavorite(isFavorite)
+                        toolbar.setClickListener(id, isFavorite)
+
                     }
                 }
                 is BaseViewModel.UiState.Failure -> {
@@ -116,12 +125,22 @@ class DetailsFragment : BaseFragment<DetailDomain>() {
 
     }
 
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.action_favorite -> {
-            //
-            true
+    private fun MaterialToolbar.setClickListener(recipeId: Long, wasFavorite: Boolean) = run {
+        setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_favorite -> {
+                    (viewModel as DetailsViewModel).changeFavoriteStatus(recipeId, !wasFavorite)
+                    viewModel.reload()
+                    true
+                }
+                else -> false
+            }
         }
-        else -> super.onOptionsItemSelected(item)
+    }
+
+    private fun MenuItem.setFavorite(isFavorite: Boolean) {
+        val icon = if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_unfavorite
+        setIcon(icon)
     }
 
     private fun setTitleWhenCollapsed(
