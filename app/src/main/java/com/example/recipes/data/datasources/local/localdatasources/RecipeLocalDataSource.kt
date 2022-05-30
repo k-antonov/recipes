@@ -61,7 +61,8 @@ class RecipeLocalDataSource(
     fun loadDetail(recipeId: Long): DetailDomain? {
 
         val recipeWithCategoryAndCuisine = dao.getDetailsById(recipeId)
-        if (!hasDetails(recipeWithCategoryAndCuisine)) return null
+        Log.d("RecipeLocal", "recipeWithCategory=$recipeWithCategoryAndCuisine")
+        if (recipeWithCategoryAndCuisine == null) return null
 
         val recipesToIngredientsAndMeasures =
             recipesToIngredientsAndMeasuresLocalDataSource.loadById(recipeId)
@@ -76,17 +77,13 @@ class RecipeLocalDataSource(
         return DetailDomain(
             id = recipeId,
             name = recipeWithCategoryAndCuisine.recipe.name,
-            nameCategory = recipeWithCategoryAndCuisine.category!!.name,
-            nameCuisine = recipeWithCategoryAndCuisine.cuisine!!.name,
+            nameCategory = recipeWithCategoryAndCuisine.category.name,
+            nameCuisine = recipeWithCategoryAndCuisine.cuisine.name,
             strInstructions = recipeWithCategoryAndCuisine.recipe.instructions!!,
             imageUrl = recipeWithCategoryAndCuisine.recipe.imageUrl,
             ingredients = ingredients,
             measures = measures,
             isFavorite = recipeWithCategoryAndCuisine.recipe.isFavorite
         )
-    }
-
-    private fun hasDetails(relation: RecipeWithCategoryAndCuisineRelation): Boolean {
-        return relation.category != null
     }
 }

@@ -35,6 +35,7 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>() {
         arguments?.let {
             endpoint = it.getString(ARG_ENDPOINT).toString()
         }
+        viewModel.reload()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,20 +66,22 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>() {
         viewModel.uiState.observe(viewLifecycleOwner) {
             when (it) {
                 is BaseViewModel.UiState.Loading -> {
+                    recyclerView.visibility = View.GONE
                     progressBar.visibility = View.VISIBLE
                     reconnectButton.visibility = View.GONE
                 }
                 is BaseViewModel.UiState.Success -> {
+                    adapter.reload(it.items)
+                    recyclerView.visibility = View.VISIBLE
                     progressBar.visibility = View.GONE
 
                     adapter.onItemClicked = { position ->
                         val recipeId = it.items[position].id
                         onListItemClick(DetailsFragment.newInstance(recipeId))
                     }
-                    adapter.reload(it.items)
-
                 }
                 is BaseViewModel.UiState.Failure -> {
+                    recyclerView.visibility = View.GONE
                     progressBar.visibility = View.INVISIBLE
                     showErrorDialog(
                         it.throwable.message,

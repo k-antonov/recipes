@@ -10,13 +10,13 @@ data class RecipeWithCategoryAndCuisineRelation(
         entityColumn = "id",
         entity = CategoryDb::class
     )
-    val category: CategoryDb?,
+    val category: CategoryDb,
     @Relation(
         parentColumn = "cuisineId",
         entityColumn = "id",
         entity = CuisineDb::class
     )
-    val cuisine: CuisineDb?
+    val cuisine: CuisineDb
 )
 
 data class RecipeWithIngredientAndMeasureRelation(

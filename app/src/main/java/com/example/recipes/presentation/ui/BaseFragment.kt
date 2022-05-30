@@ -20,13 +20,16 @@ abstract class BaseFragment<Entity> : Fragment() {
         savedInstanceState: Bundle?
     ): View? = layoutInflater.inflate(layoutResId, container, false)
 
+    private var alertDialog: AlertDialog? = null
+
     protected fun showErrorDialog(
         message: String?,
         positiveActionTextId: Int = R.string.try_again,
         onPositiveAction: () -> Unit,
         onCancelAction: () -> Unit
     ) {
-        val alertDialog = requireActivity().let {
+        if (alertDialog?.isShowing == true) return
+        alertDialog = requireActivity().let {
             val builder = AlertDialog.Builder(it)
             builder.apply {
                 setMessage(message)
@@ -39,6 +42,6 @@ abstract class BaseFragment<Entity> : Fragment() {
             }
             builder.create()
         }
-        alertDialog.show()
+        alertDialog?.show()
     }
 }

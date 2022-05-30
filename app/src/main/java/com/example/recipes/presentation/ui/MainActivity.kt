@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.favorites -> {
 //                    replaceFragmentWith(LocalPreviewsFragment.newInstance())
-                    clearBackStack()
+//                    clearBackStack() // позже вернуть
                     true
                 }
                 R.id.settings -> {

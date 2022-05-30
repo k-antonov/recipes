@@ -8,7 +8,8 @@ import com.example.recipes.domain.entities.PreviewDomain
 @Dao
 interface RecipeDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+//    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(recipeDb: RecipeDb): Long
 
     @Query("SELECT recipes.id, recipes.name, recipes.imageUrl " +
@@ -19,7 +20,7 @@ interface RecipeDao {
 
     @Transaction
     @Query("SELECT * FROM recipes WHERE id = :id")
-    fun getDetailsById(id: Long): RecipeWithCategoryAndCuisineRelation
+    fun getDetailsById(id: Long): RecipeWithCategoryAndCuisineRelation?
 
     @Query("UPDATE recipes SET isFavorite = :isFavorite WHERE id = :id")
     fun updateFavoriteStatusById(id: Long, isFavorite: Boolean)

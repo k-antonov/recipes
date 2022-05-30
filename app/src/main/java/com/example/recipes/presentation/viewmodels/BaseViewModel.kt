@@ -18,7 +18,6 @@ abstract class BaseViewModel<T>(private val interactor: Interactor<T>) : ViewMod
         get() = mutableUiState
 
     private val observer = Observer<Result<List<T>>> { result ->
-
         result?.onSuccess {
             mutableUiState.value = UiState.Success(items = it)
         }
@@ -26,7 +25,6 @@ abstract class BaseViewModel<T>(private val interactor: Interactor<T>) : ViewMod
             Log.d("BaseViewModel", "throwable: $it")
             mutableUiState.value = UiState.Failure(throwable = it)
         }
-
     }
 
     protected open fun fetch() {
