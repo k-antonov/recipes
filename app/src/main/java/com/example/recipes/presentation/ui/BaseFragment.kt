@@ -22,6 +22,7 @@ abstract class BaseFragment<Entity> : Fragment() {
 
     private var alertDialog: AlertDialog? = null
 
+    // возможно, не понадобится
     protected fun showErrorDialog(
         message: String?,
         positiveActionTextId: Int = R.string.try_again,

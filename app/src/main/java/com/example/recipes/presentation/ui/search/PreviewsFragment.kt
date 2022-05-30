@@ -2,11 +2,11 @@ package com.example.recipes.presentation.ui.search
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.recipes.R
 import com.example.recipes.domain.entities.PreviewDomain
 import com.example.recipes.presentation.adapters.ClickableItemAdapter
@@ -41,39 +41,30 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.preview_recycler_view)
+        val swipeRefreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.swipe_refresh_layout)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         adapter = ClickableItemAdapter()
         recyclerView.adapter = adapter
 
-        val progressBar = view.findViewById<ProgressBar>(R.id.preview_progress_bar)
+        val reconnectTextView = view.findViewById<TextView>(R.id.reconnect_text_view)
 
-        val reconnectButton = view.findViewById<Button>(R.id.preview_reconnect_button)
-        reconnectButton.setOnClickListener {
+        swipeRefreshLayout.setOnRefreshListener {
             viewModel.reload()
-        }
-
-        val onDialogPositiveAction = {
-            reconnectButton.visibility = View.GONE
-            viewModel.reload()
-        }
-
-        val onDialogCancelAction = {
-            reconnectButton.visibility = View.VISIBLE
         }
 
         viewModel.uiState.observe(viewLifecycleOwner) {
             when (it) {
                 is BaseViewModel.UiState.Loading -> {
                     recyclerView.visibility = View.GONE
-                    progressBar.visibility = View.VISIBLE
-                    reconnectButton.visibility = View.GONE
+                    swipeRefreshLayout.isRefreshing = true
                 }
                 is BaseViewModel.UiState.Success -> {
+                    swipeRefreshLayout.isRefreshing = false
+                    reconnectTextView.visibility = View.GONE
                     adapter.reload(it.items)
                     recyclerView.visibility = View.VISIBLE
-                    progressBar.visibility = View.GONE
 
                     adapter.onItemClicked = { position ->
                         val recipeId = it.items[position].id
@@ -81,13 +72,9 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>() {
                     }
                 }
                 is BaseViewModel.UiState.Failure -> {
+                    swipeRefreshLayout.isRefreshing = false
                     recyclerView.visibility = View.GONE
-                    progressBar.visibility = View.INVISIBLE
-                    showErrorDialog(
-                        it.throwable.message,
-                        onPositiveAction = onDialogPositiveAction,
-                        onCancelAction = onDialogCancelAction
-                    )
+                    reconnectTextView.visibility = View.VISIBLE
                 }
             }
         }
