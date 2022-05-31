@@ -12,6 +12,7 @@ import com.example.recipes.domain.entities.PreviewDomain
 import com.example.recipes.presentation.adapters.ClickableItemAdapter
 import com.example.recipes.presentation.ui.BaseListFragment
 import com.example.recipes.presentation.ui.favoritePreviewsInteractor
+import com.example.recipes.presentation.ui.search.DetailsFragment
 import com.example.recipes.presentation.viewmodels.BaseViewModel
 import com.example.recipes.presentation.viewmodels.FavoritePreviewsViewModelFactory
 
@@ -50,10 +51,10 @@ class FavoritePreviewsFragment : BaseListFragment<PreviewDomain>() {
                     progressBar.visibility = View.GONE
                     uiFailureTextView.visibility = View.GONE
 
-//                    adapter.onItemClicked = { position ->
-//                        val recipeId = it.items[position].id
-//                        onListItemClick(DetailsFragment.newInstance(recipeId))
-//                    }
+                    adapter.onItemClicked = { position ->
+                        val recipeId = it.items[position].id
+                        onListItemClick(DetailsFragment.newInstance(recipeId))
+                    }
                 }
                 is BaseViewModel.UiState.Failure -> {
                     progressBar.visibility = View.GONE

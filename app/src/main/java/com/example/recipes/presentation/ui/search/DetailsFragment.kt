@@ -109,7 +109,6 @@ class DetailsFragment : BaseFragment<DetailDomain>() {
 
                         favoriteItem.setFavorite(isFavorite)
                         toolbar.setClickListener(id, isFavorite)
-
                     }
                 }
                 is BaseViewModel.UiState.Failure -> {
