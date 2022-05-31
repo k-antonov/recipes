@@ -1,8 +1,8 @@
 package com.example.recipes.data.repositories
 
+import android.accounts.NetworkErrorException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.example.recipes.MyApplication.Companion.cuisineLocalDataSource
 import com.example.recipes.data.datasources.remote.RecipeApiService
 import com.example.recipes.data.datasources.remote.entities.CuisinesRemote
@@ -15,22 +15,38 @@ class CuisinesRepositoryImpl(private val apiService: RecipeApiService) : Cuisine
 
     private val mapper: CuisinesRemoteToCuisineDomainListMapper by lazy { CuisinesRemoteToCuisineDomainListMapper() }
 
-    private val observer = Observer<Result<List<CuisineDomain>>> { result ->
-        result.onSuccess {
-            cuisineLocalDataSource.insertList(it)
-        }
-    }
+    private val liveDataToReturn = MutableLiveData<Result<List<CuisineDomain>>>()
 
     override fun fetchData(): LiveData<Result<List<CuisineDomain>>> {
         val localDataList = fetchLocalData()
-        return if (localDataList.isEmpty()) {
-            val remoteDataList = fetchRemoteData()
-            val mappedToDomain = mapper.mapLiveData(remoteDataList)
-            mappedToDomain.observeOnce(observer)
-            mappedToDomain
-        } else {
-            MutableLiveData(Result.success(localDataList))
+        if (localDataList.isNotEmpty()) {
+            liveDataToReturn.value = Result.success(localDataList)
         }
+
+        wrapFetchingRemoteData(object : FetchDataCallback {
+            override fun onSuccess() {
+                val remoteDataList = fetchRemoteData()
+                val mappedToDomain = mapper.mapLiveData(remoteDataList)
+                mappedToDomain.observeOnce { result ->
+                    result.onSuccess {
+                        liveDataToReturn.value = Result.success(it)
+                        cuisineLocalDataSource.insertList(it)
+                    }
+                    result.onFailure {
+                        if (localDataList.isEmpty()) {
+                            liveDataToReturn.value =
+                                Result.failure(NetworkErrorException("Network error"))
+                        }
+                    }
+                }
+            }
+        })
+
+        return liveDataToReturn
+    }
+
+    private fun wrapFetchingRemoteData(fetchDataCallback: FetchDataCallback) {
+        fetchDataCallback.onSuccess()
     }
 
     private fun fetchRemoteData(): LiveData<Result<CuisinesRemote>> {

@@ -16,19 +16,6 @@ class PreviewsRepositoryImpl(private val apiService: RecipeApiService) : Preview
 
     private val mapper: PreviewsRemoteToPreviewDomainListMapper by lazy { PreviewsRemoteToPreviewDomainListMapper() }
 
-//    private val observer = Observer<Result<List<PreviewDomain>>> { result ->
-//        result.onSuccess {
-//            // Здесь вносится id, name и imageUrl без categoryId или cuisineId,
-//            // поэтому локально отобразить превью без всей информации о рецепте не получится
-//            // (запрос делается с условием по категории или кухне). Поэтому, возможно, нет смысла
-//            // вносить превью в БД. Даже если бы я вносил превью с категорией/кухней, то при
-//            // открытии списка превью пользователь, вероятно, хочет иметь возможность
-//            // получить всю информацию о рецепте, а не только картинку с названием и надпись
-//            // "Network Error" при нажатии на неё. Что думаешь?
-//            recipeLocalDataSource.insertPreviewList(it)
-//        }
-//    }
-
     private val liveDataToReturn = MutableLiveData<Result<List<PreviewDomain>>>()
 
     override fun fetchData(endpoint: String): LiveData<Result<List<PreviewDomain>>> {
@@ -46,7 +33,15 @@ class PreviewsRepositoryImpl(private val apiService: RecipeApiService) : Preview
                 mappedToDomain.observeOnce { result ->
                     result.onSuccess {
                         liveDataToReturn.value = Result.success(it)
-//                        liveDataToReturn.observeOnce(observer)
+
+                        // Здесь вносится id, name и imageUrl без categoryId или cuisineId,
+                        // поэтому локально отобразить превью без всей информации о рецепте не получится
+                        // (запрос делается с условием по категории или кухне). Поэтому, возможно, нет смысла
+                        // вносить превью в БД. Даже если бы я вносил превью с категорией/кухней, то при
+                        // открытии списка превью пользователь, вероятно, хочет иметь возможность
+                        // получить всю информацию о рецепте, а не только картинку с названием и надпись
+                        // "Network Error" при нажатии на неё. Что думаешь?
+//                        recipeLocalDataSource.insertPreviewList(it)
                     }
                     result.onFailure {
                         Log.d("PreviewsRepo", "onFailure")
@@ -66,10 +61,6 @@ class PreviewsRepositoryImpl(private val apiService: RecipeApiService) : Preview
 
     private fun wrapFetchingRemoteData(fetchDataCallback: FetchDataCallback) {
         fetchDataCallback.onSuccess()
-    }
-
-    interface FetchDataCallback {
-        fun onSuccess()
     }
 
     private fun fetchRemoteData(endpoint: String): LiveData<Result<PreviewsRemote>> {
