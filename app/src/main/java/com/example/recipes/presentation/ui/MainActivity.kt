@@ -31,9 +31,6 @@ val cuisinesInteractor = CuisinesInteractor(cuisinesRepository)
 val previewsInteractor = PreviewsInteractor(previewsRepository)
 val detailsInteractor = DetailsInteractor(detailsRepository)
 val favoritePreviewsInteractor = FavoritePreviewsInteractor(favoritePreviewsRepository)
-
-//val localPreviewsInteractor = LocalPreviewsInteractor(recipeRepository)
-//val localDetailsInteractor = LocalDetailsInteractor(recipeRepository)
 val settingsInteractor = SettingsInteractor(commonRepository)
 
 class MainActivity : AppCompatActivity() {

@@ -18,8 +18,9 @@ abstract class BaseListFragment<Entity> : BaseFragment<Entity>() {
     private fun replaceFragmentWith(fragment: Fragment) {
         requireActivity().supportFragmentManager
             .beginTransaction()
-            .replace(R.id.main_fragment_container, fragment)
             .addToBackStack(null)
+            .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
+            .replace(R.id.main_fragment_container, fragment)
             .commit()
     }
 
