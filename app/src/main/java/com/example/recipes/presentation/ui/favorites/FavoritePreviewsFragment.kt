@@ -1,4 +1,4 @@
-package com.example.recipes.presentation.ui.search
+package com.example.recipes.presentation.ui.favorites
 
 import android.os.Bundle
 import android.view.View
@@ -7,55 +7,38 @@ import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.recipes.R
 import com.example.recipes.domain.entities.PreviewDomain
 import com.example.recipes.presentation.adapters.ClickableItemAdapter
 import com.example.recipes.presentation.ui.BaseListFragment
-import com.example.recipes.presentation.ui.previewsInteractor
+import com.example.recipes.presentation.ui.favoritePreviewsInteractor
 import com.example.recipes.presentation.viewmodels.BaseViewModel
-import com.example.recipes.presentation.viewmodels.PreviewsViewModelFactory
+import com.example.recipes.presentation.viewmodels.FavoritePreviewsViewModelFactory
 
-private const val ARG_ENDPOINT = "endpoint"
 
-class PreviewsFragment : BaseListFragment<PreviewDomain>() {
-
-    private lateinit var endpoint: String
+class FavoritePreviewsFragment : BaseListFragment<PreviewDomain>() {
 
     override val viewModel: BaseViewModel<PreviewDomain> by viewModels {
-        PreviewsViewModelFactory(previewsInteractor, endpoint)
+        FavoritePreviewsViewModelFactory(favoritePreviewsInteractor)
     }
 
-    override val layoutResId = R.layout.fragment_previews
+    override val layoutResId = R.layout.fragment_favorite_previews
 
     override val layoutManager: RecyclerView.LayoutManager
         get() = LinearLayoutManager(requireContext())
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            endpoint = it.getString(ARG_ENDPOINT).toString()
-        }
-        viewModel.reload()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val swipeRefreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.swipe_refresh_layout)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        adapter = ClickableItemAdapter()
-        recyclerView.adapter = adapter
+        recyclerView.layoutManager = layoutManager
 
         val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
         val uiFailureTextView = view.findViewById<TextView>(R.id.ui_failure_text_view)
-        uiFailureTextView.text = getString(R.string.reconnect)
+        uiFailureTextView.text = getString(R.string.no_favorite_recipes_yet)
 
-        swipeRefreshLayout.setOnRefreshListener {
-            viewModel.reload()
-        }
+        adapter = ClickableItemAdapter()
+        recyclerView.adapter = adapter
 
         viewModel.uiState.observe(viewLifecycleOwner) {
             when (it) {
@@ -63,35 +46,26 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>() {
                 }
                 is BaseViewModel.UiState.Success -> {
                     adapter.reload(it.items)
-                    swipeRefreshLayout.isRefreshing = false
                     recyclerView.visibility = View.VISIBLE
                     progressBar.visibility = View.GONE
                     uiFailureTextView.visibility = View.GONE
 
-                    adapter.onItemClicked = { position ->
-                        val recipeId = it.items[position].id
-                        onListItemClick(DetailsFragment.newInstance(recipeId))
-                    }
+//                    adapter.onItemClicked = { position ->
+//                        val recipeId = it.items[position].id
+//                        onListItemClick(DetailsFragment.newInstance(recipeId))
+//                    }
                 }
                 is BaseViewModel.UiState.Failure -> {
-                    swipeRefreshLayout.isRefreshing = false
                     progressBar.visibility = View.GONE
                     recyclerView.visibility = View.GONE
                     uiFailureTextView.visibility = View.VISIBLE
                 }
             }
         }
-
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(endpoint: String) =
-            PreviewsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_ENDPOINT, endpoint)
-                }
-            }
+        fun newInstance() = FavoritePreviewsFragment()
     }
-
 }

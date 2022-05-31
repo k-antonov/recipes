@@ -18,6 +18,9 @@ interface RecipeDao {
             "WHERE categories.name = :name OR cuisines.name = :name")
     fun getPreviewsByCategoryOrCuisine(name: String): List<PreviewDomain>
 
+    @Query("SELECT id, name, imageUrl FROM recipes WHERE isFavorite = 1")
+    fun getPreviewsFavorite(): List<PreviewDomain>
+
     @Transaction
     @Query("SELECT * FROM recipes WHERE id = :id")
     fun getDetailsById(id: Long): RecipeWithCategoryAndCuisineRelation?

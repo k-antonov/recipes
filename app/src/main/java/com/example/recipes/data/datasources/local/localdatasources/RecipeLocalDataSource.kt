@@ -58,6 +58,9 @@ class RecipeLocalDataSource(
         return list
     }
 
+    fun getPreviewsFavorite(): List<PreviewDomain> =
+        dao.getPreviewsFavorite()
+
     fun loadDetail(recipeId: Long): DetailDomain? {
 
         val recipeWithCategoryAndCuisine = dao.getDetailsById(recipeId)

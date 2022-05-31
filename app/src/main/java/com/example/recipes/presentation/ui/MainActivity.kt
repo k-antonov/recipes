@@ -10,6 +10,7 @@ import com.example.recipes.data.datasources.remote.RecipeApiServiceImpl
 import com.example.recipes.data.repositories.*
 import com.example.recipes.databinding.ActivityMainBinding
 import com.example.recipes.domain.interactors.*
+import com.example.recipes.presentation.ui.favorites.FavoritePreviewsFragment
 //import com.example.recipes.presentation.ui.favorites.LocalPreviewsFragment
 import com.example.recipes.presentation.ui.search.SearchFragment
 import com.example.recipes.presentation.ui.settings.SettingsFragment
@@ -23,11 +24,13 @@ val cuisinesRepository = CuisinesRepositoryImpl(recipeApiService)
 val previewsRepository = PreviewsRepositoryImpl(recipeApiService)
 val detailsRepository = DetailsRepositoryImpl(recipeApiService)
 val commonRepository = CommonRepositoryImpl()
+val favoritePreviewsRepository = FavoritePreviewsRepositoryImpl()
 
 val categoriesInteractor = CategoriesInteractor(categoriesRepository)
 val cuisinesInteractor = CuisinesInteractor(cuisinesRepository)
 val previewsInteractor = PreviewsInteractor(previewsRepository)
 val detailsInteractor = DetailsInteractor(detailsRepository)
+val favoritePreviewsInteractor = FavoritePreviewsInteractor(favoritePreviewsRepository)
 
 //val localPreviewsInteractor = LocalPreviewsInteractor(recipeRepository)
 //val localDetailsInteractor = LocalDetailsInteractor(recipeRepository)
@@ -55,8 +58,8 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.favorites -> {
-//                    replaceFragmentWith(LocalPreviewsFragment.newInstance())
-//                    clearBackStack() // позже вернуть
+                    clearBackStack() // позже вернуть
+                    replaceFragmentWith(FavoritePreviewsFragment.newInstance())
                     true
                 }
                 R.id.settings -> {

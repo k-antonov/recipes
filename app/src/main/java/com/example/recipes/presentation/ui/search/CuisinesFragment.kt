@@ -2,7 +2,6 @@ package com.example.recipes.presentation.ui.search
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.viewModels
@@ -26,14 +25,16 @@ class CuisinesFragment : GridListFragment<CuisineDomain>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         val swipeRefreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.swipe_refresh_layout)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.layoutManager = layoutManager
 
         adapter = ClickableItemAdapter()
         recyclerView.adapter = adapter
 
-        val reconnectTextView = view.findViewById<TextView>(R.id.reconnect_text_view)
+        val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
+        val uiFailureTextView = view.findViewById<TextView>(R.id.ui_failure_text_view)
+        uiFailureTextView.text = getString(R.string.reconnect)
 
         swipeRefreshLayout.setOnRefreshListener {
             viewModel.reload()
@@ -42,14 +43,13 @@ class CuisinesFragment : GridListFragment<CuisineDomain>() {
         viewModel.uiState.observe(viewLifecycleOwner) {
             when (it) {
                 is BaseViewModel.UiState.Loading -> {
-                    recyclerView.visibility = View.GONE
-                    swipeRefreshLayout.isRefreshing = true
                 }
                 is BaseViewModel.UiState.Success -> {
-                    swipeRefreshLayout.isRefreshing = false
-                    reconnectTextView.visibility = View.GONE
                     adapter.reload(it.items)
+                    swipeRefreshLayout.isRefreshing = false
                     recyclerView.visibility = View.VISIBLE
+                    progressBar.visibility = View.GONE
+                    uiFailureTextView.visibility = View.GONE
 
                     adapter.onItemClicked = { position ->
                         val endpoint = "a=${it.items[position].name}"
@@ -58,8 +58,9 @@ class CuisinesFragment : GridListFragment<CuisineDomain>() {
                 }
                 is BaseViewModel.UiState.Failure -> {
                     swipeRefreshLayout.isRefreshing = false
+                    progressBar.visibility = View.GONE
                     recyclerView.visibility = View.GONE
-                    reconnectTextView.visibility = View.VISIBLE
+                    uiFailureTextView.visibility = View.VISIBLE
                 }
             }
         }

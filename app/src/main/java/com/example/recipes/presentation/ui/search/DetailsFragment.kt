@@ -66,7 +66,7 @@ class DetailsFragment : BaseFragment<DetailDomain>() {
 
         val instructions = view.findViewById<TextView>(R.id.details_instructions)
 
-        val progressBar = view.findViewById<ProgressBar>(R.id.details_progress_bar)
+        val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
 
         val reconnectButton = view.findViewById<Button>(R.id.details_reconnect_button)
         reconnectButton.setOnClickListener {

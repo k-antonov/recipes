@@ -30,8 +30,7 @@
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax"
-                android:contentDescription=""/>
+                app:layout_collapseMode="parallax" />
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
@@ -44,13 +43,7 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ProgressBar
-        android:id="@+id/details_progress_bar"
-        android:layout_width="@dimen/progress_bar"
-        android:layout_height="@dimen/progress_bar"
-        android:layout_gravity="center"
-        android:indeterminateTint="@color/yellow_orange"
-        android:visibility="gone" />
+    <include layout="@layout/progress_bar" />
 
     <Button
         android:id="@+id/details_reconnect_button"

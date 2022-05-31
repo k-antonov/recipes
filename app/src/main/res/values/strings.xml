@@ -14,4 +14,5 @@
     <string name="reconnect">Oops, network error. Swipe up to reconnect.</string>
     <string name="clear_cache">Clear cache</string>
     <string name="add_to_favorites">Add to favorites</string>
+    <string name="no_favorite_recipes_yet">No favorite recipes yet</string>
 </resources>
