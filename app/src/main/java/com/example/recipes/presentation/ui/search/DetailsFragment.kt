@@ -23,6 +23,7 @@ import com.example.recipes.presentation.viewmodels.DetailsViewModelFactory
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 private const val ARG_RECIPE_ID = "recipe_id"
 
@@ -36,11 +37,20 @@ class DetailsFragment : BaseFragment<DetailDomain>() {
 
     override val layoutResId = R.layout.fragment_details
 
+    private lateinit var bottomNav: BottomNavigationView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             recipeId = it.getLong(ARG_RECIPE_ID)
         }
+        bottomNav = requireActivity().findViewById(R.id.bottom_navigation)
+        bottomNav.visibility = View.GONE
+    }
+
+    override fun onStop() {
+        super.onStop()
+        bottomNav.visibility = View.VISIBLE
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
