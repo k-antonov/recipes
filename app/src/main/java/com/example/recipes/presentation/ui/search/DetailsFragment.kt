@@ -1,8 +1,10 @@
 package com.example.recipes.presentation.ui.search
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -44,7 +46,19 @@ class DetailsFragment : BaseFragment<DetailDomain>() {
         arguments?.let {
             recipeId = it.getLong(ARG_RECIPE_ID)
         }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         bottomNav = requireActivity().findViewById(R.id.bottom_navigation)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onStart() {
+        super.onStart()
         bottomNav.visibility = View.GONE
     }
 
