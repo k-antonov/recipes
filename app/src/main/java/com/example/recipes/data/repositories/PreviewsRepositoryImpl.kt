@@ -4,7 +4,7 @@ import android.accounts.NetworkErrorException
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.recipes.MyApplication.Companion.recipeLocalDataSource
+import com.example.recipes.data.datasources.local.localdatasources.RecipeLocalDataSource
 import com.example.recipes.data.datasources.remote.RecipeApiService
 import com.example.recipes.data.datasources.remote.entities.PreviewsRemote
 import com.example.recipes.data.datasources.remote.mappers.PreviewsRemoteToPreviewDomainListMapper
@@ -12,7 +12,10 @@ import com.example.recipes.domain.entities.PreviewDomain
 import com.example.recipes.domain.repositories.PreviewsRepository
 import com.example.recipes.utils.observeOnce
 
-class PreviewsRepositoryImpl(private val apiService: RecipeApiService) : PreviewsRepository {
+class PreviewsRepositoryImpl(
+    private val recipeApiService: RecipeApiService,
+    private val recipeLocalDataSource: RecipeLocalDataSource
+) : PreviewsRepository {
 
     private val mapper: PreviewsRemoteToPreviewDomainListMapper by lazy { PreviewsRemoteToPreviewDomainListMapper() }
 
@@ -64,7 +67,7 @@ class PreviewsRepositoryImpl(private val apiService: RecipeApiService) : Preview
     }
 
     private fun fetchRemoteData(endpoint: String): LiveData<Result<PreviewsRemote>> {
-        return apiService.getPreviewsRemote(endpoint)
+        return recipeApiService.getPreviewsRemote(endpoint)
     }
 
     // endpoint - categoryName или cuisineName

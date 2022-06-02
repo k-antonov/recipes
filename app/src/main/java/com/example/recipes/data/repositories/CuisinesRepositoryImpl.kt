@@ -3,7 +3,7 @@ package com.example.recipes.data.repositories
 import android.accounts.NetworkErrorException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.recipes.MyApplication.Companion.cuisineLocalDataSource
+import com.example.recipes.data.datasources.local.localdatasources.CuisineLocalDataSource
 import com.example.recipes.data.datasources.remote.RecipeApiService
 import com.example.recipes.data.datasources.remote.entities.CuisinesRemote
 import com.example.recipes.data.datasources.remote.mappers.CuisinesRemoteToCuisineDomainListMapper
@@ -11,7 +11,10 @@ import com.example.recipes.domain.entities.CuisineDomain
 import com.example.recipes.domain.repositories.CuisinesRepository
 import com.example.recipes.utils.observeOnce
 
-class CuisinesRepositoryImpl(private val apiService: RecipeApiService) : CuisinesRepository {
+class CuisinesRepositoryImpl(
+    private val recipeApiService: RecipeApiService,
+    private val cuisineLocalDataSource: CuisineLocalDataSource
+) : CuisinesRepository {
 
     private val mapper: CuisinesRemoteToCuisineDomainListMapper by lazy { CuisinesRemoteToCuisineDomainListMapper() }
 
@@ -50,7 +53,7 @@ class CuisinesRepositoryImpl(private val apiService: RecipeApiService) : Cuisine
     }
 
     private fun fetchRemoteData(): LiveData<Result<CuisinesRemote>> {
-        return apiService.getCuisinesRemote()
+        return recipeApiService.getCuisinesRemote()
     }
 
     private fun fetchLocalData(): List<CuisineDomain> {

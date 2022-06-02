@@ -5,8 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.recipes.domain.entities.PreviewDomain
 import com.example.recipes.domain.interactors.FavoritePreviewsInteractor
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class FavoritePreviewsViewModel(
+@HiltViewModel
+class FavoritePreviewsViewModel @Inject constructor(
     private val favoritePreviewsInteractor: FavoritePreviewsInteractor
 ) : BaseViewModel<PreviewDomain>(favoritePreviewsInteractor) {
 
@@ -15,16 +18,5 @@ class FavoritePreviewsViewModel(
 
     init {
         fetch()
-    }
-}
-
-class FavoritePreviewsViewModelFactory(
-    private val favoritePreviewsInteractor: FavoritePreviewsInteractor,
-) : ViewModelProvider.Factory{
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(FavoritePreviewsViewModel::class.java)) {
-            return FavoritePreviewsViewModel(favoritePreviewsInteractor) as T
-        }
-        throw IllegalArgumentException("ViewModel Not Found")
     }
 }

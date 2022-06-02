@@ -1,16 +1,22 @@
 package com.example.recipes.presentation.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import com.example.recipes.domain.entities.DetailDomain
 import com.example.recipes.domain.interactors.DetailsInteractor
+import com.example.recipes.presentation.ui.search.DetailsFragment
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class DetailsViewModel(
+@HiltViewModel
+class DetailsViewModel @Inject constructor(
     private val detailsInteractor: DetailsInteractor,
-    recipeId: Long
+    savedStateHandle: SavedStateHandle
 ) : BaseViewModel<DetailDomain>(detailsInteractor) {
+
+    val recipeId = savedStateHandle.get<Long>(DetailsFragment.ARG_RECIPE_ID)!!
 
     override val liveDataFromInteractor: LiveData<Result<List<DetailDomain>>>
         get() = Transformations.switchMap(reloadTrigger) {
@@ -27,14 +33,4 @@ class DetailsViewModel(
     }
 }
 
-class DetailsViewModelFactory(
-    private val detailsInteractor: DetailsInteractor,
-    private val recipeId: Long
-) : ViewModelProvider.Factory{
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(DetailsViewModel::class.java)) {
-            return DetailsViewModel(detailsInteractor, recipeId) as T
-        }
-        throw IllegalArgumentException("ViewModel Not Found")
-    }
-}
+

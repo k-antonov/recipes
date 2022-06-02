@@ -11,17 +11,15 @@ import com.example.recipes.R
 import com.example.recipes.domain.entities.PreviewDomain
 import com.example.recipes.presentation.adapters.ClickableItemAdapter
 import com.example.recipes.presentation.ui.BaseListFragment
-import com.example.recipes.presentation.ui.favoritePreviewsInteractor
 import com.example.recipes.presentation.ui.search.DetailsFragment
 import com.example.recipes.presentation.viewmodels.BaseViewModel
-import com.example.recipes.presentation.viewmodels.FavoritePreviewsViewModelFactory
+import com.example.recipes.presentation.viewmodels.FavoritePreviewsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class FavoritePreviewsFragment : BaseListFragment<PreviewDomain>() {
 
-    override val viewModel: BaseViewModel<PreviewDomain> by viewModels {
-        FavoritePreviewsViewModelFactory(favoritePreviewsInteractor)
-    }
+    override val viewModel: FavoritePreviewsViewModel by viewModels()
 
     override val layoutResId = R.layout.fragment_favorite_previews
 

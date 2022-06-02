@@ -6,10 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.recipes.R
-import com.example.recipes.presentation.ui.settingsInteractor
+import com.example.recipes.presentation.viewmodels.SettingsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SettingsFragment : Fragment() {
+
+    private val viewModel: SettingsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,7 +28,7 @@ class SettingsFragment : Fragment() {
 
         val clearCacheButton = view.findViewById<Button>(R.id.clear_cache_button)
         clearCacheButton.setOnClickListener {
-            settingsInteractor.clearCache()
+            viewModel.clearCache()
         }
     }
 

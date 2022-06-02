@@ -11,14 +11,14 @@ import com.example.recipes.R
 import com.example.recipes.domain.entities.CuisineDomain
 import com.example.recipes.presentation.adapters.ClickableItemAdapter
 import com.example.recipes.presentation.ui.GridListFragment
-import com.example.recipes.presentation.ui.cuisinesInteractor
 import com.example.recipes.presentation.viewmodels.BaseViewModel
-import com.example.recipes.presentation.viewmodels.CuisinesViewModelFactory
+import com.example.recipes.presentation.viewmodels.CuisinesViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CuisinesFragment : GridListFragment<CuisineDomain>() {
-    override val viewModel: BaseViewModel<CuisineDomain> by viewModels {
-        CuisinesViewModelFactory(cuisinesInteractor)
-    }
+
+    override val viewModel: CuisinesViewModel by viewModels()
 
     override val layoutResId = R.layout.fragment_cuisines
 

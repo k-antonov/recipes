@@ -5,34 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.recipes.R
-import com.example.recipes.data.datasources.remote.RecipeApiService
-import com.example.recipes.data.datasources.remote.RecipeApiServiceImpl
-import com.example.recipes.data.repositories.*
 import com.example.recipes.databinding.ActivityMainBinding
-import com.example.recipes.domain.interactors.*
 import com.example.recipes.presentation.ui.favorites.FavoritePreviewsFragment
-//import com.example.recipes.presentation.ui.favorites.LocalPreviewsFragment
 import com.example.recipes.presentation.ui.search.SearchFragment
 import com.example.recipes.presentation.ui.settings.SettingsFragment
+import dagger.hilt.android.AndroidEntryPoint
 
-
-// todo перенести (DI)
-val recipeApiService: RecipeApiService = RecipeApiServiceImpl()
-
-val categoriesRepository = CategoriesRepositoryImpl(recipeApiService)
-val cuisinesRepository = CuisinesRepositoryImpl(recipeApiService)
-val previewsRepository = PreviewsRepositoryImpl(recipeApiService)
-val detailsRepository = DetailsRepositoryImpl(recipeApiService)
-val commonRepository = CommonRepositoryImpl()
-val favoritePreviewsRepository = FavoritePreviewsRepositoryImpl()
-
-val categoriesInteractor = CategoriesInteractor(categoriesRepository)
-val cuisinesInteractor = CuisinesInteractor(cuisinesRepository)
-val previewsInteractor = PreviewsInteractor(previewsRepository)
-val detailsInteractor = DetailsInteractor(detailsRepository)
-val favoritePreviewsInteractor = FavoritePreviewsInteractor(favoritePreviewsRepository)
-val settingsInteractor = SettingsInteractor(commonRepository)
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 

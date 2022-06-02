@@ -2,14 +2,13 @@ package com.example.recipes.data.datasources.local.localdatasources
 
 import android.content.Context
 import android.util.Log
-import com.example.recipes.MyApplication.Companion.recipesToIngredientsAndMeasuresLocalDataSource
 import com.example.recipes.data.datasources.local.RecipeDb
-import com.example.recipes.data.datasources.local.RecipeWithCategoryAndCuisineRelation
 import com.example.recipes.domain.entities.DetailDomain
 import com.example.recipes.domain.entities.PreviewDomain
 
 class RecipeLocalDataSource(
-    context: Context
+    context: Context,
+    private val recipesToIngredientsAndMeasuresLocalDataSource: RecipesToIngredientsAndMeasuresLocalDataSource
 ) : LocalDataSource(context) {
 
     private val dao = database.getRecipeDao()

@@ -3,18 +3,18 @@ package com.example.recipes.data.repositories
 import android.accounts.NetworkErrorException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import com.example.recipes.MyApplication
-import com.example.recipes.MyApplication.Companion.categoryLocalDataSource
+import com.example.recipes.data.datasources.local.localdatasources.CategoryLocalDataSource
 import com.example.recipes.data.datasources.remote.RecipeApiService
 import com.example.recipes.data.datasources.remote.entities.CategoriesRemote
 import com.example.recipes.data.datasources.remote.mappers.CategoriesRemoteToCategoryDomainListMapper
 import com.example.recipes.domain.entities.CategoryDomain
-import com.example.recipes.domain.entities.CuisineDomain
 import com.example.recipes.domain.repositories.CategoriesRepository
 import com.example.recipes.utils.observeOnce
 
-class CategoriesRepositoryImpl(private val apiService: RecipeApiService) : CategoriesRepository {
+class CategoriesRepositoryImpl(
+    private val recipeApiService: RecipeApiService,
+    private val categoryLocalDataSource: CategoryLocalDataSource
+) : CategoriesRepository {
 
     private val mapper: CategoriesRemoteToCategoryDomainListMapper by lazy { CategoriesRemoteToCategoryDomainListMapper() }
 
@@ -53,7 +53,7 @@ class CategoriesRepositoryImpl(private val apiService: RecipeApiService) : Categ
     }
 
     private fun fetchRemoteData(): LiveData<Result<CategoriesRemote>> {
-        return apiService.getCategoriesRemote()
+        return recipeApiService.getCategoriesRemote()
     }
 
     private fun fetchLocalData(): List<CategoryDomain> {

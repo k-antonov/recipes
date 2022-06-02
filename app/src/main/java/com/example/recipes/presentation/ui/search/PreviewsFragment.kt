@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.SavedStateHandle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -12,19 +13,18 @@ import com.example.recipes.R
 import com.example.recipes.domain.entities.PreviewDomain
 import com.example.recipes.presentation.adapters.ClickableItemAdapter
 import com.example.recipes.presentation.ui.BaseListFragment
-import com.example.recipes.presentation.ui.previewsInteractor
 import com.example.recipes.presentation.viewmodels.BaseViewModel
-import com.example.recipes.presentation.viewmodels.PreviewsViewModelFactory
+import com.example.recipes.presentation.viewmodels.PreviewsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-private const val ARG_ENDPOINT = "endpoint"
-
+@AndroidEntryPoint
 class PreviewsFragment : BaseListFragment<PreviewDomain>() {
 
     private lateinit var endpoint: String
 
-    override val viewModel: BaseViewModel<PreviewDomain> by viewModels {
-        PreviewsViewModelFactory(previewsInteractor, endpoint)
-    }
+    private val savedStateHandle = SavedStateHandle()
+
+    override val viewModel: PreviewsViewModel by viewModels()
 
     override val layoutResId = R.layout.fragment_previews
 
@@ -37,6 +37,7 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>() {
             endpoint = it.getString(ARG_ENDPOINT).toString()
         }
         viewModel.reload()
+        savedStateHandle.set(ARG_ENDPOINT, endpoint)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -92,6 +93,8 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>() {
                     putString(ARG_ENDPOINT, endpoint)
                 }
             }
+
+        const val ARG_ENDPOINT = "endpoint"
     }
 
 }

@@ -11,31 +11,30 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.SavedStateHandle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipes.R
 import com.example.recipes.domain.entities.DetailDomain
 import com.example.recipes.presentation.adapters.IngredientsAdapter
 import com.example.recipes.presentation.ui.BaseFragment
-import com.example.recipes.presentation.ui.detailsInteractor
 import com.example.recipes.presentation.utils.ImageDownloader
 import com.example.recipes.presentation.viewmodels.BaseViewModel
 import com.example.recipes.presentation.viewmodels.DetailsViewModel
-import com.example.recipes.presentation.viewmodels.DetailsViewModelFactory
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
-private const val ARG_RECIPE_ID = "recipe_id"
-
+@AndroidEntryPoint
 class DetailsFragment : BaseFragment<DetailDomain>() {
 
     private var recipeId: Long = 0
 
-    override val viewModel: BaseViewModel<DetailDomain> by viewModels {
-        DetailsViewModelFactory(detailsInteractor, recipeId)
-    }
+    private val savedStateHandle = SavedStateHandle()
+
+    override val viewModel: DetailsViewModel by viewModels()
 
     override val layoutResId = R.layout.fragment_details
 
@@ -46,6 +45,7 @@ class DetailsFragment : BaseFragment<DetailDomain>() {
         arguments?.let {
             recipeId = it.getLong(ARG_RECIPE_ID)
         }
+        savedStateHandle.set(ARG_RECIPE_ID, recipeId)
     }
 
     override fun onCreateView(
@@ -152,7 +152,7 @@ class DetailsFragment : BaseFragment<DetailDomain>() {
         setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.action_favorite -> {
-                    (viewModel as DetailsViewModel).changeFavoriteStatus(recipeId, !wasFavorite)
+                    viewModel.changeFavoriteStatus(recipeId, !wasFavorite)
                     viewModel.reload()
                     true
                 }
@@ -198,5 +198,7 @@ class DetailsFragment : BaseFragment<DetailDomain>() {
                     putLong(ARG_RECIPE_ID, recipeId)
                 }
             }
+
+        const val ARG_RECIPE_ID = "recipe_id"
     }
 }

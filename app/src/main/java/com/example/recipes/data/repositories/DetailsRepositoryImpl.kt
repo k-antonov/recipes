@@ -3,13 +3,7 @@ package com.example.recipes.data.repositories
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.Transformations
-import com.example.recipes.MyApplication.Companion.categoryLocalDataSource
-import com.example.recipes.MyApplication.Companion.cuisineLocalDataSource
-import com.example.recipes.MyApplication.Companion.ingredientLocalDataSource
-import com.example.recipes.MyApplication.Companion.measureLocalDataSource
-import com.example.recipes.MyApplication.Companion.recipeLocalDataSource
-import com.example.recipes.MyApplication.Companion.recipesToIngredientsAndMeasuresLocalDataSource
+import com.example.recipes.data.datasources.local.localdatasources.*
 import com.example.recipes.data.datasources.remote.RecipeApiService
 import com.example.recipes.data.datasources.remote.entities.DetailsRemote
 import com.example.recipes.data.datasources.remote.mappers.DetailsRemoteToDetailDomainListMapper
@@ -17,7 +11,15 @@ import com.example.recipes.domain.entities.DetailDomain
 import com.example.recipes.domain.repositories.DetailsRepository
 import com.example.recipes.utils.observeOnce
 
-class DetailsRepositoryImpl(private val apiService: RecipeApiService) : DetailsRepository {
+class DetailsRepositoryImpl(
+    private val recipeApiService: RecipeApiService,
+    private val categoryLocalDataSource: CategoryLocalDataSource,
+    private val cuisineLocalDataSource: CuisineLocalDataSource,
+    private val recipeLocalDataSource: RecipeLocalDataSource,
+    private val ingredientLocalDataSource: IngredientLocalDataSource,
+    private val measureLocalDataSource: MeasureLocalDataSource,
+    private val recipesToIngredientsAndMeasuresLocalDataSource: RecipesToIngredientsAndMeasuresLocalDataSource
+) : DetailsRepository {
 
     private val mapper: DetailsRemoteToDetailDomainListMapper by lazy { DetailsRemoteToDetailDomainListMapper() }
 
@@ -57,7 +59,7 @@ class DetailsRepositoryImpl(private val apiService: RecipeApiService) : DetailsR
     }
 
     private fun fetchRemoteData(recipeId: Long): LiveData<Result<DetailsRemote>> {
-        return apiService.getDetailsRemote(recipeId)
+        return recipeApiService.getDetailsRemote(recipeId)
     }
 
     private fun fetchLocalData(id: Long): DetailDomain? {
