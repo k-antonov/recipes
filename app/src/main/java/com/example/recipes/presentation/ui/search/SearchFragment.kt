@@ -8,24 +8,22 @@ import androidx.fragment.app.Fragment
 import com.example.recipes.databinding.FragmentSearchBinding
 import com.example.recipes.presentation.adapters.SearchViewPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+import javax.inject.Named
 
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
 
-    // by lazy?
     private val childFragments = listOf<Fragment>(
         CategoriesFragment.newInstance(),
         CuisinesFragment.newInstance()
     )
 
-    // todo fix crash
-    private val res = context?.resources
-    private val childFragmentTitles = listOf(
-//        res?.getString(R.string.categories),
-//        res?.getString(R.string.cuisines)
-        "Categories", "Cuisines"
-    )
+    @Inject
+    lateinit var childFragmentTitles: List<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
