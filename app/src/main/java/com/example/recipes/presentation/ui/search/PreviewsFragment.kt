@@ -1,6 +1,7 @@
 package com.example.recipes.presentation.ui.search
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -11,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.recipes.R
 import com.example.recipes.domain.entities.PreviewDomain
-import com.example.recipes.presentation.adapters.ClickableItemAdapter
+import com.example.recipes.presentation.adapters.PreviewsAdapter
 import com.example.recipes.presentation.ui.BaseListFragment
 import com.example.recipes.presentation.viewmodels.BaseViewModel
 import com.example.recipes.presentation.viewmodels.PreviewsViewModel
@@ -47,7 +48,8 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        adapter = ClickableItemAdapter()
+//        adapter = ClickableItemAdapter()
+        adapter = PreviewsAdapter()
         recyclerView.adapter = adapter
 
         val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
@@ -63,6 +65,7 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>() {
                 is BaseViewModel.UiState.Loading -> {
                 }
                 is BaseViewModel.UiState.Success -> {
+                    Log.d("PreviewsAdapter", "calling reload!")
                     adapter.reload(it.items)
                     swipeRefreshLayout.isRefreshing = false
                     recyclerView.visibility = View.VISIBLE

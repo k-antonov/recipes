@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.recipes.R
 import com.example.recipes.domain.entities.CategoryDomain
-import com.example.recipes.presentation.adapters.ClickableItemAdapter
+import com.example.recipes.presentation.adapters.CategoriesAdapter
 import com.example.recipes.presentation.ui.GridListFragment
 import com.example.recipes.presentation.viewmodels.BaseViewModel
 import com.example.recipes.presentation.viewmodels.CategoriesViewModel
@@ -29,7 +29,7 @@ class CategoriesFragment : GridListFragment<CategoryDomain>() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.layoutManager = layoutManager
 
-        adapter = ClickableItemAdapter()
+        adapter = CategoriesAdapter()
         recyclerView.adapter = adapter
 
         val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)

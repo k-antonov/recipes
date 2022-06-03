@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.recipes.R
 import com.example.recipes.domain.entities.PreviewDomain
 import com.example.recipes.presentation.adapters.ClickableItemAdapter
+import com.example.recipes.presentation.adapters.PreviewsAdapter
 import com.example.recipes.presentation.ui.BaseListFragment
 import com.example.recipes.presentation.ui.search.DetailsFragment
 import com.example.recipes.presentation.viewmodels.BaseViewModel
@@ -36,7 +37,8 @@ class FavoritePreviewsFragment : BaseListFragment<PreviewDomain>() {
         val uiFailureTextView = view.findViewById<TextView>(R.id.ui_failure_text_view)
         uiFailureTextView.text = getString(R.string.no_favorite_recipes_yet)
 
-        adapter = ClickableItemAdapter()
+//        adapter = ClickableItemAdapter()
+        adapter = PreviewsAdapter()
         recyclerView.adapter = adapter
 
         viewModel.uiState.observe(viewLifecycleOwner) {

@@ -10,6 +10,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.recipes.R
 import com.example.recipes.domain.entities.CuisineDomain
 import com.example.recipes.presentation.adapters.ClickableItemAdapter
+import com.example.recipes.presentation.adapters.CuisinesAdapter
 import com.example.recipes.presentation.ui.GridListFragment
 import com.example.recipes.presentation.viewmodels.BaseViewModel
 import com.example.recipes.presentation.viewmodels.CuisinesViewModel
@@ -29,7 +30,7 @@ class CuisinesFragment : GridListFragment<CuisineDomain>() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.layoutManager = layoutManager
 
-        adapter = ClickableItemAdapter()
+        adapter = CuisinesAdapter()
         recyclerView.adapter = adapter
 
         val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
