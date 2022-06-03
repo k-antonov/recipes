@@ -1,11 +1,27 @@
 package com.example.recipes.di
 
 import android.content.Context
-import com.example.recipes.data.datasources.local.localdatasources.*
-import com.example.recipes.data.datasources.remote.RecipeApiService
-import com.example.recipes.data.datasources.remote.RecipeApiServiceImpl
-import com.example.recipes.data.repositories.*
-import com.example.recipes.domain.repositories.*
+import com.example.recipes.data.categories.datasources.local.CategoryLocalDataSource
+import com.example.recipes.data.categories.repository.CategoriesRepositoryImpl
+import com.example.recipes.data.cuisines.repository.CuisinesRepositoryImpl
+import com.example.recipes.data.core.datasources.remote.RecipeApiService
+import com.example.recipes.data.core.datasources.remote.RecipeApiServiceImpl
+import com.example.recipes.data.cuisines.datasources.local.CuisineLocalDataSource
+import com.example.recipes.data.details.datasources.local.localdatasources.IngredientLocalDataSource
+import com.example.recipes.data.details.datasources.local.localdatasources.MeasureLocalDataSource
+import com.example.recipes.data.details.datasources.local.localdatasources.RecipeLocalDataSource
+import com.example.recipes.data.details.datasources.local.localdatasources.RecipesToIngredientsAndMeasuresLocalDataSource
+import com.example.recipes.data.details.repository.DetailsRepositoryImpl
+import com.example.recipes.data.favorites.repository.FavoritePreviewsRepositoryImpl
+import com.example.recipes.data.previews.repository.PreviewsRepositoryImpl
+import com.example.recipes.data.settings.datasources.local.SettingsLocalDataSource
+import com.example.recipes.data.settings.repository.SettingsRepositoryImpl
+import com.example.recipes.domain.categories.CategoriesRepository
+import com.example.recipes.domain.cuisines.CuisinesRepository
+import com.example.recipes.domain.details.DetailsRepository
+import com.example.recipes.domain.favorites.FavoritePreviewsRepository
+import com.example.recipes.domain.previews.PreviewsRepository
+import com.example.recipes.domain.settings.SettingsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -59,8 +75,8 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideCommonLocalDataSource(@ApplicationContext context: Context): CommonLocalDataSource =
-        CommonLocalDataSource(context)
+    fun provideCommonLocalDataSource(@ApplicationContext context: Context): SettingsLocalDataSource =
+        SettingsLocalDataSource(context)
 
 
     @Provides
@@ -112,8 +128,8 @@ class DataModule {
     @Provides
     @Singleton
     fun provideCommonRepository(
-        commonLocalDataSource: CommonLocalDataSource
-    ): CommonRepository = CommonRepositoryImpl(commonLocalDataSource)
+        settingsLocalDataSource: SettingsLocalDataSource
+    ): SettingsRepository = SettingsRepositoryImpl(settingsLocalDataSource)
 
     @Provides
     @Singleton
