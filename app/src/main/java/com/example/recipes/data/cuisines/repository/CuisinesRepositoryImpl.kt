@@ -27,30 +27,24 @@ class CuisinesRepositoryImpl(
             liveDataToReturn.value = Result.success(localDataList)
         }
 
-        wrapFetchingRemoteData(object : FetchDataCallback {
-            override fun onSuccess() {
-                val remoteDataList = fetchRemoteData()
-                val mappedToDomain = mapper.mapLiveData(remoteDataList)
-                mappedToDomain.observeOnce { result ->
-                    result.onSuccess {
-                        liveDataToReturn.value = Result.success(it)
-                        cuisineLocalDataSource.insertList(it)
-                    }
-                    result.onFailure {
-                        if (localDataList.isEmpty()) {
-                            liveDataToReturn.value =
-                                Result.failure(NetworkErrorException("Network error"))
-                        }
+        FetchDataCallback {
+            val remoteDataList = fetchRemoteData()
+            val mappedToDomain = mapper.mapLiveData(remoteDataList)
+            mappedToDomain.observeOnce { result ->
+                result.onSuccess {
+                    liveDataToReturn.value = Result.success(it)
+                    cuisineLocalDataSource.insertList(it)
+                }
+                result.onFailure {
+                    if (localDataList.isEmpty()) {
+                        liveDataToReturn.value =
+                            Result.failure(NetworkErrorException("Network error"))
                     }
                 }
             }
-        })
+        }.onSuccess()
 
         return liveDataToReturn
-    }
-
-    private fun wrapFetchingRemoteData(fetchDataCallback: FetchDataCallback) {
-        fetchDataCallback.onSuccess()
     }
 
     private fun fetchRemoteData(): LiveData<Result<CuisinesRemote>> {
