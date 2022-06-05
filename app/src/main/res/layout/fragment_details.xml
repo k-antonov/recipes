@@ -12,7 +12,6 @@
         android:layout_height="@dimen/details_image"
         android:background="@color/transparent"
         android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         tools:background="@color/tangerine">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -20,9 +19,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
+            android:theme="@style/ToolbarTheme"
             app:contentScrim="@color/tangerine"
             app:expandedTitleGravity="top|left"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
             <ImageView
                 android:id="@+id/details_image"
@@ -37,8 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:menu="@menu/details_menu"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                app:menu="@menu/details_menu" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
