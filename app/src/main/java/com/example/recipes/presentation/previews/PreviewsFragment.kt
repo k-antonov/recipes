@@ -2,7 +2,9 @@ package com.example.recipes.presentation.previews
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.viewModels
@@ -15,6 +17,7 @@ import com.example.recipes.domain.previews.PreviewDomain
 import com.example.recipes.presentation.core.view.BaseListFragment
 import com.example.recipes.presentation.details.DetailsFragment
 import com.example.recipes.presentation.core.viewmodel.BaseViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,6 +34,8 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>() {
     override val layoutManager: RecyclerView.LayoutManager
         get() = LinearLayoutManager(requireContext())
 
+    private lateinit var bottomNav: BottomNavigationView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -38,6 +43,20 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>() {
         }
         viewModel.reload()
         savedStateHandle.set(ARG_ENDPOINT, endpoint)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        bottomNav = requireActivity().findViewById(R.id.bottom_navigation)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        bottomNav.animate().translationY(bottomNav.height.toFloat()).duration = 200
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

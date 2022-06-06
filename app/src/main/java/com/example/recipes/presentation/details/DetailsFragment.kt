@@ -57,12 +57,7 @@ class DetailsFragment : BaseFragment<DetailDomain>() {
 
     override fun onStart() {
         super.onStart()
-        bottomNav.visibility = View.GONE
-    }
-
-    override fun onStop() {
-        super.onStop()
-        bottomNav.visibility = View.VISIBLE
+        bottomNav.animate().translationY(bottomNav.height.toFloat()).duration = 200
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
