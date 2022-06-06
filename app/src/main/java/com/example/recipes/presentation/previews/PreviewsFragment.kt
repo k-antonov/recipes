@@ -56,7 +56,7 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>() {
 
     override fun onStart() {
         super.onStart()
-        bottomNav.animate().translationY(bottomNav.height.toFloat()).duration = 200
+        bottomNav.animate().translationY(0f).duration = 200
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
