@@ -1,6 +1,7 @@
 package com.example.recipes.presentation.favorites
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import com.example.recipes.domain.previews.PreviewDomain
 import com.example.recipes.domain.favorites.FavoritePreviewsInteractor
 import com.example.recipes.presentation.core.viewmodel.BaseViewModel
@@ -13,7 +14,9 @@ class FavoritePreviewsViewModel @Inject constructor(
 ) : BaseViewModel<PreviewDomain>(favoritePreviewsInteractor) {
 
     override val liveDataFromInteractor: LiveData<Result<List<PreviewDomain>>>
-        get() = favoritePreviewsInteractor.execute()
+        get() = Transformations.switchMap(reloadTrigger) {
+            favoritePreviewsInteractor.execute()
+        }
 
     init {
         fetch()

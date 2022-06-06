@@ -42,6 +42,7 @@ class FavoritePreviewsFragment : BaseListFragment<PreviewDomain>() {
     override fun onStart() {
         super.onStart()
         bottomNav.animate().translationY(0f).duration = 200
+        viewModel.reload()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
