@@ -4,7 +4,6 @@ import android.accounts.NetworkErrorException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.recipes.data.core.datasources.remote.RecipeApiService
-import com.example.recipes.data.core.repository.FetchDataCallback
 import com.example.recipes.data.cuisines.datasources.local.CuisineLocalDataSource
 import com.example.recipes.data.cuisines.datasources.remote.CuisinesRemote
 import com.example.recipes.data.cuisines.datasources.remote.CuisinesRemoteToCuisineDomainListMapper
@@ -27,22 +26,20 @@ class CuisinesRepositoryImpl(
             liveDataToReturn.value = Result.success(localDataList)
         }
 
-        FetchDataCallback {
-            val remoteDataList = fetchRemoteData()
-            val mappedToDomain = mapper.mapLiveData(remoteDataList)
-            mappedToDomain.observeOnce { result ->
-                result.onSuccess {
-                    liveDataToReturn.value = Result.success(it)
-                    cuisineLocalDataSource.insertList(it)
-                }
-                result.onFailure {
-                    if (localDataList.isEmpty()) {
-                        liveDataToReturn.value =
-                            Result.failure(NetworkErrorException("Network error"))
-                    }
+        val remoteDataList = fetchRemoteData()
+        val mappedToDomain = mapper.mapLiveData(remoteDataList)
+        mappedToDomain.observeOnce { result ->
+            result.onSuccess {
+                liveDataToReturn.value = Result.success(it)
+                cuisineLocalDataSource.insertList(it)
+            }
+            result.onFailure {
+                if (localDataList.isEmpty()) {
+                    liveDataToReturn.value =
+                        Result.failure(NetworkErrorException("Network error"))
                 }
             }
-        }.onSuccess()
+        }
 
         return liveDataToReturn
     }
