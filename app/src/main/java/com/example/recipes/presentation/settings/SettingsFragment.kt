@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.recipes.R
@@ -28,6 +29,7 @@ class SettingsFragment : Fragment() {
         val clearCacheButton = view.findViewById<Button>(R.id.clear_cache_button)
         clearCacheButton.setOnClickListener {
             viewModel.clearCache()
+            Toast.makeText(requireContext(), R.string.cache_cleared, Toast.LENGTH_SHORT).show()
         }
     }
 
