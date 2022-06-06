@@ -66,8 +66,10 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-//        adapter = ClickableItemAdapter()
-        adapter = PreviewsAdapter()
+        adapter = PreviewsAdapter { selectedItem ->
+            val recipeId = selectedItem.id
+            onListItemClick(DetailsFragment.newInstance(recipeId))
+        }
         recyclerView.adapter = adapter
 
         val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
@@ -85,15 +87,11 @@ class PreviewsFragment : BaseListFragment<PreviewDomain>() {
                 is BaseViewModel.UiState.Success -> {
                     Log.d("PreviewsAdapter", "calling reload!")
                     adapter.reload(it.items)
+                    recyclerView.scrollToPosition(0)
                     swipeRefreshLayout.isRefreshing = false
                     recyclerView.visibility = View.VISIBLE
                     progressBar.visibility = View.GONE
                     uiFailureTextView.visibility = View.GONE
-
-                    adapter.onItemClicked = { position ->
-                        val recipeId = it.items[position].id
-                        onListItemClick(DetailsFragment.newInstance(recipeId))
-                    }
                 }
                 is BaseViewModel.UiState.Failure -> {
                     swipeRefreshLayout.isRefreshing = false

@@ -1,6 +1,8 @@
 package com.example.recipes.domain.cuisines
 
+import com.example.recipes.domain.core.DomainEntity
+
 data class CuisineDomain(
-    val name: String,
+    override val name: String,
     val imageUrl: String
-)
+) : DomainEntity()

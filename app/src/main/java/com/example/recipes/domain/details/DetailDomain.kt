@@ -1,8 +1,10 @@
 package com.example.recipes.domain.details
 
+import com.example.recipes.domain.core.DomainEntity
+
 data class DetailDomain(
     val id: Long,
-    val name: String,
+    override val name: String,
     val nameCategory: String,
     val nameCuisine: String,
     val strInstructions: String,
@@ -10,4 +12,4 @@ data class DetailDomain(
     val ingredients: List<String>,
     val measures: List<String>,
     var isFavorite: Boolean
-)
+) : DomainEntity()
