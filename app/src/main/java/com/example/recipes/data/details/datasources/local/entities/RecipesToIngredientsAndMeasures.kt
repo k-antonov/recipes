@@ -2,10 +2,10 @@ package com.example.recipes.data.details.datasources.local.entities
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "recipes_to_ingredients_and_measures",
-    primaryKeys = ["recipeId", "ingredientId", "measureId"],
     foreignKeys = [
         ForeignKey(
             entity = RecipeDb::class,
@@ -31,6 +31,7 @@ import androidx.room.ForeignKey
     ]
 )
 data class RecipesToIngredientsAndMeasures(
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val recipeId: Long,
     val ingredientId: Long,
     val measureId: Long
