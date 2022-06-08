@@ -8,17 +8,11 @@ class CategoryLocalDataSource(context: Context) : LocalDataSource(context) {
 
     private val dao = database.getCategoryDao()
 
-    fun insert(categoryName: String, imageUrl: String): Long {
-        var categoryId = dao.getIdByName(categoryName)
-        if (categoryId == 0L) {
-            categoryId = dao.insert(
-                CategoryDb(
-                    name = categoryName,
-                    imageUrl = imageUrl
-                )
-            )
-        }
-        return categoryId
+    fun insert(categoryName: String, imageUrl: String) {
+        dao.insert(CategoryDb(
+            name = categoryName,
+            imageUrl = imageUrl
+        ))
     }
 
     fun insertList(list: List<CategoryDomain>) {
@@ -26,6 +20,8 @@ class CategoryLocalDataSource(context: Context) : LocalDataSource(context) {
             insert(item.name, item.imageUrl)
         }
     }
+
+    fun getIdByName(name: String): Long = dao.getIdByName(name)
 
     fun load(): List<CategoryDomain> {
         return dao.selectAll()

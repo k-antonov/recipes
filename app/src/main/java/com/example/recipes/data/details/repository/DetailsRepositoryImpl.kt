@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.example.recipes.data.categories.datasources.local.CategoryLocalDataSource
 import com.example.recipes.data.core.datasources.remote.RecipeApiService
+import com.example.recipes.data.core.repository.observeOnce
 import com.example.recipes.data.cuisines.datasources.local.CuisineLocalDataSource
 import com.example.recipes.data.details.datasources.local.localdatasources.IngredientLocalDataSource
 import com.example.recipes.data.details.datasources.local.localdatasources.MeasureLocalDataSource
@@ -14,7 +15,6 @@ import com.example.recipes.data.details.datasources.remote.DetailsRemote
 import com.example.recipes.data.details.datasources.remote.DetailsRemoteToDetailDomainListMapper
 import com.example.recipes.domain.details.DetailDomain
 import com.example.recipes.domain.details.DetailsRepository
-import com.example.recipes.data.core.repository.observeOnce
 
 class DetailsRepositoryImpl(
     private val recipeApiService: RecipeApiService,
@@ -31,10 +31,8 @@ class DetailsRepositoryImpl(
     private val observer = Observer<Result<List<DetailDomain>>> { result ->
         result.onSuccess {
             val detailDomain = it[0]
-            val categoryId =
-                categoryLocalDataSource.insert(detailDomain.nameCategory, detailDomain.imageUrl)
-            val cuisineId =
-                cuisineLocalDataSource.insert(detailDomain.nameCuisine, detailDomain.imageUrl)
+            val categoryId = categoryLocalDataSource.getIdByName(detailDomain.nameCategory)
+            val cuisineId = cuisineLocalDataSource.getIdByName(detailDomain.nameCuisine)
             recipeLocalDataSource.insertDetail(detailDomain, categoryId, cuisineId)
 
             for (pair in detailDomain.ingredients.zip(detailDomain.measures)) {

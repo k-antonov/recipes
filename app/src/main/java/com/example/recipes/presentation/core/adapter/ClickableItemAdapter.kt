@@ -63,7 +63,7 @@ class DiffUtilCallback<T>(
         val oldItem = oldList[oldItemPosition]
         val newItem = newList[newItemPosition]
         if (oldItem is DomainEntity && newItem is DomainEntity) {
-            return oldItem.name == newItem.name
+            return oldItem.id == newItem.id
         } else {
             throw ClassNotFoundException("Unknown class")
         }

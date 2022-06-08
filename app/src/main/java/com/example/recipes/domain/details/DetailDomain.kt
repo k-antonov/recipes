@@ -3,8 +3,8 @@ package com.example.recipes.domain.details
 import com.example.recipes.domain.core.DomainEntity
 
 data class DetailDomain(
-    val id: Long,
-    override val name: String,
+    override val id: Long,
+    val name: String,
     val nameCategory: String,
     val nameCuisine: String,
     val strInstructions: String,
