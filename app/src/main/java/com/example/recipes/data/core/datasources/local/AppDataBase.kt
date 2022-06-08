@@ -17,7 +17,7 @@ import com.example.recipes.data.details.datasources.local.entities.RecipesToIngr
 import com.example.recipes.data.settings.datasources.local.SettingsDao
 
 @Database(
-    version = 5,
+    version = 6,
     entities = [
         CategoryDb::class,
         CuisineDb::class,

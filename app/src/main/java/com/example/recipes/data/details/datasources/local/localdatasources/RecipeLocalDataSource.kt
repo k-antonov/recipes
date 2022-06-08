@@ -31,26 +31,6 @@ class RecipeLocalDataSource(
         )
     }
 
-    // вроде бы проверка на существование такой записи не нужна, т. к.
-    // в DAO указана OnConflictStrategy.REPLACE. Именно REPLACE, а не IGNORE,
-    // т. к. открывая PreviewsFragment в БД вносится частичная информация о рецептах,
-    // необходимая для отображения превью (id, name, imageUrl)
-    private fun insertPreview(previewDomain: PreviewDomain): Long {
-        return dao.insert(
-            RecipeDb(
-                id = previewDomain.id,
-                name = previewDomain.name,
-                imageUrl = previewDomain.imageUrl
-            )
-        )
-    }
-
-    fun insertPreviewList(list: List<PreviewDomain>) {
-        for (item in list) {
-            insertPreview(item)
-        }
-    }
-
     fun loadPreviewsByCategoryOrCuisine(name: String): List<PreviewDomain> {
         Log.d("RecipeLocalDataSource", "name=$name")
         val list = dao.getPreviewsByCategoryOrCuisine(name)
@@ -82,7 +62,7 @@ class RecipeLocalDataSource(
             name = recipeWithCategoryAndCuisine.recipe.name,
             nameCategory = recipeWithCategoryAndCuisine.category.name,
             nameCuisine = recipeWithCategoryAndCuisine.cuisine.name,
-            strInstructions = recipeWithCategoryAndCuisine.recipe.instructions!!,
+            strInstructions = recipeWithCategoryAndCuisine.recipe.instructions,
             imageUrl = recipeWithCategoryAndCuisine.recipe.imageUrl,
             ingredients = ingredients,
             measures = measures,
