@@ -12,12 +12,14 @@ import com.example.recipes.domain.categories.CategoryDomain
 import com.example.recipes.presentation.core.view.GridListFragment
 import com.example.recipes.presentation.previews.PreviewsFragment
 import com.example.recipes.presentation.core.viewmodel.BaseViewModel
+import com.example.recipes.presentation.cuisines.CuisinesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CategoriesFragment : GridListFragment<CategoryDomain>() {
 
     override val viewModel: CategoriesViewModel by viewModels()
+    private val cuisinesViewModel: CuisinesViewModel by viewModels()
 
     override val layoutResId = R.layout.fragment_categories
 
@@ -40,6 +42,7 @@ class CategoriesFragment : GridListFragment<CategoryDomain>() {
 
         swipeRefreshLayout.setOnRefreshListener {
             viewModel.reload()
+            cuisinesViewModel.reload()
         }
 
         viewModel.uiState.observe(viewLifecycleOwner) {
