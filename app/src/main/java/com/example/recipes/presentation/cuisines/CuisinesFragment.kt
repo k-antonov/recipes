@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.recipes.R
 import com.example.recipes.domain.cuisines.CuisineDomain
+import com.example.recipes.presentation.categories.CategoriesViewModel
 import com.example.recipes.presentation.core.view.GridListFragment
 import com.example.recipes.presentation.previews.PreviewsFragment
 import com.example.recipes.presentation.core.viewmodel.BaseViewModel
@@ -18,6 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class CuisinesFragment : GridListFragment<CuisineDomain>() {
 
     override val viewModel: CuisinesViewModel by viewModels()
+    private val categoriesViewModel: CategoriesViewModel by viewModels()
 
     override val layoutResId = R.layout.fragment_cuisines
 
@@ -40,6 +42,7 @@ class CuisinesFragment : GridListFragment<CuisineDomain>() {
 
         swipeRefreshLayout.setOnRefreshListener {
             viewModel.reload()
+            categoriesViewModel.reload()
         }
 
         viewModel.uiState.observe(viewLifecycleOwner) {
