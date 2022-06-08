@@ -8,7 +8,6 @@ import com.example.recipes.data.details.datasources.local.localdatasources.Recip
 import com.example.recipes.data.core.datasources.remote.RecipeApiService
 import com.example.recipes.data.previews.datasources.remote.PreviewsRemote
 import com.example.recipes.data.previews.datasources.remote.PreviewsRemoteToPreviewDomainListMapper
-import com.example.recipes.data.core.repository.FetchDataCallback
 import com.example.recipes.domain.previews.PreviewDomain
 import com.example.recipes.domain.previews.PreviewsRepository
 import com.example.recipes.data.core.repository.observeOnce
@@ -30,22 +29,20 @@ class PreviewsRepositoryImpl(
             liveDataToReturn.value = Result.success(localDataList)
         }
 
-        FetchDataCallback {
-            val remoteDataList = fetchRemoteData(endpoint)
-            val mappedToDomain = mapper.mapLiveData(remoteDataList)
-            mappedToDomain.observeOnce { result ->
-                result.onSuccess {
-                    liveDataToReturn.value = Result.success(it)
-                }
-                result.onFailure {
-                    Log.d("PreviewsRepo", "onFailure")
-                    if (localDataList.isEmpty()) {
-                        liveDataToReturn.value =
-                            Result.failure(NetworkErrorException("Network error"))
-                    }
+        val remoteDataList = fetchRemoteData(endpoint)
+        val mappedToDomain = mapper.mapLiveData(remoteDataList)
+        mappedToDomain.observeOnce { result ->
+            result.onSuccess {
+                liveDataToReturn.value = Result.success(it)
+            }
+            result.onFailure {
+                Log.d("PreviewsRepo", "onFailure")
+                if (localDataList.isEmpty()) {
+                    liveDataToReturn.value =
+                        Result.failure(NetworkErrorException("Network error"))
                 }
             }
-        }.onSuccess()
+        }
 
         Log.d("PreviewsRepo", "after callback: $localDataList")
 

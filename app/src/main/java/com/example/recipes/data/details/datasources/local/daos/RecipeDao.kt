@@ -8,7 +8,6 @@ import com.example.recipes.domain.previews.PreviewDomain
 @Dao
 interface RecipeDao {
 
-    //    @Insert(onConflict = OnConflictStrategy.REPLACE)
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(recipeDb: RecipeDb): Long
 
@@ -18,13 +17,16 @@ interface RecipeDao {
             "WHERE categories.name = :name OR cuisines.name = :name")
     fun getPreviewsByCategoryOrCuisine(name: String): List<PreviewDomain>
 
-    @Query("SELECT id, name, imageUrl FROM recipes WHERE isFavorite = 1")
+    @Query("SELECT id, name, imageUrl FROM recipes WHERE isFavorite = 1 " +
+            "ORDER BY addedToFavoritesAt")
     fun getPreviewsFavorite(): List<PreviewDomain>
 
     @Transaction
     @Query("SELECT * FROM recipes WHERE id = :id")
     fun getDetailsById(id: Long): RecipeWithCategoryAndCuisineRelation?
 
-    @Query("UPDATE recipes SET isFavorite = :isFavorite WHERE id = :id")
-    fun updateFavoriteStatusById(id: Long, isFavorite: Boolean)
+    @Query("UPDATE recipes SET isFavorite = :isFavorite, " +
+            "addedToFavoritesAt = :timestamp WHERE id = :id")
+    fun updateFavoriteStatusById(id: Long, isFavorite: Boolean, timestamp: Long = System.currentTimeMillis())
+
 }

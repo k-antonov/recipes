@@ -11,6 +11,8 @@ interface RecipesToIngredientsAndMeasuresDao {
     fun insert(recipesToIngredientsAndMeasures: RecipesToIngredientsAndMeasures)
 
     @Transaction
-    @Query("SELECT * FROM recipes_to_ingredients_and_measures WHERE recipeId = :id")
+    @Query("SELECT * FROM recipes_to_ingredients_and_measures " +
+            "WHERE recipeId = :id " +
+            "ORDER BY id")
     fun getIngredientsAndMeasuresById(id: Long): List<RecipeWithIngredientAndMeasureRelation>
 }

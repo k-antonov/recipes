@@ -42,6 +42,7 @@ class FavoritePreviewsFragment : BaseListFragment<PreviewDomain>() {
     override fun onStart() {
         super.onStart()
         bottomNav.animate().translationY(0f).duration = 200
+        viewModel.reload()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,8 +55,10 @@ class FavoritePreviewsFragment : BaseListFragment<PreviewDomain>() {
         val uiFailureTextView = view.findViewById<TextView>(R.id.ui_failure_text_view)
         uiFailureTextView.text = getString(R.string.no_favorite_recipes_yet)
 
-//        adapter = ClickableItemAdapter()
-        adapter = PreviewsAdapter()
+        adapter = PreviewsAdapter { selectedItem ->
+            val recipeId = selectedItem.id
+            onListItemClick(DetailsFragment.newInstance(recipeId))
+        }
         recyclerView.adapter = adapter
 
         viewModel.uiState.observe(viewLifecycleOwner) {
@@ -67,11 +70,6 @@ class FavoritePreviewsFragment : BaseListFragment<PreviewDomain>() {
                     recyclerView.visibility = View.VISIBLE
                     progressBar.visibility = View.GONE
                     uiFailureTextView.visibility = View.GONE
-
-                    adapter.onItemClicked = { position ->
-                        val recipeId = it.items[position].id
-                        onListItemClick(DetailsFragment.newInstance(recipeId))
-                    }
                 }
                 is BaseViewModel.UiState.Failure -> {
                     progressBar.visibility = View.GONE

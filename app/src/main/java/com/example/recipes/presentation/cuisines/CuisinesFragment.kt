@@ -28,7 +28,10 @@ class CuisinesFragment : GridListFragment<CuisineDomain>() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.layoutManager = layoutManager
 
-        adapter = CuisinesAdapter()
+        adapter = CuisinesAdapter { selectedItem ->
+            val endpoint = "a=${selectedItem.name}"
+            onListItemClick(PreviewsFragment.newInstance(endpoint))
+        }
         recyclerView.adapter = adapter
 
         val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
@@ -49,11 +52,6 @@ class CuisinesFragment : GridListFragment<CuisineDomain>() {
                     recyclerView.visibility = View.VISIBLE
                     progressBar.visibility = View.GONE
                     uiFailureTextView.visibility = View.GONE
-
-                    adapter.onItemClicked = { position ->
-                        val endpoint = "a=${it.items[position].name}"
-                        onListItemClick(PreviewsFragment.newInstance(endpoint))
-                    }
                 }
                 is BaseViewModel.UiState.Failure -> {
                     swipeRefreshLayout.isRefreshing = false

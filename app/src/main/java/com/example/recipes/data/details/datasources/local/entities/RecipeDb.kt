@@ -25,13 +25,13 @@ import com.example.recipes.data.cuisines.datasources.local.CuisineDb
         )
     ]
 )
-// todo возможно не нужны nullable, подумать
 data class RecipeDb(
     @PrimaryKey(autoGenerate = false) val id: Long,
     val name: String,
-    val categoryId: Long? = null,
-    val cuisineId: Long? = null,
-    val instructions: String? = null,
+    val categoryId: Long,
+    val cuisineId: Long,
+    val instructions: String,
     val imageUrl: String,
-    var isFavorite: Boolean = false
+    var isFavorite: Boolean = false,
+    val addedToFavoritesAt: Long? = null
 )

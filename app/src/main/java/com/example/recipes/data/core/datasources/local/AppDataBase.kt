@@ -14,9 +14,10 @@ import com.example.recipes.data.details.datasources.local.entities.IngredientDb
 import com.example.recipes.data.details.datasources.local.entities.MeasureDb
 import com.example.recipes.data.details.datasources.local.entities.RecipeDb
 import com.example.recipes.data.details.datasources.local.entities.RecipesToIngredientsAndMeasures
+import com.example.recipes.data.settings.datasources.local.SettingsDao
 
 @Database(
-    version = 5,
+    version = 6,
     entities = [
         CategoryDb::class,
         CuisineDb::class,
@@ -39,4 +40,6 @@ abstract class AppDataBase : RoomDatabase() {
     abstract fun getRecipeDao(): RecipeDao
 
     abstract fun getRecipesToIngredientsAndMeasuresDao(): RecipesToIngredientsAndMeasuresDao
+
+    abstract fun getSettingsDao(): SettingsDao
 }
